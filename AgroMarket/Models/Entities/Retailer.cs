@@ -6,7 +6,7 @@ namespace AgroMarket.Models.Entities
     {
 
         [Key]
-        public int RetailerID { get; set; }
+        public Guid RetailerID { get; set; } = Guid.NewGuid();
 
         [MaxLength(25)]
         [Required(ErrorMessage = "First Name is Required")]
@@ -39,7 +39,7 @@ namespace AgroMarket.Models.Entities
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
-        //public virtual Customer? Customer { get; set; }
+       
         public virtual ICollection<Product>? Product { get; set; }
 
     }

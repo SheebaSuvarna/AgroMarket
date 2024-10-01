@@ -15,8 +15,7 @@ namespace AgroMarket.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    CategoryID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CategoryName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
@@ -29,8 +28,7 @@ namespace AgroMarket.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    CustomerID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -50,8 +48,7 @@ namespace AgroMarket.Migrations
                 name: "Retailers",
                 columns: table => new
                 {
-                    RetailerID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RetailerID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -72,9 +69,8 @@ namespace AgroMarket.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    OrderID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerID = table.Column<int>(type: "int", nullable: false),
+                    OrderID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CustomerID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ShippingAddress = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
@@ -95,9 +91,8 @@ namespace AgroMarket.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    ProductID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RetailerID = table.Column<int>(type: "int", nullable: false),
+                    ProductID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RetailerID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProductName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -121,10 +116,9 @@ namespace AgroMarket.Migrations
                 name: "OrderItems",
                 columns: table => new
                 {
-                    OrderItemID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderID = table.Column<int>(type: "int", nullable: false),
-                    ProductID = table.Column<int>(type: "int", nullable: false),
+                    OrderItemID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrderID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -149,8 +143,8 @@ namespace AgroMarket.Migrations
                 name: "ProductCategories",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -173,10 +167,9 @@ namespace AgroMarket.Migrations
                 name: "Reviews",
                 columns: table => new
                 {
-                    ReviewID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductID = table.Column<int>(type: "int", nullable: false),
-                    CustomerID = table.Column<int>(type: "int", nullable: false),
+                    ReviewID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CustomerID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)

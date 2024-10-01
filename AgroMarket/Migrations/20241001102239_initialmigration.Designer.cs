@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgroMarket.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241001072848_initialmigration")]
+    [Migration("20241001102239_initialmigration")]
     partial class initialmigration
     {
         /// <inheritdoc />
@@ -27,11 +27,9 @@ namespace AgroMarket.Migrations
 
             modelBuilder.Entity("AgroMarket.Models.Entities.Category", b =>
                 {
-                    b.Property<int>("CategoryID")
+                    b.Property<Guid>("CategoryID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
@@ -49,11 +47,9 @@ namespace AgroMarket.Migrations
 
             modelBuilder.Entity("AgroMarket.Models.Entities.Customer", b =>
                 {
-                    b.Property<int>("CustomerID")
+                    b.Property<Guid>("CustomerID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .HasMaxLength(100)
@@ -100,14 +96,12 @@ namespace AgroMarket.Migrations
 
             modelBuilder.Entity("AgroMarket.Models.Entities.Order", b =>
                 {
-                    b.Property<int>("OrderID")
+                    b.Property<Guid>("OrderID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
-
-                    b.Property<int>("CustomerID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CustomerID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
@@ -134,20 +128,18 @@ namespace AgroMarket.Migrations
 
             modelBuilder.Entity("AgroMarket.Models.Entities.OrderItem", b =>
                 {
-                    b.Property<int>("OrderItemID")
+                    b.Property<Guid>("OrderItemID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemID"));
-
-                    b.Property<int>("OrderID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("OrderID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ProductID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -163,11 +155,9 @@ namespace AgroMarket.Migrations
 
             modelBuilder.Entity("AgroMarket.Models.Entities.Product", b =>
                 {
-                    b.Property<int>("ProductID")
+                    b.Property<Guid>("ProductID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -187,8 +177,8 @@ namespace AgroMarket.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<int>("RetailerID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RetailerID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("StockQuantity")
                         .HasColumnType("int");
@@ -205,11 +195,13 @@ namespace AgroMarket.Migrations
 
             modelBuilder.Entity("AgroMarket.Models.Entities.ProductCategory", b =>
                 {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnOrder(0);
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnOrder(1);
 
                     b.HasKey("ProductId", "CategoryId");
 
@@ -220,11 +212,9 @@ namespace AgroMarket.Migrations
 
             modelBuilder.Entity("AgroMarket.Models.Entities.Retailer", b =>
                 {
-                    b.Property<int>("RetailerID")
+                    b.Property<Guid>("RetailerID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RetailerID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -276,11 +266,9 @@ namespace AgroMarket.Migrations
 
             modelBuilder.Entity("AgroMarket.Models.Entities.Review", b =>
                 {
-                    b.Property<int>("ReviewID")
+                    b.Property<Guid>("ReviewID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
                         .HasMaxLength(500)
@@ -289,11 +277,11 @@ namespace AgroMarket.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CustomerID")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ProductID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");

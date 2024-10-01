@@ -134,3 +134,4 @@ C:\Users\shesu\source\repos\AgroMarket\AgroMarket\obj\Debug\net8.0\refint\AgroMa
 C:\Users\shesu\source\repos\AgroMarket\AgroMarket\obj\Debug\net8.0\AgroMarket.pdb
 C:\Users\shesu\source\repos\AgroMarket\AgroMarket\obj\Debug\net8.0\AgroMarket.genruntimeconfig.cache
 C:\Users\shesu\source\repos\AgroMarket\AgroMarket\obj\Debug\net8.0\ref\AgroMarket.dll
+C:\Users\shesu\source\repos\AgroMarket\AgroMarket\obj\Debug\net8.0\AgroMarket.sourcelink.json

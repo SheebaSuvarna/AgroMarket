@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Migrations\\20241001072848_initialmigration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:AgroMarket\\Migrations\\20241001072848_initialmigration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\models\\entities\\productcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\models\\entities\\productcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Migrations\\20241001071105_initial migration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:AgroMarket\\Migrations\\20241001071105_initial migration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Migrations\\20241001102239_initialmigration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:AgroMarket\\Migrations\\20241001102239_initialmigration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\models\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\models\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\models\\entities\\review.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\models\\entities\\review.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\models\\entities\\orderitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,32 +23,36 @@
       "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\models\\entities\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\models\\entities\\productcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\models\\entities\\productcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\models\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\models\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\models\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\models\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\models\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\models\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\models\\entities\\retailer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\models\\entities\\retailer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\views\\retailer\\addretailer.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\views\\retailer\\addretailer.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\models\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\models\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\models\\addretailerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\models\\addretailerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\models\\entities\\review.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\models\\entities\\review.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\models\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\models\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|c:\\users\\shesu\\source\\repos\\agromarket\\agromarket\\controllers\\retailercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DE3A643-EE8A-4400-A4E2-FAE38BA5E938}|AgroMarket\\AgroMarket.csproj|solutionrelative:agromarket\\controllers\\retailercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,58 +62,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20241001072848_initialmigration.cs",
-              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Migrations\\20241001072848_initialmigration.cs",
-              "RelativeDocumentMoniker": "AgroMarket\\Migrations\\20241001072848_initialmigration.cs",
-              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Migrations\\20241001072848_initialmigration.cs",
-              "RelativeToolTip": "AgroMarket\\Migrations\\20241001072848_initialmigration.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAApAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T07:28:49.077Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "20241001071105_initial migration.cs",
-              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Migrations\\20241001071105_initial migration.cs",
-              "RelativeDocumentMoniker": "AgroMarket\\Migrations\\20241001071105_initial migration.cs",
-              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Migrations\\20241001071105_initial migration.cs",
-              "RelativeToolTip": "AgroMarket\\Migrations\\20241001071105_initial migration.cs",
-              "ViewState": "AQIAAEMAAAAAAAAAAAAQwAwAAAAJAAAA",
+              "Title": "20241001102239_initialmigration.cs",
+              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Migrations\\20241001102239_initialmigration.cs",
+              "RelativeDocumentMoniker": "AgroMarket\\Migrations\\20241001102239_initialmigration.cs",
+              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Migrations\\20241001102239_initialmigration.cs",
+              "RelativeToolTip": "AgroMarket\\Migrations\\20241001102239_initialmigration.cs",
+              "ViewState": "AQIAAIsAAAAAAAAAAAAQwJYAAABlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T07:11:06.167Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Retailer.cs",
-              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Retailer.cs",
-              "RelativeDocumentMoniker": "AgroMarket\\Models\\Entities\\Retailer.cs",
-              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Retailer.cs",
-              "RelativeToolTip": "AgroMarket\\Models\\Entities\\Retailer.cs",
-              "ViewState": "AQIAAC4AAAAAAAAAAAAAAAIAAAAUAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T07:08:07.235Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ProductCategory.cs",
-              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\ProductCategory.cs",
-              "RelativeDocumentMoniker": "AgroMarket\\Models\\Entities\\ProductCategory.cs",
-              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\ProductCategory.cs",
-              "RelativeToolTip": "AgroMarket\\Models\\Entities\\ProductCategory.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAUAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T07:08:02.102Z",
+              "WhenOpened": "2024-10-01T10:22:39.647Z",
               "EditorCaption": ""
             },
             {
@@ -120,9 +85,61 @@
               "RelativeDocumentMoniker": "AgroMarket\\Models\\Entities\\Product.cs",
               "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Product.cs",
               "RelativeToolTip": "AgroMarket\\Models\\Entities\\Product.cs",
-              "ViewState": "AQIAAC8AAAAAAAAAAAA6wAIAAAAUAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T07:07:56.079Z",
+              "WhenOpened": "2024-10-01T09:40:58.386Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductCategory.cs",
+              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\ProductCategory.cs",
+              "RelativeDocumentMoniker": "AgroMarket\\Models\\Entities\\ProductCategory.cs",
+              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\ProductCategory.cs",
+              "RelativeToolTip": "AgroMarket\\Models\\Entities\\ProductCategory.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-01T09:41:25.078Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Category.cs",
+              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Category.cs",
+              "RelativeDocumentMoniker": "AgroMarket\\Models\\Entities\\Category.cs",
+              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Category.cs",
+              "RelativeToolTip": "AgroMarket\\Models\\Entities\\Category.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-01T09:41:10.849Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Review.cs",
+              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Review.cs",
+              "RelativeDocumentMoniker": "AgroMarket\\Models\\Entities\\Review.cs",
+              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Review.cs",
+              "RelativeToolTip": "AgroMarket\\Models\\Entities\\Review.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAowCIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-01T09:44:59.727Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Order.cs",
+              "RelativeDocumentMoniker": "AgroMarket\\Models\\Entities\\Order.cs",
+              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Order.cs",
+              "RelativeToolTip": "AgroMarket\\Models\\Entities\\Order.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAA5wAcAAAA7AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-01T09:40:35.05Z",
               "EditorCaption": ""
             },
             {
@@ -133,87 +150,87 @@
               "RelativeDocumentMoniker": "AgroMarket\\Models\\Entities\\OrderItem.cs",
               "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\OrderItem.cs",
               "RelativeToolTip": "AgroMarket\\Models\\Entities\\OrderItem.cs",
-              "ViewState": "AQIAAB8AAAAAAAAAAAAwwAIAAAAUAAAA",
+              "ViewState": "AQIAABAAAAAAAAAAAAA5wAkAAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T07:07:51.697Z",
+              "WhenOpened": "2024-10-01T09:45:10.242Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Program.cs",
-              "RelativeDocumentMoniker": "AgroMarket\\Program.cs",
-              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Program.cs",
-              "RelativeToolTip": "AgroMarket\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAuAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T06:55:50.501Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Order.cs",
-              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Order.cs",
-              "RelativeDocumentMoniker": "AgroMarket\\Models\\Entities\\Order.cs",
-              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Order.cs",
-              "RelativeToolTip": "AgroMarket\\Models\\Entities\\Order.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAA/AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T07:07:46.931Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Data\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "AgroMarket\\Data\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Data\\ApplicationDbContext.cs",
-              "RelativeToolTip": "AgroMarket\\Data\\ApplicationDbContext.cs",
-              "ViewState": "AQIAAEwAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T07:08:39.513Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Review.cs",
-              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Review.cs",
-              "RelativeDocumentMoniker": "AgroMarket\\Models\\Entities\\Review.cs",
-              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Review.cs",
-              "RelativeToolTip": "AgroMarket\\Models\\Entities\\Review.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAA3wAIAAAAUAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T07:08:11.785Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 5,
               "Title": "Customer.cs",
               "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Customer.cs",
               "RelativeDocumentMoniker": "AgroMarket\\Models\\Entities\\Customer.cs",
               "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Customer.cs",
               "RelativeToolTip": "AgroMarket\\Models\\Entities\\Customer.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAUAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T07:07:38.61Z",
+              "WhenOpened": "2024-10-01T09:40:16.086Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Retailer.cs",
+              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Retailer.cs",
+              "RelativeDocumentMoniker": "AgroMarket\\Models\\Entities\\Retailer.cs",
+              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Retailer.cs",
+              "RelativeToolTip": "AgroMarket\\Models\\Entities\\Retailer.cs",
+              "ViewState": "AQIAAB8AAAAAAAAAAAAwwCkAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-01T09:40:44.91Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "AgroMarket\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "AgroMarket\\Views\\Home\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-01T09:50:16.587Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "Category.cs",
-              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Category.cs",
-              "RelativeDocumentMoniker": "AgroMarket\\Models\\Entities\\Category.cs",
-              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\Entities\\Category.cs",
-              "RelativeToolTip": "AgroMarket\\Models\\Entities\\Category.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAQwAIAAAAUAAAA",
+              "Title": "AddRetailerViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\AddRetailerViewModel.cs",
+              "RelativeDocumentMoniker": "AgroMarket\\Models\\AddRetailerViewModel.cs",
+              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Models\\AddRetailerViewModel.cs",
+              "RelativeToolTip": "AgroMarket\\Models\\AddRetailerViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACgAAAAHAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T07:07:31.958Z",
+              "WhenOpened": "2024-10-01T09:32:57.621Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AddRetailer.cshtml",
+              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Views\\Retailer\\AddRetailer.cshtml",
+              "RelativeDocumentMoniker": "AgroMarket\\Views\\Retailer\\AddRetailer.cshtml",
+              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Views\\Retailer\\AddRetailer.cshtml",
+              "RelativeToolTip": "AgroMarket\\Views\\Retailer\\AddRetailer.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-01T09:22:36.571Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "RetailerController.cs",
+              "DocumentMoniker": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Controllers\\RetailerController.cs",
+              "RelativeDocumentMoniker": "AgroMarket\\Controllers\\RetailerController.cs",
+              "ToolTip": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\Controllers\\RetailerController.cs",
+              "RelativeToolTip": "AgroMarket\\Controllers\\RetailerController.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAQwBUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-01T09:22:06.148Z",
               "EditorCaption": ""
             }
           ]
