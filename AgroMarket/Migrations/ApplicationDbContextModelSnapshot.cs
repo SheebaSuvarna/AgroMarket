@@ -22,6 +22,26 @@ namespace AgroMarket.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("AgroMarket.Models.Entities.Cart", b =>
+                {
+                    b.Property<Guid>("CustomerID")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnOrder(0);
+
+                    b.Property<Guid>("ProductID")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnOrder(1);
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("CustomerID", "ProductID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("Carts");
+                });
+
             modelBuilder.Entity("AgroMarket.Models.Entities.Category", b =>
                 {
                     b.Property<Guid>("CategoryID")
@@ -114,6 +134,7 @@ namespace AgroMarket.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<decimal>("TotalAmount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("OrderID");
@@ -133,6 +154,7 @@ namespace AgroMarket.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("ProductID")
@@ -292,6 +314,25 @@ namespace AgroMarket.Migrations
                     b.ToTable("Reviews");
                 });
 
+            modelBuilder.Entity("AgroMarket.Models.Entities.Cart", b =>
+                {
+                    b.HasOne("AgroMarket.Models.Entities.Customer", "Customer")
+                        .WithMany("Cart")
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AgroMarket.Models.Entities.Product", "Product")
+                        .WithMany("Cart")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("AgroMarket.Models.Entities.Order", b =>
                 {
                     b.HasOne("AgroMarket.Models.Entities.Customer", "Customer")
@@ -378,6 +419,8 @@ namespace AgroMarket.Migrations
 
             modelBuilder.Entity("AgroMarket.Models.Entities.Customer", b =>
                 {
+                    b.Navigation("Cart");
+
                     b.Navigation("Order");
 
                     b.Navigation("Review");
@@ -390,6 +433,8 @@ namespace AgroMarket.Migrations
 
             modelBuilder.Entity("AgroMarket.Models.Entities.Product", b =>
                 {
+                    b.Navigation("Cart");
+
                     b.Navigation("ProductCategory");
 
                     b.Navigation("Review");

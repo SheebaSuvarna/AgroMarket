@@ -17,6 +17,9 @@ namespace AgroMarket.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+
+
 
 
         // OnModelCreating method to configure relationships
@@ -70,7 +73,32 @@ namespace AgroMarket.Data
                 .HasOne(r => r.Customer)
                 .WithMany(u => u.Review)
                 .HasForeignKey(r => r.CustomerID);
+
+            modelBuilder.Entity<Order>()
+           .Property(o => o.TotalAmount)
+           .HasColumnType("decimal(18,2)") // Specify the SQL column type
+           .HasPrecision(18, 2); // Specify precision and scale
+
+            modelBuilder.Entity<OrderItem>()
+                .Property(oi => oi.Price)
+                .HasColumnType("decimal(18,2)") // Specify the SQL column type
+                .HasPrecision(18, 2); // Specify precision and scale
+
+            modelBuilder.Entity<Cart>()
+            .HasKey(c => new { c.CustomerID, c.ProductID }); // Configure composite key
+            modelBuilder.Entity<Cart>()
+            .HasOne(c => c.Customer)
+            .WithMany(c=>c.Cart) // Assuming a customer can have many carts
+            .HasForeignKey(c => c.CustomerID)
+                .OnDelete(DeleteBehavior.Cascade); // Optional: Define delete behavior
+
+            modelBuilder.Entity<Cart>()
+            .HasOne(c => c.Product)
+            .WithMany(c=>c.Cart) // Assuming a product can be in many carts
+            .HasForeignKey(c => c.ProductID)
+                .OnDelete(DeleteBehavior.Cascade); // Optional: Define delete behavior
         }
+
 
     }
 }

@@ -29,8 +29,9 @@ namespace AgroMarket.Models.Entities
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
-        //public virtual Retailer? Retailer { get; set; }
+       // public virtual Cart? Cart { get; set; }
         public virtual ICollection<Order>? Order { get; set; }
+       public virtual ICollection<Cart>? Cart { get; set; }
         public virtual ICollection<Review>? Review { get; set; }
     }
 

@@ -9,7 +9,7 @@ namespace AgroMarket.Models.Entities
         [Required(ErrorMessage = "Customer ID is required.")]
         public Guid CustomerID { get; set; }
 
-        // Navigation property
+      
         [Required]
         public virtual Customer? Customer { get; set; }
 
