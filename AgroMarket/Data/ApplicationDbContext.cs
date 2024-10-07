@@ -70,6 +70,15 @@ namespace AgroMarket.Data
                 .HasOne(r => r.Customer)
                 .WithMany(u => u.Review)
                 .HasForeignKey(r => r.CustomerID);
+
+            modelBuilder.Entity<Order>().Property(o => o.TotalAmount).HasColumnType("decimal(18,2)")
+            // Specify the SQL column type
+            .HasPrecision(18, 2);
+            // Specify precision and scale
+            modelBuilder.Entity<OrderItem>().Property(oi => oi.Price).HasColumnType("decimal(18,2)")
+            // Specify the SQL column type
+            .HasPrecision(18, 2);
+                    // Specify precision and scale
         }
 
     }

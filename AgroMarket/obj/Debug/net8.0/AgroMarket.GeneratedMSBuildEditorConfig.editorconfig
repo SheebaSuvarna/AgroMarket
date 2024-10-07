@@ -9,39 +9,79 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = AgroMarket
 build_property.RootNamespace = AgroMarket
-build_property.ProjectDir = C:\Users\shesu\source\repos\AgroMarket\AgroMarket\
+build_property.ProjectDir = C:\Users\vamvi\Desktop\AgroMarket\AgroMarket\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\shesu\source\repos\AgroMarket\AgroMarket
+build_property.MSBuildProjectDirectory = C:\Users\vamvi\Desktop\AgroMarket\AgroMarket
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/Home/Index.cshtml]
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Account/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Account/CustomerDashBoard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDdXN0b21lckRhc2hCb2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Account/RegisterCustomer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3RlckN1c3RvbWVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Account/RegisterRetailor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3RlclJldGFpbG9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Account/RetailorDashBoard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXRhaWxvckRhc2hCb2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Account/SelectRole.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxTZWxlY3RSb2xlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Account/VerifyEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxWZXJpZnlFbWFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/Home/Privacy.cshtml]
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/Shared/Error.cshtml]
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Shared/_AccountLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BY2NvdW50TGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/_ViewImports.cshtml]
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/_ViewStart.cshtml]
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/Shared/_Layout.cshtml]
+[C:/Users/vamvi/Desktop/AgroMarket/AgroMarket/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-nwgagp6z3a

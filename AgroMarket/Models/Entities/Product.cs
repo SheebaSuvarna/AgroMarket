@@ -5,11 +5,11 @@ namespace AgroMarket.Models.Entities
     public class Product
     {
         [Key]
-        public int ProductID { get; set; }
+        public Guid ProductID { get; set; } = Guid.NewGuid();
 
 
         [ForeignKey("Retailer")]
-        public int RetailerID { get; set; }
+        public Guid RetailerID { get; set; }
         public Retailer? Retailer { get; set; } //naviagtion property
 
 
@@ -43,9 +43,9 @@ namespace AgroMarket.Models.Entities
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
 
-        
+
         public virtual ICollection<ProductCategory>? ProductCategory { get; set; }
         public virtual ICollection<Review>? Review { get; set; }
-        
+
     }
 }

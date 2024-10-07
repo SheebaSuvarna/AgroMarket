@@ -5,10 +5,9 @@ namespace AgroMarket.Models.Entities
     public class Order
     {
         [Key]
-        public int OrderID { get; set; }
-
+        public Guid OrderID { get; set; } = Guid.NewGuid();
         [Required(ErrorMessage = "Customer ID is required.")]
-        public int CustomerID { get; set; }
+        public Guid CustomerID { get; set; }
 
         // Navigation property
         [Required]

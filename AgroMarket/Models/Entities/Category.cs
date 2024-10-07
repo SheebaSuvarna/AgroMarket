@@ -6,7 +6,7 @@ namespace AgroMarket.Models.Entities
     {
 
         [Key]
-        public int CategoryID { get; set; }
+        public Guid CategoryID { get; set; } = Guid.NewGuid();
 
         [MaxLength(50)]
         [Required(ErrorMessage = "Category Name is Required")]

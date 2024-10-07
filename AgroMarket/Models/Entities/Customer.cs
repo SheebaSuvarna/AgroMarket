@@ -5,7 +5,7 @@ namespace AgroMarket.Models.Entities
     public class Customer
     {
         [Key]
-        public int CustomerID { get; set; }
+        public Guid CustomerID { get; set; } = Guid.NewGuid();
 
         [MaxLength(25)]
         [Required(ErrorMessage = "First Name is Required")]

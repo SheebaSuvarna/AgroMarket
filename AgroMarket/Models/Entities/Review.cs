@@ -5,17 +5,17 @@ namespace AgroMarket.Models.Entities
     public class Review
     {
         [Key]
-        public int ReviewID { get; set; }
+        public Guid ReviewID { get; set; } = Guid.NewGuid();
 
         [Required(ErrorMessage = "ProductID is required.")]
-        public int ProductID { get; set; }
+        public Guid ProductID { get; set; }
 
         // Navigation property for Product
         [Required]
         public virtual Product? Product { get; set; }
 
         [Required(ErrorMessage = "CustomerID is required.")]
-        public int CustomerID { get; set; }
+        public Guid CustomerID { get; set; }
 
         // Navigation property for Customer
         [Required]

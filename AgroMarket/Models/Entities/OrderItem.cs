@@ -5,17 +5,16 @@ namespace AgroMarket.Models.Entities
     public class OrderItem
     {
         [Key]
-        public int OrderItemID { get; set; }
-
+        public Guid OrderItemID { get; set; } = Guid.NewGuid();
         [Required(ErrorMessage = "OrderID is required.")]
-        public int OrderID { get; set; }
+        public Guid OrderID { get; set; }
 
         // Navigation property for Order
         [Required]
         public virtual Order? Order { get; set; }
 
         [Required(ErrorMessage = "ProductID is required.")]
-        public int ProductID { get; set; }
+        public Guid ProductID { get; set; }
 
         // Navigation property for Product
         [Required]
