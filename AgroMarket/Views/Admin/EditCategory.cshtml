@@ -1,0 +1,19 @@
+﻿@model AgroMarket.Models.Entities.Category
+
+<h1 class="mb-4">Edit Category</h1>
+
+<form asp-action="EditCategory" method="post">
+    <div class="mb-3">
+        <label for="CategoryName" class="form-label">Category Name</label>
+        <input type="text" id="CategoryName" name="CategoryName" class="form-control" value="@Model.CategoryName" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <textarea id="Description" name="Description" class="form-control">@Model.Description</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save Changes</button>
+</form>
+
+<a asp-action="Dashboard" asp-route-activeTab="categories" class="btn btn-secondary mt-3">Back to List</a>
