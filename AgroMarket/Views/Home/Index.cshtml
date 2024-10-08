@@ -1,8 +1,14 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Welcome to Agro Market</h1>
+
+<p>
+    This is the home page of the Agro Market application.
+</p>
+
+<a asp-controller="Admin" asp-action="Dashboard" class="btn btn-primary">Go to Dashboard</a>
+
+<!-- Include Bootstrap CSS for button styling -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">

@@ -1,0 +1,113 @@
+﻿/* Global Styles */
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f9f9f9;
+}
+
+h1, h2 {
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    .table th, .table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+
+    .table th {
+        background-color: #f0f0f0;
+    }
+
+.nav-tabs {
+    border-bottom: 1px solid #ddd;
+}
+
+    .nav-tabs .nav-item {
+        margin-bottom: -1px;
+    }
+
+    .nav-tabs .nav-link {
+        color: #333;
+        border: 1px solid transparent;
+        border-radius: 0;
+        padding: 10px 15px;
+    }
+
+        .nav-tabs .nav-link.active {
+            color: #337ab7;
+            background-color: #fff;
+            border-color: #337ab7;
+        }
+
+.tab-content {
+    padding: 20px;
+}
+
+.tab-pane {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styles */
+.btn {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+/* Custom Styles */
+#dashboardTabs {
+    margin-bottom: 20px;
+}
+
+#dashboardContent {
+    padding: 20px;
+}
+
+.tab-pane h2 {
+    margin-top: 0;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+    .table td.actions {
+        width: 150px;
+        text-align: center;
+    }
+
+        .table td.actions a {
+            margin-right: 10px;
+        }
+
+        .table td.actions form {
+            display: inline-block;
+            margin-right: 10px;
+        }
