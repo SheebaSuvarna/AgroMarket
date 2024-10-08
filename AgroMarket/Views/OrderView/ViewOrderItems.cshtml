@@ -1,0 +1,86 @@
+﻿@model IEnumerable<AgroMarket.Models.Entities.OrderItem>
+
+@{
+    ViewData["Title"] = "View Orders";
+    string currentSort = ViewBag.CurrentSort as string;
+}
+
+<h2>Order Items</h2>
+
+<!-- Search Bar -->
+<form method="get" asp-action="ViewOrderItems" class="form-inline mb-3">
+    <div class="form-group">
+        <input type="text" name="searchString" class="form-control" placeholder="Search by Product Name" value="@ViewBag.CurrentFilter" />
+    </div>
+    <button type="submit" class="btn btn-primary ml-2">Search</button>
+</form>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>
+                Order Date
+                <!-- Sorting Dropdown for Order Date -->
+                <form method="get" asp-action="ViewOrderItems" style="display:inline;">
+                    <select id="sortOrder" name="sortOrder" class="form-control-sm" onchange="this.form.submit()">
+                        <!--<option value="" disabled selected>Select Order</option> Placeholder option -->
+                        @if (currentSort == "date_desc")
+                        {
+                            <option value="date_desc" selected>Most Recent</option>
+                        }
+                        else
+                        {
+                            <option value="date_desc">Most Recent</option>
+                        }
+
+                        @if (currentSort == "date_asc")
+                        {
+                            <option value="date_asc" selected>Oldest First</option>
+                        }
+                        else
+                        {
+                            <option value="date_asc">Oldest First</option>
+                        }
+                    </select>
+                </form>
+            </th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Order Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Order.OrderID</td>
+                <td>@item.Order.OrderDate.ToShortDateString()</td>
+                <td>@item.Product.ProductName</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price.ToString("C")</td>
+                <td>@item.Order.Status</td>
+                <td>
+                    @if (item.Order.Status == "Completed")
+                    {
+                        <form asp-action="UpdateOrderStatus" method="post">
+                            <input type="hidden" name="orderId" value="@item.Order.OrderID" />
+                            <button type="submit" name="newStatus" value="Out for Delivery" class="btn btn-success">Accept</button>
+                            <button type="submit" name="newStatus" value="Order Cancelled" class="btn btn-danger">Cancel Order</button>
+                        </form>
+                    }
+                    else if (item.Order.Status == "Pending")
+                    {
+                        <span>Payment Pending</span>
+                    }
+                    else
+                    {
+                        <span>@item.Order.Status</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

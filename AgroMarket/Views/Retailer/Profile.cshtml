@@ -1,0 +1,177 @@
+﻿@model AgroMarket.Models.Entities.Retailer
+
+@{
+    ViewData["Title"] = "Retailer Profile";
+
+    //Path to the retailer's profile image URL
+    string profileImageFile = $"~/images/profile_pictures/{Model.RetailerID}.jpg";
+    string profileImageUrl;
+
+    // Use a default image if the retailer's image file doesn't exist
+    if (ViewBag.ImageExists)
+    {
+        // Append a timestamp to force browser to reload the image
+        profileImageUrl = Url.Content($"{profileImageFile}?t={DateTime.Now.Ticks}");
+    }
+    else
+    {
+        profileImageUrl = Url.Content("~/images/profile_pictures/default.jpg");
+    }
+    
+}
+
+<h2>@Model.FirstName's Profile</h2>
+
+<div>
+    <h4>Details</h4>
+    <hr />
+    <dl class="row">
+        <dd class="col-sm-10">
+            <!-- Display the profile image -->
+            <img src="@profileImageUrl" alt="Profile Image" style="width:150px; height:auto;" />
+
+            <!-- Form to upload a new profile picture -->
+            <form method="post" enctype="multipart/form-data" asp-action="UploadProfilePicture">
+                <div class="form-group">
+                    <label for="profilePicture">Change Profile Picture:</label>
+                    <input type="file" name="profilePicture" id="profilePicture" class="form-control-file" />
+                </div>
+                <button type="submit" class="btn btn-primary">Upload New Image</button>
+            </form>
+        </dd>
+
+        <dd class="col-sm-10"> Name: 
+            @Html.DisplayFor(model => model.FirstName)
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dd class="col-sm-10"> Farm Name: 
+            @Html.DisplayFor(model => model.FarmName)
+        </dd>
+
+        <dd class="col-sm-10"> Email Address:
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dd class="col-sm-10">Phone No:
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dd class="col-sm-10">Farm Address:
+            @Html.DisplayFor(model => model.FarmAddress)
+        </dd>
+
+        <dd class="col-sm-10">PinCode: 
+            @Html.DisplayFor(model => model.PinCode)
+            
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit</button>
+    <a asp-action="Dashboard" asp-route-id="@Model.RetailerID" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+<!-- Modal Form for Editing Retailer Profile -->
+<div class="modal" id="editProfileModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="editProfileForm">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Profile</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name">First Name</label>
+                        <input type="text" class="form-control" id="FirstName" value="@Model.FirstName">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">LastName</label>
+                        <input type="text" class="form-control" id="LastName" value="@Model.LastName">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">Email</label>
+                        <input type="text" class="form-control" id="Email" value="@Model.Email">
+                    </div>
+                   
+                    <div class="form-group">
+                        <label for="contact">Phone No</label>
+                        <input type="text" class="form-control" id="PhoneNumber" value="@Model.PhoneNumber">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">FarmName</label>
+                        <input type="text" class="form-control" id="FarmName" value="@Model.FarmName">
+                    </div>
+                     <div class="form-group">
+                        <label for="contact">Farm Address</label>
+                        <input type="text" class="form-control" id="FarmAddress" value="@Model.FarmAddress">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">PinCode</label>
+                        <input type="text" class="form-control" id="PinCode" value="@Model.PinCode">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="updateRetailerProfile()">Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function updateRetailerProfile()
+    {
+        let FirstName = document.getElementById("FirstName").value;
+        let LastName = document.getElementById("LastName").value;
+        let Email = document.getElementById("Email").value;
+        let PhoneNumber = document.getElementById("PhoneNumber").value;
+        let FarmName = document.getElementById("FarmName").value;
+        let FarmAddress = document.getElementById("FarmAddress").value;
+        let PinCode = document.getElementById("PinCode").value;
+       // let Password = document.getElementById("Password").value;
+
+        let data = {
+            FirstName: FirstName,
+            LastName: LastName,
+            Email: Email,
+            PhoneNumber:PhoneNumber,
+            FarmName: FarmName,
+            FarmAddress: FarmAddress,
+            PinCode : PinCode
+        };
+        
+        fetch('/Retailer/UpdateRetailer', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Profile updated successfully.");
+                location.reload();  // Reload page to reflect changes
+            } else {
+                alert("Error updating profile.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+}
+
+    
+</script>

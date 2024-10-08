@@ -1,0 +1,205 @@
+﻿@model IEnumerable<AgroMarket.Models.Entities.Product>
+
+<h1>Products</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.ProductName)</th>
+            <th>Category Name</th>
+            <th>@Html.DisplayNameFor(model => model.Description)</th>
+            <th>@Html.DisplayNameFor(model => model.Price)</th>
+            <th>@Html.DisplayNameFor(model => model.StockQuantity)</th>
+            <th>@Html.DisplayNameFor(model => model.ImageUrl)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                <td>
+                    @if (item.ProductCategory != null && item.ProductCategory.Any())
+                    {
+                        var categoryNames = string.Join(", ", item.ProductCategory.Select(c => c.Category.CategoryName));
+                        @categoryNames
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                <td>@Html.DisplayFor(modelItem => item.StockQuantity)</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" alt="@item.ProductName" style="max-width: 100px; max-height: 100px;" />
+                    }
+                </td>
+                <td>
+                   @*  <a asp-action="Edit" asp-route-id="@item.ProductID" class="btn btn-sm btn-warning">Edit</a> *@
+                    <a href="#" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editProductModal"
+                       onclick="setEditProduct({
+       ProductID: '@item.ProductID',
+       ProductName: '@item.ProductName',
+       Description: '@item.Description',
+       Price: @item.Price,
+       StockQuantity: @item.StockQuantity,
+       ImageUrl: '@item.ImageUrl',
+       CategoryName: '@Html.Raw(string.Join(", ", item.ProductCategory.Select(c => c.Category.CategoryName)))'
+   })">
+                        Edit
+                    </a>
+                    <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#productDetailsModal"
+                       onclick="populateModal('@item.ProductName', '@item.Description', '@Html.Raw(string.Join(", ", item.ProductCategory.Select(c => c.Category.CategoryName)))', @item.Price, @item.StockQuantity, '@item.ImageUrl')">
+                        Details
+                    </a>
+                    <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteConfirmationModal"
+                       onclick="setDeleteProduct('@item.ProductName', '@item.ProductID')">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal for Product Details -->
+<div class="modal fade" id="productDetailsModal" tabindex="-1" role="dialog" aria-labelledby="productDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productDetailsModalLabel">Product Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4 id="modalProductName"></h4>
+                <p id="modalProductDescription"></p>
+                <p><strong>Category Name:</strong> <span id="modalCategoryName"></span></p>
+                <p><strong>Price:</strong> <span id="modalProductPrice"></span></p>
+                <p><strong>Stock Quantity:</strong> <span id="modalProductStockQuantity"></span></p>
+                <div id="modalProductImage"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Delete Confirmation -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Delete Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="deleteProductName"></strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post" asp-action="Delete">
+                    <input type="hidden" id="productId" name="id" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal for Edit Product -->
+<div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editProductForm" method="post" asp-action="Edit">
+                    <input type="hidden" id="editProductId" name="ProductID" />
+                    <div class="form-group">
+                        <label for="editProductName">Product Name</label>
+                        <input type="text" class="form-control" id="editProductName" name="ProductName" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductDescription">Description</label>
+                        <textarea class="form-control" id="editProductDescription" name="Description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductPrice">Price</label>
+                        <input type="number" class="form-control" id="editProductPrice" name="Price" required step="0.01" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductStockQuantity">Stock Quantity</label>
+                        <input type="number" class="form-control" id="editProductStockQuantity" name="StockQuantity" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductImageUrl">Image URL</label>
+                        <input type="text" class="form-control" id="editProductImageUrl" name="ImageUrl" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductCategory">Category Name</label>
+                        <input type="text" class="form-control" id="editProductCategory" name="CategoryName" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductImagePreview">Image Preview</label>
+                        <div id="editProductImagePreview"></div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function populateModal(productName, description, categoryName, price, stockQuantity, imageUrl) {
+        $('#modalProductName').text(productName);
+        $('#modalProductDescription').text(description);
+        $('#modalCategoryName').text(categoryName);
+        $('#modalProductPrice').text(price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })); // Format price
+        $('#modalProductStockQuantity').text(stockQuantity);
+
+        if (imageUrl) {
+            $('#modalProductImage').html('<img src="' + imageUrl + '" alt="' + productName + '" style="max-width: 100%; max-height: 300px;" />');
+        } else {
+            $('#modalProductImage').html(''); // Clear the image if not available
+        }
+    }
+
+    function setDeleteProduct(productName, productId) {
+        $('#deleteProductName').text(productName);
+        $('#productId').val(productId);
+    }
+
+    function setEditProduct(product) {
+        $('#editProductId').val(product.ProductID);
+        $('#editProductName').val(product.ProductName);
+        $('#editProductDescription').val(product.Description);
+        $('#editProductPrice').val(product.Price);
+        $('#editProductStockQuantity').val(product.StockQuantity);
+        $('#editProductImageUrl').val(product.ImageUrl);
+        $('#editProductCategory').val(product.CategoryName);
+        if (product.ImageUrl) {
+            $('#editProductImagePreview').html('<img src="' + product.ImageUrl + '" alt="' + product.ProductName + '" style="max-width: 100%; max-height: 300px;" />');
+        } else {
+            $('#editProductImagePreview').html(''); // Clear the preview if not available
+        }
+    }
+</script>
