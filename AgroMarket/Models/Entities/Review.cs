@@ -30,5 +30,7 @@ namespace AgroMarket.Models.Entities
 
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        public bool Approved { get; set; }
     }
 }
