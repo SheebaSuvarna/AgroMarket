@@ -13,7 +13,7 @@ namespace AgroMarket.Controllers
             this.dbContext = dbContext;
         }
 
-       
+
 
         public IActionResult AddRetailer()
         {
