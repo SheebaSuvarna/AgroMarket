@@ -1,4 +1,5 @@
 using AgroMarket.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 namespace AgroMarket
@@ -15,6 +16,13 @@ namespace AgroMarket
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("defaultconnection")));
 
+
+            builder.Services.AddAuthentication("Cookies").AddCookie("Cookies", options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -22,9 +30,16 @@ namespace AgroMarket
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+
+            
+            
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+      
 
             app.UseAuthorization();
 

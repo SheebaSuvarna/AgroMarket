@@ -1,0 +1,90 @@
+﻿@model AgroMarket.Models.Entities.Retailer
+
+@{
+    ViewData["Title"] = "Retailer Dashboard";
+}
+
+<!-- Side Navigation Bar -->
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div class="bg-dark text-white p-3" id="sidebar" style="min-width: 200px;">
+        <h4 class="text-center">Dashboard</h4>
+        <ul class="nav flex-column mt-4">
+            <li class="nav-item mb-2">
+                <a asp-action="Profile" class="nav-link text-white">Profile</a>
+            </li>
+            <li class="nav-item mb-2">
+                <a asp-controller="Product" asp-action="Create" class="nav-link text-white">Add Product</a>
+            </li>
+            <li class="nav-item mb-2">
+                <a asp-controller="Product" asp-action="Index" class="nav-link text-white">View Products</a>
+            </li>
+            <li class="nav-item mb-2">
+                <a asp-controller="OrderView" asp-action="ViewOrderItems" class="nav-link text-white">View Orders</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid p-4" id="content">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Welcome, @Model.FirstName!</h2>
+            </div>
+        </div>
+
+        <!-- Profile Summary and Quick Actions -->
+        <div class="row mt-4">
+            <!-- Profile Summary Card -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="card-title mb-0">Profile Summary</h4>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Email:</strong> @Model.Email</p>
+                        <p><strong>Total Products:</strong> @Model.Product.Count</p>
+                        <p><strong>Farm Name:</strong> @Model.FarmName</p>
+                        <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+                        <a asp-action="Profile" class="btn btn-outline-primary btn-sm mt-3">View Full Profile</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions Card -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="card-title mb-0">Quick Actions</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a asp-controller="Product" asp-action="Create" class="btn btn-success btn-block">Add New Product</a>
+                            <a asp-controller="Product" asp-action="Index" class="btn btn-primary btn-block">View Products</a>
+                            <a asp-controller="OrderView" asp-action="ViewOrderItems" class="btn btn-warning btn-block">View Orders</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity or Analytics Section -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="card-title mb-0">Recent Activity</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Track your recent activities here such as new orders, product additions, or customer interactions.</p>
+                        <p>This section could be extended with dynamic data or analytics in the future.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap 4.5 JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
