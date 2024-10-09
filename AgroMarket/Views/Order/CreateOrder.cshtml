@@ -1,0 +1,39 @@
+﻿@model OrderViewModel
+
+<h2>Review Your Order</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CartItems)
+        {
+            var tot = item.Product.Price * item.Quantity;
+            <tr>
+                <td>@item.Product.ProductName</td>
+                <td>@item.Quantity</td>
+                <td>@item.Product.Price.ToString("C")</td>
+                <td>@tot.ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p><strong>Total: </strong>@Model.TotalAmount.ToString("C")</p>
+
+<form asp-action="SubmitOrder" method="post">
+    <div class="form-group">
+        <label for="ShippingAddress">Shipping Address</label>
+        <textarea class="form-control" id="ShippingAddress" name="ShippingAddress" rows="3" required>@Model.ShippingAddress</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Go to Payment</button>
+    <a href="@Url.Action("Index", "Cart")" class="btn btn-secondary">Cancel</a>
+</form>
+
+

@@ -1,0 +1,154 @@
+﻿@model AgroMarket.Models.Entities.Product
+
+<form class="add-to-cart-form mt-auto" data-product-id="@Model.ProductID">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <label for="quantity" class="mb-0 text-muted">Quantity:</label>
+
+        <!-- Quantity Controls -->
+        <div class="input-group" style="width: 150px;">
+            <!-- Decrement Button -->
+            <button type="button" class="btn btn-outline-secondary px-3" onclick="decrementQuantity(this)">-</button>
+
+            <!-- Quantity Input -->
+            <input type="number" name="quantity" class="form-control text-center mx-2" value="1" min="1" max="@Model.StockQuantity" />
+
+            <!-- Increment Button -->
+            <button type="button" class="btn btn-outline-secondary px-3" onclick="incrementQuantity(this)">+</button>
+        </div>
+    </div>
+    <!-- Display Average Rating with Stars new -->
+     @{
+        var averageRating = ViewBag.AverageRating[@Model.ProductID];
+    }
+    <div class="rating-stars mb-3">
+        @for (int i = 1; i <= 5; i++)
+        {
+            if (i <= Math.Floor(averageRating))
+            {
+                <i class="fas fa-star" style="color: #ffc107;"></i> <!-- Full Star -->
+            }
+            else if (i == Math.Ceiling(averageRating))
+            {
+                <i class="fas fa-star-half-alt" style="color: #ffc107;"></i> <!-- Half Star -->
+            }
+            else
+            {
+                <i class="far fa-star" style="color: #ffc107;"></i> <!-- Empty Star -->
+            }
+        }
+        <span class="ml-2">(@averageRating.ToString("F1"))</span>
+    </div> 
+
+    <input type="hidden" name="productId" value="@Model.ProductID" />
+    <button type="submit" class="btn btn-primary btn-block font-weight-bold">Add to Cart</button>
+
+    <!-- Success Message Display -->
+    <div class="add-to-cart-message text-success mt-2" style="display:none;"></div>
+</form>
+
+<!-- JavaScript for Increment/Decrement -->
+<script>
+    function incrementQuantity(button) {
+        var input = button.parentNode.querySelector('input[name="quantity"]');
+        var max = parseInt(input.max);
+        var value = parseInt(input.value);
+
+        if (value < max) {
+            input.value = value + 1;
+        }
+
+        // Enable/disable buttons based on quantity
+        toggleButtonState(button.parentNode);
+    }
+
+    function decrementQuantity(button) {
+        var input = button.parentNode.querySelector('input[name="quantity"]');
+        var min = parseInt(input.min);
+        var value = parseInt(input.value);
+
+        if (value > min) {
+            input.value = value - 1;
+        }
+
+        // Enable/disable buttons based on quantity
+        toggleButtonState(button.parentNode);
+    }
+
+    function toggleButtonState(container) {
+        var input = container.querySelector('input[name="quantity"]');
+        var decrementBtn = container.querySelector('button:first-child');
+        var incrementBtn = container.querySelector('button:last-child');
+
+        var min = parseInt(input.min);
+        var max = parseInt(input.max);
+        var value = parseInt(input.value);
+
+        // Disable decrement button if value reaches min
+        if (value <= min) {
+            decrementBtn.disabled = true;
+        } else {
+            decrementBtn.disabled = false;
+        }
+
+        // Disable increment button if value reaches max
+        if (value >= max) {
+            incrementBtn.disabled = true;
+        } else {
+            incrementBtn.disabled = false;
+        }
+    }
+
+    // Initialize the button states on page load
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll('.input-group').forEach(function (container) {
+            toggleButtonState(container);
+        });
+    });
+</script>
+
+<!-- jQuery for AJAX submission -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Unbind any previously bound submit handlers to prevent duplication
+        $('.add-to-cart-form').off('submit').on('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const form = $(this);
+            const submitButton = form.find('button[type="submit"]');
+            const productId = form.data('product-id');
+            
+            // Disable the submit button to prevent multiple clicks
+            submitButton.prop('disabled', true).text('Adding...');
+
+            $.ajax({
+                url: '@Url.Action("AddToCart", "Customer")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    console.log('Response from server:', response); // Debugging
+                    if (response.success) {
+                        // Show success message inside the product card
+                        
+                        form.append('<div class="alert alert-success mt-2">Product added to cart!</div>');
+                    } else {
+                        form.append('<div class="alert alert-danger mt-2">Error: ' + response.message + '</div>');
+                    }
+
+                    // Clear any previous alerts after 3 seconds
+                    setTimeout(function () {
+                        form.find('.alert').remove();
+                    }, 3500);
+                },
+                error: function () {
+                    form.append('<div class="alert alert-danger mt-2">An error occurred while adding the product to the cart.</div>');
+                },
+                complete: function () {
+                    // Re-enable the button and restore the text after the request is completed
+                    setTimeout(function () { submitButton.prop('disabled', false).text('Add to Cart'); }, 1500);
+                }
+            });
+        });
+    });
+</script>
+
