@@ -1,0 +1,60 @@
+﻿@model CartViewModel
+
+<h2>Your Cart</h2>
+
+@if (Model.CartItems.Count == 0)
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item No</th> <!-- Added Item No column -->
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.CartItems.Count; i++)
+            {
+                var item = Model.CartItems[i];
+                var total = @item.Quantity * @item.Price;
+                <tr>
+                    <td>@(i + 1)</td> <!-- Display the item number -->
+                    <td>
+@*                         <img src="@item.ImageUrl" alt="@item.ProductName" style="width: 50px; height: 50px;" />
+ *@                        @item.ProductName
+                    </td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>
+                        <form asp-controller="Cart" asp-action="UpdateQuantity" method="post" style="display:inline;">
+                            <input type="hidden" name="productId" value="@item.ProductID" />
+                            <input type="number" name="quantity" value="@item.Quantity" min="1" />
+                            <button type="submit" class="btn btn-secondary">Update</button>
+                        </form>
+                    </td>
+                    
+                    <td>@total.ToString("C")</td>
+                    <td>
+                        <form asp-controller="Cart" asp-action="Delete" method="post" style="display:inline;">
+                            <input type="hidden" name="productId" value="@item.ProductID" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4>Total Items: @Model.CartItems.Sum(item => item.Quantity)</h4> <!-- Display total item count -->
+    <h4>Total Amount: @Model.TotalAmount.ToString("C")</h4>
+
+    <form asp-controller="Order" asp-action="CreateOrder" method="post">
+        <button type="submit" class="btn btn-success">Order Now</button>
+    </form>
+}

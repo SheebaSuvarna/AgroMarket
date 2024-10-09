@@ -1,0 +1,231 @@
+﻿@* @model AgroMarket.Models.Entities.Product
+
+<div class="product-page-container">
+    <div class="product-details-box">
+        <h2 class="text-center my-4">@Model.ProductName</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <img src="@Model.ImageUrl" class="img-fluid product-image" alt="@Model.ProductName" />
+            </div>
+            <div class="col-md-6">
+                <h6>About Product</h6>
+                <p>@Model.Description</p>
+
+                <h4>Price: @Model.Price.ToString("C")</h4>
+                <h6>Available: @Model.StockQuantity</h6> *@
+                <!-- Display Average Rating with Stars -->
+                @* @{
+                    var averageRating = ViewBag.AverageRating;
+                }
+                <div class="rating-stars mb-3">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        if (i <= Math.Floor(averageRating))
+                        {
+                            <i class="fas fa-star" style="color: #ffc107;"></i> <!-- Full Star -->
+                        }
+                        else if (i == Math.Ceiling(averageRating))
+                        {
+                            <i class="fas fa-star-half-alt" style="color: #ffc107;"></i> <!-- Half Star -->
+                        }
+                        else
+                        {
+                            <i class="far fa-star" style="color: #ffc107;"></i> <!-- Empty Star -->
+                        }
+                    }
+                    <span class="ml-2">(@averageRating.ToString("F1"))</span>
+                </div> *@
+                <!-- Display average rating -->
+                
+               @*  <div>
+                    <!-- Display stars using Font Awesome -->
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        if (i <= Math.Floor((double)ViewBag.AverageRating))
+                        {
+                            <i class="fas fa-star" style="color: #ffc107;"></i>  <!-- Full Star -->
+                        }
+                        else if (i == Math.Ceiling((double)ViewBag.AverageRating))
+                        {
+                            <i class="fas fa-star-half-alt" style="color: #ffc107;"></i>  <!-- Half Star -->
+                        }
+                        else
+                        {
+                            <i class="far fa-star" style="color: #ffc107;"></i>  <!-- Empty Star -->
+                        }
+                    }
+                    @ViewBag.AverageRating
+                </div> *@
+
+                @* <h3>Retailer Information</h3>
+                <p><strong>Name:</strong> @Model.Retailer.FirstName @Model.Retailer.LastName</p>
+                <p><strong>Farm:</strong> @Model.Retailer.FarmName</p>
+                <p><strong>Contact:</strong> @Model.Retailer.PhoneNumber</p>
+                <p><strong>Email:</strong> @Model.Retailer.Email</p>
+
+                @Html.Partial("_QuantityControlAndAddToCart", Model)
+
+                <a href="@Url.Action("Index", "Customer")" class="btn btn-success mt-3">Go Back to Store</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Reviews -->
+    <div class="reviews-container mt-5">
+        <h3>Customer Reviews</h3>
+        @if (Model.Review != null && Model.Review.Any())
+        {
+            foreach (var review in Model.Review)
+            {
+                <div class="review-box border p-3 mb-3">
+                    <h5>@review.Rating out of 5</h5>
+                    <p>@review.Comment</p>
+                    <small>Reviewed on: @review.CreatedAt.ToShortDateString()</small>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No reviews available for this product yet.</p>
+        }
+    </div>
+</div> *@
+@model AgroMarket.Models.Entities.Product
+
+<div class="product-page-container">
+    <div class="product-details-box">
+        <h2 class="text-center my-4">@Model.ProductName</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <img src="@Model.ImageUrl" class="img-fluid product-image" alt="@Model.ProductName" />
+            </div>
+            <div class="col-md-6">
+                <h6>About Product</h6>
+                <p>@Model.Description</p>
+
+                <h4>Price: @Model.Price.ToString("C")</h4>
+                <h6>Available: @Model.StockQuantity</h6>
+
+                <h3>Retailer Information</h3>
+                <p><strong>Name:</strong> @Model.Retailer.FirstName @Model.Retailer.LastName</p>
+                <p><strong>Farm:</strong> @Model.Retailer.FarmName</p>
+                <p><strong>Contact:</strong> @Model.Retailer.PhoneNumber</p>
+                <p><strong>Email:</strong> @Model.Retailer.Email</p>
+
+
+                @Html.Partial("_QuantityControlAndAddToCart", Model)
+
+                <a href="@Url.Action("Index", "Customer")" class="btn btn-success mt-3">Go Back to Store</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Reviews -->
+    <div class="reviews-container mt-5">
+        <h3>Customer Reviews</h3>
+        @if (Model.Review != null && Model.Review.Any())
+        {
+            foreach (var review in Model.Review)
+            {
+                <div class="review-box border p-3 mb-3">
+                    <h5>@review.Rating out of 5</h5>
+                    <p>@review.Comment</p>
+                    <small>Reviewed on: @review.CreatedAt.ToShortDateString()</small>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No reviews available for this product yet.</p>
+        }
+    </div>
+</div>
+
+
+<!-- Add Font Awesome for star icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+
+@section Styles {
+    <style>
+        /* Container to apply blur outside the box */
+        .product-page-container {
+            position: relative;
+            padding: 2rem;
+            min-height: 100vh;
+            background: url('/path/to/your/background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Blurred background effect */
+        .product-page-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+
+        /* Centered box with product details */
+        .product-details-box {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 800px;
+            width: 100%;
+            z-index: 1;
+        }
+
+        /* Style for product image */
+        .product-image {
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styles for headings and content */
+        .product-details-box h2, .product-details-box h3, .product-details-box h4, .product-details-box h5 {
+            color: #333;
+        }
+
+        .product-details-box p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        /* Button styling */
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .reviews-container {
+            background-color: #f8f9fa; /* Light background for contrast */
+            padding: 20px;
+            border-radius: 8px; /* Rounded corners */
+        }
+
+        .review-box {
+            background-color: #ffffff; /* White background for reviews */
+            border: 1px solid #e0e0e0; /* Light border */
+            border-radius: 4px; /* Slightly rounded corners */
+        }
+    </style>
+}

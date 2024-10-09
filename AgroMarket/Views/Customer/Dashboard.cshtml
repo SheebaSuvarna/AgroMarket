@@ -1,0 +1,158 @@
+﻿@model CustomerDashboardViewModel
+
+<h3>My Orders</h3>
+
+<!-- Check if TempData contains a feedback message -->
+@if (TempData["FeedbackMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["FeedbackMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<div class="row">
+    @foreach (var order in Model.Orders)
+    {
+        <!-- Each order wrapped in its own card -->
+        <div class="col-md-12 mb-4">
+            <div class="card order-card shadow-sm border-0 rounded-lg overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Order Date: @order.OrderDate.ToShortDateString()</h5>
+                            <p>Status: @order.Status</p>
+                            <p>Total Amount: @order.TotalAmount.ToString("C")</p>
+                        </div>
+
+                        <!-- Button to trigger product details -->
+                        <button class="btn btn-info" onclick="toggleOrderDetails('@order.OrderID')">Get More Details</button>
+                    </div>
+
+                    <!-- Product Details Section, initially hidden -->
+                    <div id="orderDetails-@order.OrderID" class="order-details mt-4" style="display: none;">
+                        <h6>Products in this Order:</h6>
+
+                        <div class="row">
+                            @if (order.OrderItem != null && order.OrderItem.Any())
+                            {
+                                @foreach (var item in order.OrderItem)
+                                {
+                                    <!-- Each product wrapped in a card -->
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card product-card shadow-sm">
+                                            <div class="card-body">
+                                                <h6 class="card-title">Product: @item.Product?.ProductName</h6>
+                                                <p>Retailer: @item.Product?.Retailer?.FirstName @item.Product?.Retailer?.LastName</p>
+
+                                                <!-- Feedback Button triggering the modal -->
+                                                <button class="btn btn-outline-info btn-block mt-3" onclick="openFeedbackModal('@item.ProductID', '@item.Product?.ProductName', '@order.OrderID')">Leave Feedback</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>No products found for this order.</p>
+                            }
+                        </div>
+
+                        <!-- Option to Download Invoice -->
+                        <a href="@Url.Action("GenerateInvoicePdf", "Customer", new { orderId = order.OrderID })" class="btn btn-outline-primary btn-block mt-2">Download Invoice</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    // Function to toggle order details visibility
+    function toggleOrderDetails(orderId) {
+        var details = document.getElementById("orderDetails-" + orderId);
+        if (details.style.display === "none") {
+            details.style.display = "block";
+        } else {
+            details.style.display = "none";
+        }
+    }
+
+    // Function to open the feedback modal and populate it with product info
+    function openFeedbackModal(productId, productName, orderId) {
+        // Set modal values
+        document.getElementById("modalProductId").value = productId;
+        document.getElementById("modalOrderId").value = orderId;
+        document.getElementById("modalProductName").value = productName;
+
+        // Open the modal
+        $('#feedbackModal').modal('show');
+    }
+</script>
+
+<!-- Feedback Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="feedbackModalLabel">Leave Feedback</h5>
+                
+            </div>
+            <div class="modal-body">
+                <form id="feedbackForm" method="post" action="@Url.Action("SubmitFeedback", "Customer")">
+                    <input type="hidden" name="orderId" id="modalOrderId" />
+                    <input type="hidden" name="productId" id="modalProductId" />
+
+                    <div class="form-group">
+                        <label for="modalProductName">Product:</label>
+                        <input type="text" class="form-control" id="modalProductName" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="modalRating">Rating (1 to 5):</label>
+                        <select name="rating" id="modalRating" class="form-control" required>
+                            <option value="">Select Rating</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="modalComment">Comment:</label>
+                        <textarea name="comment" id="modalComment" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-block">Submit Feedback</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!-- Close Button in the Modal Footer that refreshes the page -->
+                <button type="button" class="btn btn-secondary" onclick="refreshPage()">Close</button>
+
+                <script>
+                    // Function to refresh the page
+                    function refreshPage() {
+                        location.reload();
+                    }
+                </script>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (Required for Bootstrap's JavaScript) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Bootstrap JS (Make sure this comes after jQuery) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
