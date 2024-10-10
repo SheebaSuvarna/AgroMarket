@@ -4,7 +4,7 @@ namespace AgroMarket.Models.Entities
 {
     public class Product
     {
-        [Key]               
+        [Key]
         public Guid ProductID { get; set; } = Guid.NewGuid();
 
 
@@ -47,6 +47,6 @@ namespace AgroMarket.Models.Entities
 
         public virtual ICollection<ProductCategory>? ProductCategory { get; set; }
         public virtual ICollection<Review>? Review { get; set; }
-        
+
     }
 }
