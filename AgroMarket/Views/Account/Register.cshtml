@@ -1,0 +1,25 @@
+﻿@using AgroMarket.ViewModels;
+@model RegisterViewModel;
+
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+
+
+<div class="account-container">
+    <div class="account-box">
+        <h2 class="text-center mb-4">Register</h2>
+        <form asp-action="RegisterCustomer" method="post">
+            <button type="submit" class="btn btn-success w-100 p-2 mb-3">Register as a Customer</button>
+        </form>
+        <form asp-action="RegisterRetailor" method="post">
+            <button type="submit" class="btn btn-success w-100 p-2 mb-3">Register as a Retailor</button>
+        </form>
+        <div class="text-center">
+            <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Back</a>
+        </div>
+    </div>
+</div>
