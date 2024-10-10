@@ -2,6 +2,9 @@ using AgroMarket.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using AgroMarket.Controllers;
+using AgroMarket.Models.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace AgroMarket
 {
@@ -17,6 +20,11 @@ namespace AgroMarket
             // Configure DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("defaultconnection")));
+
+            builder.Services.AddScoped<EmailService>();
+
+            builder.Services.AddScoped<IPasswordHasher<Customer>, PasswordHasher<Customer>>();
+            builder.Services.AddScoped<IPasswordHasher<Retailer>, PasswordHasher<Retailer>>();
 
             // Configure authentication with default schemes
             builder.Services.AddAuthentication(options =>

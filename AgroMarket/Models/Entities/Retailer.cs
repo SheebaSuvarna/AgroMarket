@@ -4,7 +4,6 @@ namespace AgroMarket.Models.Entities
 {
     public class Retailer
     {
-
         [Key]
         public Guid RetailerID { get; set; } = Guid.NewGuid();
 
@@ -39,7 +38,7 @@ namespace AgroMarket.Models.Entities
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
-       
+
         public virtual ICollection<Product>? Product { get; set; }
 
     }

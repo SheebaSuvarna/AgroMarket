@@ -20,8 +20,6 @@ namespace AgroMarket.Data
         public DbSet<Cart> Carts { get; set; }
 
 
-
-
         // OnModelCreating method to configure relationships
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -98,7 +96,6 @@ namespace AgroMarket.Data
             .HasForeignKey(c => c.ProductID)
                 .OnDelete(DeleteBehavior.Cascade); // Optional: Define delete behavior
         }
-
 
     }
 }
