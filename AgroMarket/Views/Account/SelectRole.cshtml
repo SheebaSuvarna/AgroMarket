@@ -7,9 +7,7 @@
     <div class="account-box">
         <h2 class="text-center mb-4">Select Your Role</h2>
         <form asp-action="RoleSelected" method="post">
-           @*  <input type="hidden" name="email" value="@ViewBag.Email" />
-            <input type="hidden" name="password" value="@PasswordHelper.HashPassword(YourPasswordHere)" /> <!-- Ensure to hash the password --> *@
-            <button type="submit" name="role" value="Customer" class="btn btn-success w-100 p-2 mb-3 ">Login as Customer</button>
+           <button type="submit" name="role" value="Customer" class="btn btn-success w-100 p-2 mb-3 ">Login as Customer</button>
             <button type="submit" name="role" value="Retailer" class="btn btn-success w-100 p-2 mb-3">Login as Retailer</button>
         </form>
     </div>
