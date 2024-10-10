@@ -47,39 +47,13 @@ namespace AgroMarket.Controllers
 
                 if (customer != null && retailer != null)
                 {
-                    // Redirect to a role selection page
-                    return RedirectToAction("SelectRole", new { email = model.Email, password = model.Password });
-                }
-
-                if (customer != null)
-                {
-                    // Create claims for the authenticated user
-                    var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, customer.Email),
-                new Claim(ClaimTypes.Role, "Customer") // Assuming a role named "Customer"
-            };
-
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var authProperties = new AuthenticationProperties
-                    {
-                        IsPersistent = model.RememberMe, // Set persistent cookie if "Remember Me" is checked
-                        ExpiresUtc = model.RememberMe ? DateTimeOffset.UtcNow.AddDays(30) : (DateTimeOffset?)null // Optional: cookie expiration
-                    };
-
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-                    return RedirectToAction("CustomerDashBoard");
-                }
-
-
-                if (retailer != null)
-                {
                     // Create claims for the authenticated retailer
                     var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, retailer.Email),
-                new Claim(ClaimTypes.Role, "Retailer") // Assuming a role named "Retailer"
-            };
+                    {
+                        new Claim("RetailerID", retailer.RetailerID.ToString()),
+                        new Claim("CustomerId", customer.CustomerID.ToString())
+
+                    };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var authProperties = new AuthenticationProperties
@@ -89,7 +63,48 @@ namespace AgroMarket.Controllers
                     };
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-                    return RedirectToAction("RetailorDashBoard");
+
+                    // Redirect to a role selection page
+                    return RedirectToAction("SelectRole");
+                }
+
+                if (customer != null)
+                {
+                    // Create claims for the authenticated user
+                    var claims = new List<Claim>
+                    {
+                        new Claim("CustomerId", customer.CustomerID.ToString())
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = model.RememberMe, // Set persistent cookie if "Remember Me" is checked
+                        ExpiresUtc = model.RememberMe ? DateTimeOffset.UtcNow.AddDays(30) : (DateTimeOffset?)null // Optional: cookie expiration
+                    };
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                    return RedirectToAction("Dashboard","Customer");
+                }
+
+
+                if (retailer != null)
+                {
+                    // Create claims for the authenticated retailer
+                    var claims = new List<Claim>
+                    {
+                        new Claim("RetailerID", retailer.RetailerID.ToString())
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = model.RememberMe,
+                        ExpiresUtc = model.RememberMe ? DateTimeOffset.UtcNow.AddDays(30) : (DateTimeOffset?)null
+                    };
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                    return RedirectToAction("Dashboard","Retailer");
                 }
 
                 // If no match is found, add an error
@@ -140,7 +155,7 @@ namespace AgroMarket.Controllers
                   return View(model); // Return the view with validation errors
               }*/
         [HttpPost]
-        public async Task<IActionResult> RoleSelected(string email, string password, string role)
+        public async Task<IActionResult> RoleSelected( string role)
         {
             // Check if the selected role is Customer
             if (role == "Customer")
@@ -161,9 +176,9 @@ namespace AgroMarket.Controllers
             return View("SelectRole");
         }
 
-        public IActionResult SelectRole(string email, string password)
+        public IActionResult SelectRole()
         {
-            ViewBag.Email = email; // Store the email to pass it to the role selection page
+            
             return View();
         }
 
