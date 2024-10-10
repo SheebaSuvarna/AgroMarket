@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AgroMarket.Models.Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace AgroMarket.Models.Entities
+namespace AgroMarket.Models
 {
-    public class Retailer
+    public class AddRetailerViewModel
     {
-        [Key]
-        public Guid RetailerID { get; set; } = Guid.NewGuid();
+       
 
         [MaxLength(25)]
         [Required(ErrorMessage = "First Name is Required")]
@@ -38,8 +38,7 @@ namespace AgroMarket.Models.Entities
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
-
+       
         public virtual ICollection<Product>? Product { get; set; }
-
     }
 }

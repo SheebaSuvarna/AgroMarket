@@ -81,7 +81,7 @@ namespace AgroMarket.Controllers
 
             ViewBag.Products = _context.Products.Select(p => p.ProductName).ToList();
             ViewBag.Categories = new SelectList(_context.Categories, "CategoryID", "CategoryName", CategoryID);
-            
+
             return View(product);
         }
 
@@ -104,7 +104,7 @@ namespace AgroMarket.Controllers
                      .ThenInclude(pc => pc.Category) // Include Category relationship
                  .FirstOrDefaultAsync(m => m.ProductID == id && m.RetailerID == parsedRetailerId);
             if (product == null)
-            {
+        {
                 return NotFound();
             }
 
@@ -268,11 +268,8 @@ namespace AgroMarket.Controllers
             }
 
             var products = await _context.Products
-             .Where(p => p.RetailerID == parsedRetailerId)
-             .Include(p => p.ProductCategory) // Include the ProductCategory relationship
-                 .ThenInclude(pc => pc.Category) // Include the Category information
-             .ToListAsync();
-                
+        .ToListAsync();
+
                 
             return View(products);
         }
@@ -302,11 +299,11 @@ namespace AgroMarket.Controllers
         [HttpGet]
         // GET: Product/Details/5
         public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
             {
+            if (id == null)
+                {
                 return NotFound();
-            }
+                }
 
             var retailerId = User.FindFirstValue("RetailerID");
             if (string.IsNullOrEmpty(retailerId) || !Guid.TryParse(retailerId, out Guid parsedRetailerId))
@@ -353,10 +350,49 @@ namespace AgroMarket.Controllers
             if (product == null)
             {
                 return NotFound();
-            }
+    }
 
             return PartialView("_ProductDetailsPartial", product); // Return partial view instead
         }*/
+
+
+        public async Task<IActionResult> ProductDetails(Guid id)
+        {
+            var product = await _context.Products
+                .Include(p => p.Retailer)
+                .Include(p => p.Review)
+                .FirstOrDefaultAsync(p => p.ProductID == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+
+            var products = await _context.Products
+        .Include(p => p.Review) // Include reviews for each product
+        .ToListAsync();
+
+            // Dictionary to store product ID and corresponding average rating
+            var productRatings = new Dictionary<Guid, double>();
+
+            foreach (var prod in products)
+            {
+                double averageRating = 0;
+                if (prod.Review != null && prod.Review.Any())
+                {
+                    averageRating = prod.Review.Average(r => r.Rating);
+                }
+
+                // Store average rating in the dictionary
+                productRatings[prod.ProductID] = averageRating;
+            }
+
+            // Pass the ratings to the view using ViewBag
+            ViewBag.AverageRating = productRatings;
+
+            return View(product);
+        }
 
     }
 }

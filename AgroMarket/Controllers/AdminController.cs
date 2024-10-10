@@ -2,6 +2,7 @@
 using AgroMarket.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Dynamic;
 
 namespace AgroMarket.Controllers
 {
@@ -20,24 +21,61 @@ namespace AgroMarket.Controllers
         [Route("dashboard")]
         public IActionResult Dashboard(string activeTab = "customers")  // default tab is "customers"
         {
+            // Fetch customers, retailers, products, categories, reviews, and orders
             var customers = _context.Customers.ToList();
             var retailers = _context.Retailers.ToList();
             var products = _context.Products.ToList();
-            var categories = _context.Categories.ToList();  // Fetch Categories
+            var categories = _context.Categories.ToList();
             var reviews = _context.Reviews.Include(r => r.Product).Include(r => r.Customer).ToList();
+            var orders = _context.Orders
+                                 .Include(o => o.Customer)        // Include Customer related to the order
+                                 .Include(o => o.OrderItem)       // Include Order Items
+                                    .ThenInclude(oi => oi.Product) // Include Product within Order Items
+                                 .ToList();  // Fetch Orders with Order Items and Product info
 
-            var dashboardData = new
-            {
-                Customers = customers,
-                Retailers = retailers,
-                Products = products,
-                Reviews = reviews,
-                Categories = categories,  // Pass Categories to view
-                ActiveTab = activeTab      // Pass active tab to view
-            };
+            // Prepare data for analytics
+            var productLabels = products.Select(p => p.ProductName).ToList();
+            var productQuantities = products.Select(p => p.StockQuantity).ToList();
 
-            return View(dashboardData);   // Pass entire data to view
+            // Prepare monthly sales data
+            var salesData = orders
+               .GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month })
+               .Select(g => new
+               {
+                   Month = new DateTime(g.Key.Year, g.Key.Month, 1),
+                   TotalSales = g.Sum(o => o.TotalAmount)
+               })
+               .OrderBy(s => s.Month) // Correctly order by DateTime
+               .Select(s => new
+               {
+                   Month = s.Month.ToString("MMM yyyy"),
+                   TotalSales = s.TotalSales
+               })
+               .ToList();
+
+
+            var salesLabels = salesData.Select(s => s.Month).ToList();
+            var monthlySales = salesData.Select(s => s.TotalSales).ToList();
+
+            // Create a dynamic object to pass to the view
+            dynamic model = new ExpandoObject();
+            model.Customers = customers;
+            model.Retailers = retailers;
+            model.Products = products;
+            model.Categories = categories;
+            model.Reviews = reviews;
+            model.Orders = orders;
+            model.ActiveTab = activeTab;  // Pass active tab to keep UI state
+
+            // Add analytics data to the model
+            model.ProductLabels = productLabels;
+            model.ProductQuantities = productQuantities;
+            model.SalesLabels = salesLabels;
+            model.MonthlySales = monthlySales;
+
+            return View(model);  // Pass the model to the view
         }
+
 
         // User Management: Monitor and manage actions taken by Customers and Retailers
         [HttpGet]
@@ -91,7 +129,7 @@ namespace AgroMarket.Controllers
             _context.Products.Update(product);
             _context.SaveChanges();
 
-            return RedirectToAction("Dashboard");
+            return RedirectToAction("Dashboard", new { activeTab = "products" });
         }
 
         // Delete product
@@ -108,7 +146,7 @@ namespace AgroMarket.Controllers
             _context.Products.Remove(product);
             _context.SaveChanges();
 
-            return RedirectToAction("Dashboard");
+            return RedirectToAction("Dashboard", new { activeTab = "products" });
         }
 
         // Review Management: Approve or delete reviews
@@ -131,8 +169,7 @@ namespace AgroMarket.Controllers
                 return NotFound();
             }
 
-            // Assuming you have an 'Approved' status for reviews
-            review.Approved = true;
+            review.Approved = true;  // Assuming an 'Approved' field
 
             _context.Reviews.Update(review);
             _context.SaveChanges();
@@ -180,7 +217,6 @@ namespace AgroMarket.Controllers
                 return NotFound();
             }
 
-            // Update customer properties
             customer.FirstName = updatedCustomer.FirstName;
             customer.LastName = updatedCustomer.LastName;
             customer.Email = updatedCustomer.Email;
@@ -232,7 +268,6 @@ namespace AgroMarket.Controllers
                 return NotFound();
             }
 
-            // Update retailer properties
             retailer.FirstName = updatedRetailer.FirstName;
             retailer.LastName = updatedRetailer.LastName;
             retailer.Email = updatedRetailer.Email;
@@ -242,7 +277,7 @@ namespace AgroMarket.Controllers
             _context.Retailers.Update(retailer);
             _context.SaveChanges();
 
-            return RedirectToAction("Dashboard");
+            return RedirectToAction("Dashboard", new { activeTab = "retailers" });
         }
 
         // Delete Retailer
@@ -259,7 +294,7 @@ namespace AgroMarket.Controllers
             _context.Retailers.Remove(retailer);
             _context.SaveChanges();
 
-            return RedirectToAction("Dashboard");
+            return RedirectToAction("Dashboard", new { activeTab = "retailers" });
         }
 
         // Create new category (GET)
@@ -334,5 +369,81 @@ namespace AgroMarket.Controllers
 
             return RedirectToAction("Dashboard", new { activeTab = "categories" });
         }
+
+        // Order Management: View all order details
+        [HttpGet]
+        [Route("orders")]
+        public IActionResult ManageOrders()
+        {
+            var orders = _context.Orders
+                                 .Include(o => o.Customer)
+                                 .Include(o => o.OrderItem)
+                                     .ThenInclude(oi => oi.Product)
+                                 .ToList();
+
+            return View(orders);  // Pass the orders data to the view
+        }
+
+
+        // Edit Order (GET)
+        [HttpGet]
+        [Route("edit-order/{id}")]
+        public IActionResult EditOrder(Guid id)
+        {
+            var order = _context.Orders
+                                .Include(o => o.Customer)
+                                .Include(o => o.OrderItem)
+                                    .ThenInclude(oi => oi.Product)
+                                .FirstOrDefault(o => o.OrderID == id);
+
+            if (order == null)
+            {
+                return NotFound();  // Order not found
+            }
+
+            return View(order);  // Pass the order to the view
+        }
+
+        // Edit Order (POST)
+        [HttpPost]
+        [Route("edit-order/{id}")]
+        public IActionResult EditOrder(Guid id, Order updatedOrder)
+        {
+            var order = _context.Orders.Find(id);
+
+            if (order == null)
+            {
+                return NotFound();  // Order not found
+            }
+
+            // Update order properties
+            order.ShippingAddress = updatedOrder.ShippingAddress;
+            order.Status = updatedOrder.Status;
+            order.TotalAmount = updatedOrder.TotalAmount;
+
+            _context.Orders.Update(order);  // Update the order in the database
+            _context.SaveChanges();  // Save changes
+
+            return RedirectToAction("Dashboard", new { activeTab = "orders" });  // Redirect to the orders management page
+        }
+
+        // Delete Order
+        [HttpPost]
+        [Route("delete-order/{id}")]
+        public IActionResult DeleteOrder(Guid id)
+        {
+            var order = _context.Orders.Find(id);
+
+            if (order == null)
+            {
+                return NotFound();  // Order not found
+            }
+
+            _context.Orders.Remove(order);  // Remove the order from the database
+            _context.SaveChanges();  // Save changes
+
+            return RedirectToAction("Dashboard", new { activeTab = "orders" });  // Redirect to the orders management page
+        }
+
     }
 }

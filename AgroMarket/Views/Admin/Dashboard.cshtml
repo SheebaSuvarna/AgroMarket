@@ -7,11 +7,16 @@
     var activeTab = Context.Request.Query["activeTab"].FirstOrDefault() ?? "customers"; // Using Context.Request
                                                                                         // or use: var activeTab = HttpContext.Request.Query["activeTab"].FirstOrDefault() ?? "customers";
 }
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="~/css/DashboardStyle.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="/css/DashboardStyle.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
+<body>
 <h1>Admin Dashboard</h1>
 
 <!-- Navigation Tabs -->
@@ -26,10 +31,16 @@
         <a class="nav-link @(activeTab == "products" ? "active" : "")" id="products-tab" data-toggle="tab" href="#products" role="tab" aria-controls="products" aria-selected="@(activeTab == "products")">Products</a>
     </li>
     <li class="nav-item" role="presentation">
+        <a class="nav-link @(activeTab == "categories" ? "active" : "")" id="categories-tab" data-toggle="tab" href="#categories" role="tab" aria-controls="categories" aria-selected="@(activeTab == "categories")">Categories</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link @(activeTab == "orders" ? "active" : "")" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="@(activeTab == "orders")">Orders</a>
+    </li>
+    <li class="nav-item" role="presentation">
         <a class="nav-link @(activeTab == "reviews" ? "active" : "")" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="@(activeTab == "reviews")">Reviews</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link @(activeTab == "categories" ? "active" : "")" id="categories-tab" data-toggle="tab" href="#categories" role="tab" aria-controls="categories" aria-selected="@(activeTab == "categories")">Categories</a>
+        <a class="nav-link @(activeTab == "analytics" ? "active" : "")" id="analytics-tab" data-toggle="tab" href="#analytics" role="tab" aria-controls="analytics" aria-selected="@(activeTab == "analytics")">Analytics</a>
     </li>
 </ul>
 
@@ -44,6 +55,7 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
+                    <th>Phone Number</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -54,6 +66,7 @@
                         <td>@customer.FirstName</td>
                         <td>@customer.LastName</td>
                         <td>@customer.Email</td>
+                        <td>@customer.PhoneNumber</td>
                         <td>
                             <a asp-controller="Admin" asp-action="EditUser" asp-route-id="@customer.CustomerID" class="btn btn-warning">Edit</a>
                             <form asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@customer.CustomerID" method="post" style="display:inline;">
@@ -75,6 +88,7 @@
                     <th>Farm Name</th>
                     <th>Owner Name</th>
                     <th>Email</th>
+                    <th>Phone Number</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -85,6 +99,7 @@
                         <td>@retailer.FarmName</td>
                         <td>@retailer.FirstName @retailer.LastName</td>
                         <td>@retailer.Email</td>
+                        <td>@retailer.PhoneNumber</td>
                         <td>
                             <a asp-controller="Admin" asp-action="EditRetailer" asp-route-id="@retailer.RetailerID" class="btn btn-warning">Edit</a>
                             <form asp-controller="Admin" asp-action="DeleteRetailer" asp-route-id="@retailer.RetailerID" method="post" style="display:inline;">
@@ -158,6 +173,51 @@
         </table>
     </div>
 
+    <div class="tab-pane fade @(activeTab == "orders" ? "show active" : "")" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+        <h2>Orders</h2>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Product Name</th>
+                    <th>Product ID</th>
+                    <th>Customer ID</th>
+                    <th>Customer Name</th>
+                    <th>Order Date</th>
+                    <th>Total Amount</th>
+                    <th>Shipping Address</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Orders)
+                {
+                    foreach (var orderItem in order.OrderItem)
+                    {
+                        <tr>
+                            <td>@order.OrderID</td>
+                            <td>@orderItem.Product.ProductName</td>
+                            <td>@orderItem.ProductID</td>
+                            <td>@order.Customer.CustomerID</td>
+                            <td>@order.Customer.FirstName @order.Customer.LastName</td>
+                            <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
+                            <td>@order.TotalAmount</td>
+                            <td>@order.ShippingAddress</td>
+                            <td>@order.Status</td>
+                            <td>
+                                <a asp-controller="Admin" asp-action="EditOrder" asp-route-id="@order.OrderID" class="btn btn-warning btn-sm">Edit</a>
+                                <form asp-controller="Admin" asp-action="DeleteOrder" asp-route-id="@order.OrderID" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this order?');">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
     <!-- Reviews Section -->
     <div class="tab-pane fade @(activeTab == "reviews" ? "show active" : "")" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
         <h2>Reviews</h2>
@@ -195,7 +255,66 @@
             </tbody>
         </table>
     </div>
+    <!-- Analytics Section -->
+    <div class="tab-pane fade @(activeTab == "analytics" ? "show active" : "")" id="analytics" role="tabpanel" aria-labelledby="analytics-tab">
+        <h2>Analytics</h2>
+        <canvas id="productChart" width="400" height="200"></canvas>
+        <canvas id="salesChart" width="400" height="200"></canvas>
+
+        <script>
+            const productData = {
+                labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ProductLabels)),
+                datasets: [{
+                    label: 'Product Quantity',
+                    data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ProductQuantities)),
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)', // Changed color
+                    borderColor: 'rgba(54, 162, 235, 1)', // Changed color
+                    borderWidth: 1
+                }]
+            };
+
+            const salesData = {
+                labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.SalesLabels)),
+                datasets: [{
+                    label: 'Monthly Sales',
+                    data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.MonthlySales)),
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)', // Changed color
+                    borderColor: 'rgba(255, 206, 86, 1)', // Changed color
+                    borderWidth: 1
+                }]
+            };
+
+
+            const productConfig = {
+                type: 'bar',
+                data: productData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            };
+
+            const salesConfig = {
+                type: 'line',
+                data: salesData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            };
+
+            new Chart(document.getElementById('productChart'), productConfig);
+            new Chart(document.getElementById('salesChart'), salesConfig);
+        </script>
+    </div>
 </div>
+
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -211,3 +330,5 @@
         });
     });
 </script>
+</body>
+</html>
