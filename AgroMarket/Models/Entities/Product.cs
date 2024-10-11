@@ -22,7 +22,7 @@ namespace AgroMarket.Models.Entities
         [MaxLength(100)]
         public string? Description { get; set; }
 
-
+        
         // Property for handling image uploads (ignored by EF)
         [NotMapped]
         public IFormFile? ImageFile { get; set; }  // IFormFile is ignored by EF

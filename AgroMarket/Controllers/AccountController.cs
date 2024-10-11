@@ -161,13 +161,13 @@ namespace AgroMarket.Controllers
             if (role == "Customer")
             {
                 // Authenticate as customer
-                return RedirectToAction("CustomerDashBoard");
+                return RedirectToAction("Dashboard","Customer");
             }
             else if (role == "Retailer")
             {
                 // Authenticate as retailer
 
-                return RedirectToAction("RetailorDashBoard");
+                return RedirectToAction("Dashboard","Retailer");
 
             }
 

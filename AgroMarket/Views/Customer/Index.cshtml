@@ -1,11 +1,193 @@
 ﻿@model CustomerDashboardViewModel
+@{
 
-<!-- Page Title -->
-<h2 class="text-center my-4 display-4 text-dark">Welcome to Our Store!</h2>
+    ViewData["Title"] = "Home";
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f0e6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #4a5d23;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 20px 20px;
+        }
+
+            .navbar .logo {
+                color: #fff;
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            .navbar .cta {
+                background-color: #f5a623;
+                color: #fff;
+                padding: 10px 20px;
+                border-radius: 20px;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+        .hero {
+            background-image: url('/BG1.png'); /* Use your local image */
+
+            background-size: cover; /* Cover the entire div */
+
+            background-position: center; /* Center the image */
+
+            min-height: 400px; /* Minimum height to ensure visibility */
+
+            padding: 50px 30px; /* Padding around the content */
+
+            text-align: center;
+            border-radius: 20px;
+            margin: 20px;
+            color: #fff; /* Change text color for better visibility */
+        }
+
+            .hero .cta {
+                background-color: #f5a623;
+                color: #fff;
+                padding: 10px 20px;
+                border-radius: 20px;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+        .hero-content {
+            position: relative; /* Positioning for child elements */
+
+            z-index: 2; /* Ensure text is above the background */
+        }
+
+        .hero h1, .hero p, .hero .cta {
+            position: relative; /* Positioning for child elements */
+
+            z-index: 2; /* Ensure text is above the background */
+        }
+
+        .content {
+            display: flex;
+            justify-content: space-between;
+            padding: 30px;
+        }
+
+            .content .left, .content .right {
+                width: 48%;
+            }
+
+                .content .left img, .content .right img {
+                    width: 100%;
+                    border-radius: 20px;
+                }
+
+                .content .left h2, .content .right h2 {
+                    font-size: 24px;
+                    color: #000;
+                    margin: 20px 0 10px;
+                }
+
+                .content .left p, .content .right p {
+                    font-size: 16px;
+                    color: #000;
+                    margin: 0 0 20px;
+                }
+
+        .search-form {
+            display: flex;
+            
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px; /* Add margin to space it below the other content */
+        }
+                .content .left .cta, .content .right .cta {
+                    background-color: #f5a623;
+                    color: #fff;
+                    padding: 10px 20px;
+                    border-radius: 20px;
+                    text-decoration: none;
+                    font-weight: bold;
+                    display: inline-block;
+                }
+    </style>
+</head>
+<body>
+    
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Our Store!</h1>
+            <p>Your Marketplace for Fresh Produce</p>
+            <a class="cta" href="#">Get it Now</a>
+            <!-- Search Bar -->
+            <form method="get" action="@Url.Action("Index")" class="form-inline search-form">
+                <input class="form-control mr-2" name="searchTerm" type="search" placeholder="Search" value="@ViewBag.SearchTerm" aria-label="Search" style="width: 300px; height: 40px;">
+                <button class="btn btn-outline-success" type="submit" style="height: 40px;background: #4a5d23; ">Search</button>
+            </form>
+        </div>
+    </div>
+
 
 <!-- Available Products Section -->
 <h3 class="text-center text-muted mb-4">Available Products</h3>
+<!-- Combined Search and Category Filter Form -->
 
+<div class="row mb-4">
+    <div class="col-md-6 d-flex justify-content-end">
+        <div class="sort-options">
+            <span class="mr-3">Sort By:</span>
+            <a href="@Url.Action("Index", new { searchTerm = ViewBag.SearchTerm, sortOrder = "popularity", categoryName = ViewBag.CategoryName })" class="mr-3 @(ViewBag.SortOrder == "popularity" ? "text-primary font-weight-bold" : "")">
+                Popularity
+            </a>
+            <a href="@Url.Action("Index", new { searchTerm = ViewBag.SearchTerm, sortOrder = "price_low_high", categoryName = ViewBag.CategoryName })" class="mr-3 @(ViewBag.SortOrder == "price_low_high" ? "text-primary font-weight-bold" : "")">
+                Price -- Low to High
+            </a>
+            <a href="@Url.Action("Index", new { searchTerm = ViewBag.SearchTerm, sortOrder = "price_high_low", categoryName = ViewBag.CategoryName })" class="mr-3 @(ViewBag.SortOrder == "price_high_low" ? "text-primary font-weight-bold" : "")">
+                Price -- High to Low
+            </a>
+            <a href="@Url.Action("Index", new { searchTerm = ViewBag.SearchTerm, sortOrder = "newest", categoryName = ViewBag.CategoryName })" class="mr-3 @(ViewBag.SortOrder == "newest" ? "text-primary font-weight-bold" : "")">
+                Newest First
+            </a>
+        </div>
+    </div>
+</div>
+<style>
+    .sort-options a {
+        text-decoration: none;
+        color: #6c757d;
+        transition: color 0.2s;
+    }
+
+        .sort-options a:hover {
+            color: #007bff;
+        }
+
+        .sort-options a.text-primary.font-weight-bold {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+</style>
 <div class="row">
     @foreach (var product in Model.Products)
     {
@@ -31,7 +213,28 @@
 
 </div>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <!-- Available Products Section -->
+    <h3 class="text-center text-muted mb-4"> About Us</h3>
+    <div class="content">
+        <div class="left">
+            <img src="https://storage.googleapis.com/a1aa/image/5YGp6CA42JqPLdiifiytWh9eurHRACEQn3RdQSPIDCMTWRlTA.jpg" alt="Farmer in a field with various vegetables">
+            <h2>Fresh Products</h2>
+            <p>Bringing the farm to your table! Shop from local farmers and enjoy fresh, quality produce delivered straight to your doorstep..</p>
+            <a class="cta" href="#">Buy Now</a>
+        </div>
+        <div class="right">
+            <div style="background-color: #fff; padding: 20px; border-radius: 20px;">
+                <h2>Fresh Products</h2>
+                <p>Bringing the farm to your table! Shop from local farmers and enjoy fresh, quality produce delivered straight to your doorstep..</p>
+                <a class="cta" href="#">Buy Now</a>
+            </div>
+            <img src="https://storage.googleapis.com/a1aa/image/75fbebSV8XiFzkSWAfPQao7PQ8aQq1yinq9EDS2QSbWksiKnA.jpg" alt="Basket of fresh produce">
+            <h2</h2>
+            <p></p>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
 <!-- Enhanced Styles -->
 <style>
@@ -99,3 +302,6 @@
         color: #495057;
     }
 </style>
+
+</body>
+</html>
