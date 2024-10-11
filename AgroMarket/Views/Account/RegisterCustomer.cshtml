@@ -1,97 +1,278 @@
 ﻿@using AgroMarket.ViewModels;
 @model RegisterCustomerModel;
 
-
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
 }
 
-<div class="account-container">
-    <div class="account-box">
-        <h2 class="text-center mb-4">Register</h2>
+<html>
+<head>
+    <title>Register Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('/images/newbgg.jpg');
+            font-family: 'Roboto', sans-serif;
+            background-size: cover;
+            opacity: 0.8;
+        }
+
+        .login-container {
+            background: #4a5d23;
+            border-radius: 20px;
+            padding: 40px;
+            width: 600px; /* Reduced width for smaller input fields */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            
+        }
+
+            .login-container h1 {
+                color: white;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 36px;
+            }
+
+        .form-label {
+            color: white;
+        }
+
+        .field-container {
+            display: flex;
+            flex-direction: column; /* Stack label and input vertically */
+            margin-bottom: 25px; /* Increased margin for more space between fields */
+            position: relative; /* Added to position error message */
+        }
+
+            .field-container label {
+                color: white;
+                font-weight: bold;
+                margin-left: 0; /* Removed left margin for alignment */
+            }
+
+            .field-container input {
+                padding: 10px; /* Adjusted padding for better spacing */
+                border: none;
+                border-radius: 10px;
+                font-size: 14px; /* Reduced font size */
+                background: white;
+                color: black;
+                min-width: 250px; /* Reduced minimum width for input fields */
+                max-width: 100%; /* Prevent overflow */
+                box-sizing: border-box; /* Include padding in width calculation */
+            }
+
+        .form-row {
+            display: flex; /* Flexbox for two columns */
+            justify-content: space-between;
+        }
+
+        .column {
+            flex: 1; /* Each column takes up half of the row */
+            margin-right: 10px; /* Reduced space between columns */
+        }
+
+            .column:last-child {
+                margin-right: 0; /* Remove right margin from the last column */
+            }
+
+        .register-buttons {
+            text-align: center; /* Center buttons */
+            margin-top: 20px; /* Space above buttons */
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #f5a623;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: auto; /* Adjust width to content */
+            margin-left: 10px; /* Adjust as needed */
+            display: inline-block; /* Make button inline */
+        }
+
+            button:hover {
+                background: #e0941d;
+            }
+
+        p {
+            color: black;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+            a:hover {
+                color: #f5a623; /* Change this to your desired hover color */
+                text-decoration: underline; /* Optional: add an underline on hover */
+            }
+        .text-danger {
+            color: yellow; /* Ensure error messages are clearly visible */
+            margin-left: 0; /* Align with label */
+            position: absolute; /* Position it to avoid shifting */
+            top: 100%; /* Position below the input */
+            left: 0; /* Align with input */
+            font-size: 12px; /* Adjust font size */
+            margin-top: 5px; /* Space above error message */
+        } 
+        /* Media Queries for Responsiveness */
+        @@media (max-width: 768px) {
+            .login-container {
+                padding: 20px; /* Reduce padding on smaller screens */
+            }
+
+            .login-container h1 {
+                font-size: 28px; /* Reduce heading size */
+            }
+
+            .form-row {
+                flex-direction: column; /* Stack columns on top of each other */
+            }
+
+            .column {
+                margin-right: 0; /* Remove margin between stacked columns */
+                margin-bottom: 15px; /* Add space below each stacked column */
+            }
+
+            button {
+                width: 100%; /* Make buttons full width on small screens */
+                margin-left: 0; /* Reset margin */
+                margin-top: 10px; /* Add space above buttons */
+            }
+        }
+
+       @@media (max-width: 480px) {
+            .login-container h1 {
+                font-size: 24px; /* Further reduce heading size */
+            }
+
+            p {
+                font-size: 12px; /* Smaller text for smaller screens */
+            }
+        }
+       
+    </style>
+</head>
+<body>
+    <div id="successMessage" style="display:none; position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); background: green; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
+        @ViewBag.SuccessMessage
+    </div>
+    <div class="login-container">
+        <h1>Register</h1>
         <form asp-action="RegisterCustomer" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="mb-3">
-                <label asp-for="FirstName" class="form-label"></label>
-                <input asp-for="FirstName" class="form-control" required />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="LastName" class="form-label"></label>
-                <input asp-for="LastName" class="form-control" required />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" required />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-           
-            <!-- Phone Number -->
-            <div class="mb-3">
-                <label asp-for="PhoneNumber" class="form-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" required />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            <div class="form-row">
+                <div class="column">
+                    <div class="field-container">
+                        <label asp-for="FirstName" class="form-label">First Name</label>
+                        <input asp-for="FirstName" class="form-control" required />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="field-container">
+                        <label asp-for="Email" class="form-label">Email</label>
+                        <input asp-for="Email" class="form-control" type="email" required />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="field-container">
+                        <label asp-for="Address" class="form-label">Address</label>
+                        <input asp-for="Address" class="form-control" required />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="field-container">
+                        <label asp-for="Password" class="form-label">Password</label>
+                        <input asp-for="Password" type="password" class="form-control" required />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                   
+                </div>
+                <div class="column">
+                    <div class="field-container">
+                        <label asp-for="LastName" class="form-label">Last Name</label>
+                        <input asp-for="LastName" class="form-control" required />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+
+                    <div class="field-container">
+                        <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                        <input asp-for="PhoneNumber" class="form-control" type="tel" required />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="field-container">
+                        <label asp-for="PinCode" class="form-label">Pin Code</label>
+                        <input asp-for="PinCode" class="form-control" required />
+                        <span asp-validation-for="PinCode" class="text-danger"></span>
+                    </div>
+                   
+                    <div class="field-container">
+                        <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" required />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
 
-            <!-- Address -->
-            <div class="mb-3">
-                <label asp-for="Address" class="form-label"></label>
-                <input asp-for="Address" class="form-control" required />
-                <span asp-validation-for="Address" class="text-danger"></span>
+            <!-- Register Button -->
+            <div class="register-buttons">
+                <button type="submit">Register</button>
+                <button type="button" onclick="location.href='@Url.Action("Register", "Account")'">Back</button>
             </div>
 
-            <!-- Pin Code -->
-            <div class="mb-3">
-                <label asp-for="PinCode" class="form-label"></label>
-                <input asp-for="PinCode" class="form-control" required />
-                <span asp-validation-for="PinCode" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" class="form-control" required />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="ConfirmPassword" class="form-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" required />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-
-
-
-
-            <input type="submit" value="Register" class="btn btn-success w-100 p-2" />
-            <p class="text-center mt-2">
-                Already have an account? <a asp-controller="Account" asp-action="Login" class="text-decoration-none">Login</a>
-            </p>
-            <div class="text-center">
-                <a asp-controller="Account" asp-action="Register" class="text-decoration-none mt-3">Back</a>
-            </div>
+            <!-- Additional Links -->
+            <p>Already have an account? <a asp-controller="Account" asp-action="Login">Login</a></p>
         </form>
     </div>
-</div>
+</body>
+</html>
 
-@section Scripts {
+
+
+    @section Scripts {
     <script>
         $(document).ready(function () {
             // Initially hide validation messages
             $("form span.text-danger").hide();
 
-
-            // Keep the error message visible until the input is focused
+            // Show validation message on blur if input is empty
             $("form input").on("focus", function () {
-                // Hide the error message for the focused input
                 $(this).siblings("span.text-danger").hide();
-            });
-
-            // Ensure the error message is visible after a failed validation
-            $("form input").on("blur", function () {
+            }).on("blur", function () {
                 if ($(this).val() === "") {
                     $(this).siblings("span.text-danger").show();
                 }
             });
+
+            // Show success message if it exists
+            var successMessage = '@ViewBag.SuccessMessage';
+            if (successMessage) {
+                $("#successMessage").show(); // Show the message
+                setTimeout(function() {
+                    $("#successMessage").fadeOut(); // Hide the message after 5 seconds
+                    // Redirect to the login page after fading out
+                    setTimeout(function() {
+                        window.location.href = '@Url.Action("Login", "Account")'; // Adjust according to your Login action
+                    }, 500); // Wait for the fade out animation to complete
+                }, 5000);
+            }
         });
     </script>
+}
+
 }

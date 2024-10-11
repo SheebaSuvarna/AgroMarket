@@ -1,103 +1,313 @@
 ﻿@using AgroMarket.ViewModels;
 @model RegisterRetailor;
 
-
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
 }
 
-<div class="account-container">
-    <div class="account-box">
-        <h2 class="text-center mb-4">Register</h2>
-        <form asp-action="RegisterRetailor" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="mb-3">
-                <label asp-for="FirstName" class="form-label"></label>
-                <input asp-for="FirstName" class="form-control" required />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="LastName" class="form-label"></label>
-                <input asp-for="LastName" class="form-control" required />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" required />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+<html>
+<head>
+    <title>Register Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 120vh; 
+          
+            background-image: url('/images/newbgg.jpg');
+            font-family: 'Roboto', sans-serif;
+            background-size: cover;
+            opacity: 0.8;
+        }
+
+        .login-container {
+            background: #4a5d23;
+            border-radius: 20px;
+            padding: 40px;
+            width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: calc(110vh - 70px);
+        }
+
+            .login-container h1 {
+                color: white;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 36px;
+            }
+
+        .form-label {
+            color: white;
+        }
+
+        .field-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+            .field-container label {
+                color: white;
+                font-weight: bold;
+            }
+
+            .field-container input {
+                padding: 10px;
+                border: none;
+                border-radius: 10px;
+                font-size: 14px;
+                background: white;
+                color: black;
+                min-width: 250px;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .column {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+            .column:last-child {
+                margin-right: 0;
+            }
+
+        .register-buttons {
+            text-align: center;
            
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #f5a623;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-left: 10px;
+            display: inline-block;
+            /* margin-bottom:20px; */
+        }
+
+            button:hover {
+                background: #e0941d;
+            }
+
+        p {
+            color: white;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+            a:hover {
+                color: #f5a623;
+                text-decoration: underline;
+            }
+
+        .text-danger {
+            color: yellow;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .full-width {
+            flex-basis: 100%; /* Make this field occupy the full width */
+        }
+
+       
 
 
-            <!-- Phone Number -->
-            <div class="mb-3">
-                <label asp-for="PhoneNumber" class="form-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" required />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+        /* Media Queries for Responsiveness */
+        @@media (max-width: 768px) {
+            .login-container {
+                padding: 20px; /* Reduce padding on smaller screens */
+            }
+
+                .login-container h1 {
+                    font-size: 28px; /* Reduce heading size */
+                }
+
+            .form-row {
+                flex-direction: column; /* Stack columns on top of each other */
+            }
+
+            .column {
+                margin-right: 0; /* Remove margin between stacked columns */
+                margin-bottom: 15px; /* Add space below each stacked column */
+            }
+
+            button {
+                width: 100%; /* Make buttons full width on small screens */
+                margin-left: 0; /* Reset margin */
+                margin-top: 10px; /* Add space above buttons */
+            }
+        }
+
+        @@media (max-width: 480px) {
+            .login-container h1 {
+                font-size: 24px; /* Further reduce heading size */
+            }
+
+            p {
+                font-size: 12px; /* Smaller text for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Register</h1>
+        <form asp-action="RegisterCustomer" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- First Row -->
+            <div class="form-row">
+                <div class="column">
+                    <div class="field-container">
+                        <label asp-for="FirstName" class="form-label">First Name</label>
+                        <input asp-for="FirstName" class="form-control" required />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field-container">
+                        <label asp-for="LastName" class="form-label">Last Name</label>
+                        <input asp-for="LastName" class="form-control" required />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
 
-
-            <div class="mb-3">
-                <label asp-for="FarmName" class="form-label"></label>
-                <input asp-for="FarmName" class="form-control" required />
-                <span asp-validation-for="FarmName" class="text-danger"></span>
+            <!-- Second Row -->
+            <div class="form-row">
+                <div class="column">
+                    <div class="field-container">
+                        <label asp-for="Email" class="form-label">Email</label>
+                        <input asp-for="Email" class="form-control" type="email" required />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field-container">
+                        <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                        <input asp-for="PhoneNumber" class="form-control" type="tel" required />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <!-- Address -->
-            <div class="mb-3">
-                <label asp-for="FarmAddress" class="form-label"></label>
+
+            <!-- Third Row -->
+            <div class="form-row">
+                <div class="column">
+                    <div class="field-container">
+                        <label asp-for="FarmName" class="form-label">Farm Name</label>
+                        <input asp-for="FarmName" class="form-control" required />
+                        <span asp-validation-for="FarmName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field-container">
+                        <label asp-for="PinCode" class="form-label">Pin Code</label>
+                        <input asp-for="PinCode" class="form-control" required />
+                        <span asp-validation-for="PinCode" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Width Farm Address -->
+            <div class="field-container full-width">
+                <label asp-for="FarmAddress" class="form-label">Farm Address</label>
                 <input asp-for="FarmAddress" class="form-control" required />
                 <span asp-validation-for="FarmAddress" class="text-danger"></span>
             </div>
 
-            <!-- Pin Code -->
-            <div class="mb-3">
-                <label asp-for="PinCode" class="form-label"></label>
-                <input asp-for="PinCode" class="form-control" required />
-                <span asp-validation-for="PinCode" class="text-danger"></span>
+            <!-- Last Row -->
+            <div class="form-row">
+                <div class="column">
+                    <div class="field-container">
+                        <label asp-for="Password" class="form-label">Password</label>
+                        <input asp-for="Password" type="password" class="form-control" required />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field-container">
+                        <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" required />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
 
-
-            <div class="mb-3">
-                <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" class="form-control" required />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="ConfirmPassword" class="form-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" required />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            <!-- Register Button -->
+            <div class="register-buttons">
+                <button type="submit">Register</button>
+                <button type="button" onclick="location.href='@Url.Action("Register", "Account")'">Back</button>
             </div>
 
-            <input type="submit" value="Register" class="btn btn-success w-100 p-2" />
-            <p class="text-center mt-2">
-                Already have an account? <a asp-controller="Account" asp-action="Login" class="text-decoration-none">Login</a>
-            </p>
-            <div class="text-center">
-                <a asp-controller="Account" asp-action="Register" class="text-decoration-none mt-3">Back</a>
-            </div>
+            <!-- Additional Links -->
+            <p>Already have an account? <a asp-controller="Account" asp-action="Login">Login</a></p>
         </form>
     </div>
-</div>
+</body>
+</html>
+
+
+
 @section Scripts {
     <script>
         $(document).ready(function () {
             // Initially hide validation messages
             $("form span.text-danger").hide();
 
-
-            // Keep the error message visible until the input is focused
+            // Show validation message on blur if input is empty
             $("form input").on("focus", function () {
-                // Hide the error message for the focused input
                 $(this).siblings("span.text-danger").hide();
-            });
-
-            // Ensure the error message is visible after a failed validation
-            $("form input").on("blur", function () {
+            }).on("blur", function () {
                 if ($(this).val() === "") {
                     $(this).siblings("span.text-danger").show();
                 }
             });
+
+            // Show success message if it exists
+            var successMessage = '@ViewBag.SuccessMessage';
+            if (successMessage) {
+                $("#successMessage").show(); // Show the message
+                setTimeout(function () {
+                    $("#successMessage").fadeOut(); // Hide the message after 5 seconds
+                    // Redirect to the login page after fading out
+                    setTimeout(function () {
+                        window.location.href = '@Url.Action("Login", "Account")'; // Adjust according to your Login action
+                    }, 500); // Wait for the fade out animation to complete
+                }, 5000);
+            }
         });
     </script>
+}
+
 }

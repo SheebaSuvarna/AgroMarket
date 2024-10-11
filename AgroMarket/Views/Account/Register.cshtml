@@ -1,25 +1,137 @@
 ﻿@using AgroMarket.ViewModels;
 @model RegisterViewModel;
 
-
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
 }
 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('/images/newbgg.jpg'); /* Same background as login */
+            font-family: 'Roboto', sans-serif;
+            background-size: cover;
+            opacity: 0.8;
+        }
 
+        .container {
+            background: #4a5d23; /* Matches your existing background */
+            border-radius: 20px;
+            padding: 40px;
+            width: 400px; /* Adjust width as needed */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            margin-top: 40px; /* Space from the top of the body */
+            margin-bottom: 40px; /* Space from the bottom of the body */
+        }
 
-<div class="account-container">
-    <div class="account-box">
-        <h2 class="text-center mb-4">Register</h2>
-        <form asp-action="RegisterCustomer" method="post">
-            <button type="submit" class="btn btn-success w-100 p-2 mb-3">Register as a Customer</button>
-        </form>
-        <form asp-action="RegisterRetailor" method="post">
-            <button type="submit" class="btn btn-success w-100 p-2 mb-3">Register as a Retailor</button>
-        </form>
-        <div class="text-center">
-            <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Back</a>
-        </div>
+        h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 36px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: #f5a623; /* Button background color */
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%; /* Full width for button */
+            margin-top: 20px; /* Space above buttons */
+        }
+
+            .btn:hover {
+                background: #e0941d; /* Darker hover color */
+            }
+
+        .text-danger {
+            color: yellow; /* Ensure error messages are clearly visible */
+            margin-left: 0; /* Align with label */
+            position: absolute; /* Position below the input */
+            top: 100%; /* Position below the input */
+            left: 0; /* Align with input */
+            font-size: 12px; /* Adjust font size */
+            margin-top: 5px; /* Space above error message */
+        }
+
+        .text-decoration-none {
+            color: white; /* Ensures the link is readable */
+        }
+
+            .text-decoration-none:hover {
+                color: #f5a623; /* Change this to your desired hover color */
+                text-decoration: underline; /* Optional: add an underline on hover */
+            }
+
+        .account-box {
+            color: white; /* Ensures the text is readable */
+        }
+         /* Media Queries for Responsiveness */
+        @@media (max-width: 768px) {
+            h2 {
+                font-size: 28px; /* Smaller font size for tablets */
+            }
+
+            .container {
+                padding: 20px; /* Reduce padding on smaller screens */
+            }
+        }
+
+        @@media (max-width: 480px) {
+            h2 {
+                font-size: 24px; /* Smaller font size for mobile */
+            }
+
+            .btn {
+                font-size: 14px; /* Smaller button text */
+            }
+
+            .container {
+                width: 95%; /* Slightly wider on very small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+         
+            <h2 class="text-center mb-4">Register</h2>
+            <form asp-action="RegisterCustomer" method="post">
+                <input type="submit" value="Register as a Customer" class="btn mb-3" />
+            </form>
+            <form asp-action="RegisterRetailor" method="post">
+                <input type="submit" value="Register as a Retailor" class="btn mb-3" />
+            </form>
+            <div class="text-center">
+                <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Back</a>
+            </div>
+       
     </div>
-</div>
+
+</body>
+</html>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // You can add any additional JavaScript if needed
+        });
+    </script>
+}

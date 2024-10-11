@@ -232,7 +232,10 @@ namespace AgroMarket.Controllers
                 await _emailService.SendEmailAsync(model.Email, subject, message);
 
                 // Redirect to login or another page
-                return RedirectToAction("Login");
+                ViewBag.SuccessMessage = "Registration successful! Please check your email for verification.";
+
+                // Redirect to the Register page or any other page
+                return View("RegisterCustomer", model);
             }
 
             return View(model); // Return the view with validation errors
