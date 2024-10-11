@@ -24,21 +24,35 @@ else
             {
                 var item = Model.CartItems[i];
                 var total = @item.Quantity * @item.Price;
+                var quantity = item.Quantity;
                 <tr>
                     <td>@(i + 1)</td> <!-- Display the item number -->
                     <td>
-@*                         <img src="@item.ImageUrl" alt="@item.ProductName" style="width: 50px; height: 50px;" />
- *@                        @item.ProductName
+                        <!-- Image and Product Name -->
+                        @item.ProductName
                     </td>
                     <td>@item.Price.ToString("C")</td>
                     <td>
                         <form asp-controller="Cart" asp-action="UpdateQuantity" method="post" style="display:inline;">
                             <input type="hidden" name="productId" value="@item.ProductID" />
-                            <input type="number" name="quantity" value="@item.Quantity" min="1" />
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+
+                                <!-- Quantity Controls -->
+                                <div class="input-group" style="width: 150px;">
+                                    <!-- Decrement Button -->
+                                    <button type="button" class="btn btn-outline-secondary px-3" onclick="decrementQuantity(this)">-</button>
+
+                                    <!-- Quantity Input -->
+                                    <input type="number" name="quantity" class="form-control text-center mx-2" value="@quantity" min="1" max="@item.StockQuantity" />
+
+                                    <!-- Increment Button -->
+                                    <button type="button" class="btn btn-outline-secondary px-3" onclick="incrementQuantity(this)">+</button>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-secondary">Update</button>
                         </form>
                     </td>
-                    
+
                     <td>@total.ToString("C")</td>
                     <td>
                         <form asp-controller="Cart" asp-action="Delete" method="post" style="display:inline;">
@@ -57,4 +71,65 @@ else
     <form asp-controller="Order" asp-action="CreateOrder" method="post">
         <button type="submit" class="btn btn-success">Order Now</button>
     </form>
+
+    <!-- JavaScript for Increment/Decrement -->
+    <script>
+
+        function incrementQuantity(button) {
+            var input = button.parentNode.querySelector('input[name="quantity"]');
+            var max = parseInt(input.max);
+            var value = parseInt(input.value);
+
+            if (value < max) {
+                input.value = value + 1;
+            }
+
+            // Enable/disable buttons based on quantity
+            toggleButtonState(button.parentNode);
+        }
+
+        function decrementQuantity(button) {
+            var input = button.parentNode.querySelector('input[name="quantity"]');
+            var min = parseInt(input.min);
+            var value = parseInt(input.value);
+
+            if (value > min) {
+                input.value = value - 1;
+            }
+
+            // Enable/disable buttons based on quantity
+            toggleButtonState(button.parentNode);
+        }
+
+        function toggleButtonState(container) {
+            var input = container.querySelector('input[name="quantity"]');
+            var decrementBtn = container.querySelector('button:first-child');
+            var incrementBtn = container.querySelector('button:last-child');
+
+            var min = parseInt(input.min);
+            var max = parseInt(input.max);
+            var value = parseInt(input.value);
+
+            // Disable decrement button if value reaches min
+            if (value <= min) {
+                decrementBtn.disabled = true;
+            } else {
+                decrementBtn.disabled = false;
+            }
+
+            // Disable increment button if value reaches max
+            if (value >= max) {
+                incrementBtn.disabled = true;
+            } else {
+                incrementBtn.disabled = false;
+            }
+        }
+
+        // Initialize the button states on page load
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.input-group').forEach(function (container) {
+                toggleButtonState(container);
+            });
+        });
+    </script>
 }
