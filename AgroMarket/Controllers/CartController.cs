@@ -41,9 +41,12 @@ namespace AgroMarket.Controllers
                     ProductName = c.Product.ProductName,
                     Price = c.Product.Price,
                     Quantity = c.Quantity,
-                   // ImageUrl = c.Product.ImageUrl // Optional
+                    // ImageUrl = c.Product.ImageUrl // Optional
+                    StockQuantity = c.Product.StockQuantity
+
+
                 }).ToList(),
-                TotalAmount = cartItems.Sum(c => c.Quantity * c.Product.Price)
+                TotalAmount = cartItems.Sum(c => c.Quantity * c.Product.Price),
             };
 
             return View(viewModel);

@@ -1,96 +1,4 @@
-﻿@* @model AgroMarket.Models.Entities.Product
-
-<div class="product-page-container">
-    <div class="product-details-box">
-        <h2 class="text-center my-4">@Model.ProductName</h2>
-
-        <div class="row">
-            <div class="col-md-6">
-                <img src="@Model.ImageUrl" class="img-fluid product-image" alt="@Model.ProductName" />
-            </div>
-            <div class="col-md-6">
-                <h6>About Product</h6>
-                <p>@Model.Description</p>
-
-                <h4>Price: @Model.Price.ToString("C")</h4>
-                <h6>Available: @Model.StockQuantity</h6> *@
-                <!-- Display Average Rating with Stars -->
-                @* @{
-                    var averageRating = ViewBag.AverageRating;
-                }
-                <div class="rating-stars mb-3">
-                    @for (int i = 1; i <= 5; i++)
-                    {
-                        if (i <= Math.Floor(averageRating))
-                        {
-                            <i class="fas fa-star" style="color: #ffc107;"></i> <!-- Full Star -->
-                        }
-                        else if (i == Math.Ceiling(averageRating))
-                        {
-                            <i class="fas fa-star-half-alt" style="color: #ffc107;"></i> <!-- Half Star -->
-                        }
-                        else
-                        {
-                            <i class="far fa-star" style="color: #ffc107;"></i> <!-- Empty Star -->
-                        }
-                    }
-                    <span class="ml-2">(@averageRating.ToString("F1"))</span>
-                </div> *@
-                <!-- Display average rating -->
-                
-               @*  <div>
-                    <!-- Display stars using Font Awesome -->
-                    @for (int i = 1; i <= 5; i++)
-                    {
-                        if (i <= Math.Floor((double)ViewBag.AverageRating))
-                        {
-                            <i class="fas fa-star" style="color: #ffc107;"></i>  <!-- Full Star -->
-                        }
-                        else if (i == Math.Ceiling((double)ViewBag.AverageRating))
-                        {
-                            <i class="fas fa-star-half-alt" style="color: #ffc107;"></i>  <!-- Half Star -->
-                        }
-                        else
-                        {
-                            <i class="far fa-star" style="color: #ffc107;"></i>  <!-- Empty Star -->
-                        }
-                    }
-                    @ViewBag.AverageRating
-                </div> *@
-
-                @* <h3>Retailer Information</h3>
-                <p><strong>Name:</strong> @Model.Retailer.FirstName @Model.Retailer.LastName</p>
-                <p><strong>Farm:</strong> @Model.Retailer.FarmName</p>
-                <p><strong>Contact:</strong> @Model.Retailer.PhoneNumber</p>
-                <p><strong>Email:</strong> @Model.Retailer.Email</p>
-
-                @Html.Partial("_QuantityControlAndAddToCart", Model)
-
-                <a href="@Url.Action("Index", "Customer")" class="btn btn-success mt-3">Go Back to Store</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Customer Reviews -->
-    <div class="reviews-container mt-5">
-        <h3>Customer Reviews</h3>
-        @if (Model.Review != null && Model.Review.Any())
-        {
-            foreach (var review in Model.Review)
-            {
-                <div class="review-box border p-3 mb-3">
-                    <h5>@review.Rating out of 5</h5>
-                    <p>@review.Comment</p>
-                    <small>Reviewed on: @review.CreatedAt.ToShortDateString()</small>
-                </div>
-            }
-        }
-        else
-        {
-            <p>No reviews available for this product yet.</p>
-        }
-    </div>
-</div> *@
+﻿
 @model AgroMarket.Models.Entities.Product
 
 <div class="product-page-container">
@@ -131,6 +39,21 @@
             {
                 <div class="review-box border p-3 mb-3">
                     <h5>@review.Rating out of 5</h5>
+                    <div class="rating-stars mb-3">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= @review.Rating)
+                            {
+                                <i class="fas fa-star" style="color: #ffc107;"></i> <!-- Full Star -->
+                            }
+                            
+                            else
+                            {
+                                <i class="far fa-star" style="color: #ffc107;"></i> <!-- Empty Star -->
+                            }
+                        }
+                        
+                    </div>
                     <p>@review.Comment</p>
                     <small>Reviewed on: @review.CreatedAt.ToShortDateString()</small>
                 </div>

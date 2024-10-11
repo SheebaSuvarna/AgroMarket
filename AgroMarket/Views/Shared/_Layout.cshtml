@@ -1,60 +1,116 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]  AgroMarket</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/AgroMarket.styles.css" asp-append-version="true" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f0e6;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; /* Prevent the whole page from scrolling */
+        }
+
+        /* Fix the header (navbar) at the top */
+        .navbar {
+            background-color: #4a5d23;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 20px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+            .navbar .logo {
+                color: #fff;
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            .navbar .cta {
+                background-color: #f5a623;
+                color: #fff;
+                padding: 10px 20px;
+                border-radius: 20px;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+        /* Main content wrapper */
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding-top: 10px; /* To prevent overlap with the navbar */
+        }
+
+        /* Main content area and footer should scroll */
+        .scrollable-content {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        /* Footer styles */
+        .footer {
+            
+            background-color: #f5f0e6;
+            text-align: center;
+            border-top: 1px solid #ccc;
+            padding-bottom: 40px;
+        }
+    </style>
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Customer" asp-action="Index">AgroMarket</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart</a>
-                        </li>       
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="CustomerAuth" asp-action="Logout">LogOut</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                        </li>
-                    </ul>
+    <!-- Header section (navbar) -->
+    <div class="navbar">
+        <div class="logo">AgroMarket</div>
 
-
-
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <!-- Login/Register Button and Cart Icon -->
+        <div style="display: flex; align-items: center; margin-left: 20px;">
+            <a class="cta" asp-controller="Account" asp-action="Login">Login/Register</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="CustomerAuth" asp-action="Logout">LogOut</a>
+            <a class="text-white" style="margin-left: 20px;" asp-controller="Cart" asp-action="Index">
+                <i class="fas fa-shopping-cart" style="font-size: 24px;"></i>
+            </a>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - AgroMarket - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!-- Main content and footer wrapped for scrolling -->
+    <div class="content-wrapper">
+        <div class="scrollable-content">
+            <!-- Main content section -->
+            <div class="container">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+
+            <!-- Footer section -->
+            <footer class="footer">
+                <div class="container">
+                    &copy; 2024 - AgroMarket - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+            </footer>
         </div>
-    </footer>
+    </div>
+
+    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -65,4 +121,5 @@
     @await RenderSectionAsync("Scripts", required: false)
     @RenderSection("Styles", required: false)
 </body>
+
 </html>

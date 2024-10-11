@@ -12,6 +12,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AgroMarket.Controllers
 {
@@ -26,15 +27,64 @@ namespace AgroMarket.Controllers
         }
 
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchTerm, string sortOrder, string categoryID)
         {
             var products = await _context.Products
-                .Include(p => p.Review) // Include reviews for each product
+                .Include(p => p.Review)
+                .Include(p => p.ProductCategory) // Include related product categories
+                .ThenInclude(pc => pc.Category) // Include categories of the product
                 .ToListAsync();
+
+            // If there's a search term, filter products by product name
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                products = products
+                    .Where(p => p.ProductName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            string categoryName = null; // Initialize categoryName to null
+
+            // If a category ID is provided, retrieve the corresponding category name
+            /*if (categoryID.HasValue)
+            {
+                var category = await _context.Categories
+                    .FirstOrDefaultAsync(c => c.CategoryID == categoryID.Value);
+
+                if (category != null)
+                {
+                    categoryName = category.CategoryName; // Get the category name
+                }
+            }*/
+            Console.WriteLine(categoryID + "......................");
+            // If a category name is found, filter by category name
+            if (!string.IsNullOrEmpty(categoryName))
+            {
+                products = products
+                    .Where(p => p.ProductCategory.Any(pc => pc.Category.CategoryName == categoryName))
+                    .ToList();
+            }
+
+            // Sorting logic
+            switch (sortOrder)
+            {
+                case "price_low_high":
+                    products = products.OrderBy(p => p.Price).ToList();
+                    break;
+                case "price_high_low":
+                    products = products.OrderByDescending(p => p.Price).ToList();
+                    break;
+                case "newest":
+                    products = products.OrderByDescending(p => p.CreatedAt).ToList();
+                    break;
+                case "popularity":
+                default:
+                    products = products.OrderByDescending(p => p.Review.Count).ToList();
+                    break;
+            }
 
             // Dictionary to store product ID and corresponding average rating
             var productRatings = new Dictionary<Guid, double>();
-
             foreach (var product in products)
             {
                 double averageRating = 0;
@@ -42,19 +92,25 @@ namespace AgroMarket.Controllers
                 {
                     averageRating = product.Review.Average(r => r.Rating);
                 }
-
-                // Store average rating in the dictionary
                 productRatings[product.ProductID] = averageRating;
             }
 
-            // Pass the ratings to the view using ViewBag
+            // Create the SelectList for categories
+            ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "CategoryID", "CategoryName");
+
+            // Pass the sort order, search term, category, and ratings to the view using ViewBag
             ViewBag.AverageRating = productRatings;
+            ViewBag.SearchTerm = searchTerm;
+            ViewBag.SortOrder = sortOrder;
+            ViewBag.CategoryName = categoryName; // Pass the selected category name
+
             return View(new CustomerDashboardViewModel
             {
-                
                 Products = products
             });
         }
+
+
         [Authorize]
         public async Task<IActionResult> Dashboard()
         {
