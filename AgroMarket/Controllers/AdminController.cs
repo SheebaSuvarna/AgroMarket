@@ -3,6 +3,8 @@ using AgroMarket.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Dynamic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AgroMarket.Controllers
 {
@@ -16,46 +18,48 @@ namespace AgroMarket.Controllers
             _context = context;
         }
 
-        // Admin Dashboard
+        // Admin Dashboard (async)
         [HttpGet]
         [Route("dashboard")]
-        public IActionResult Dashboard(string activeTab = "customers")  // default tab is "customers"
+        public async Task<IActionResult> Dashboard(string activeTab = "customers")  // default tab is "customers"
         {
-            // Fetch customers, retailers, products, categories, reviews, and orders
-            var customers = _context.Customers.ToList();
-            var retailers = _context.Retailers.ToList();
-            var products = _context.Products.ToList();
-            var categories = _context.Categories.ToList();
-            var reviews = _context.Reviews.Include(r => r.Product).Include(r => r.Customer).ToList();
-            var orders = _context.Orders
-                                 .Include(o => o.Customer)        // Include Customer related to the order
-                                 .Include(o => o.OrderItem)       // Include Order Items
-                                    .ThenInclude(oi => oi.Product) // Include Product within Order Items
-                                 .ToList();  // Fetch Orders with Order Items and Product info
+            // Fetch customers, retailers, products, categories, reviews, and orders asynchronously
+            var customers = await _context.Customers.ToListAsync();
+            var retailers = await _context.Retailers.ToListAsync();
+            var products = await _context.Products.ToListAsync();
+            var categories = await _context.Categories.ToListAsync();
+            var reviews = await _context.Reviews
+                                        .Include(r => r.Product)
+                                        .Include(r => r.Customer)
+                                        .ToListAsync();
+            var orders = await _context.Orders
+                                        .Include(o => o.Customer)        // Include Customer related to the order
+                                        .Include(o => o.OrderItem)       // Include Order Items
+                                            .ThenInclude(oi => oi.Product) // Include Product within Order Items
+                                        .ToListAsync();  // Fetch Orders with Order Items and Product info
 
             // Prepare data for analytics
             var productLabels = products.Select(p => p.ProductName).ToList();
             var productQuantities = products.Select(p => p.StockQuantity).ToList();
 
-            // Prepare monthly sales data
+            // Prepare monthly sales data asynchronously
             var salesData = orders
-               .GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month })
-               .Select(g => new
-               {
-                   Month = new DateTime(g.Key.Year, g.Key.Month, 1),
-                   TotalSales = g.Sum(o => o.TotalAmount)
-               })
-               .OrderBy(s => s.Month) // Correctly order by DateTime
-               .Select(s => new
-               {
-                   Month = s.Month.ToString("MMM yyyy"),
-                   TotalSales = s.TotalSales
-               })
-               .ToList();
+                .GroupBy(o => o.OrderDate.Date)  // Group by day instead of month
+                .Select(g => new
+                {
+                    Date = g.Key,
+                    TotalSales = g.Sum(o => o.TotalAmount)
+                })
+                .OrderBy(s => s.Date) // Correctly order by Date
+                .Select(s => new
+                {
+                    Date = s.Date.ToString("dd MMM yyyy"),  // Format as "Day Month Year"
+                    TotalSales = s.TotalSales
+                })
+                .ToList();
 
-
-            var salesLabels = salesData.Select(s => s.Month).ToList();
-            var monthlySales = salesData.Select(s => s.TotalSales).ToList();
+            var salesLabels = salesData.Select(s => s.Date).ToList();
+            var dailySales = salesData.Select(s => s.TotalSales).ToList();
 
             // Create a dynamic object to pass to the view
             dynamic model = new ExpandoObject();
@@ -71,38 +75,37 @@ namespace AgroMarket.Controllers
             model.ProductLabels = productLabels;
             model.ProductQuantities = productQuantities;
             model.SalesLabels = salesLabels;
-            model.MonthlySales = monthlySales;
+            model.DailySales = dailySales;
 
             return View(model);  // Pass the model to the view
         }
-
-
+/*
         // User Management: Monitor and manage actions taken by Customers and Retailers
         [HttpGet]
         [Route("users")]
-        public IActionResult ManageUsers()
+        public async Task<IActionResult> ManageUsers()
         {
-            var customers = _context.Customers.ToList();
-            var retailers = _context.Retailers.ToList();
+            var customers = await _context.Customers.ToListAsync();
+            var retailers = await _context.Retailers.ToListAsync();
 
             return View(new { Customers = customers, Retailers = retailers });
-        }
+        }*/
 
         // Produce Management: View all produce listings
-        [HttpGet]
+/*        [HttpGet]
         [Route("products")]
-        public IActionResult ManageProduce()
+        public async Task<IActionResult> ManageProduce()
         {
-            var products = _context.Products.Include(p => p.Retailer).ToList();
+            var products = await _context.Products.Include(p => p.Retailer).ToListAsync();
             return View(products);
-        }
+        }*/
 
-        // Edit product
+        // Edit product (GET)
         [HttpGet]
         [Route("edit-product/{id}")]
-        public IActionResult EditProduct(Guid id)
+        public async Task<IActionResult> EditProduct(Guid id)
         {
-            var product = _context.Products.Find(id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -110,11 +113,12 @@ namespace AgroMarket.Controllers
             return View(product);
         }
 
+        // Edit product (POST)
         [HttpPost]
         [Route("edit-product/{id}")]
-        public IActionResult EditProduct(Guid id, Product updatedProduct)
+        public async Task<IActionResult> EditProduct(Guid id, Product updatedProduct)
         {
-            var product = _context.Products.Find(id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -127,7 +131,7 @@ namespace AgroMarket.Controllers
             product.UpdatedAt = DateTime.Now;
 
             _context.Products.Update(product);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Dashboard", new { activeTab = "products" });
         }
@@ -135,16 +139,16 @@ namespace AgroMarket.Controllers
         // Delete product
         [HttpPost]
         [Route("delete-product/{id}")]
-        public IActionResult DeleteProduct(Guid id)
+        public async Task<IActionResult> DeleteProduct(Guid id)
         {
-            var product = _context.Products.Find(id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
 
             _context.Products.Remove(product);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Dashboard", new { activeTab = "products" });
         }
@@ -152,18 +156,18 @@ namespace AgroMarket.Controllers
         // Review Management: Approve or delete reviews
         [HttpGet]
         [Route("reviews")]
-        public IActionResult ManageReviews()
+        public async Task<IActionResult> ManageReviews()
         {
-            var reviews = _context.Reviews.Include(r => r.Product).Include(r => r.Customer).ToList();
+            var reviews = await _context.Reviews.Include(r => r.Product).Include(r => r.Customer).ToListAsync();
             return View(reviews);
         }
 
         // Approve review
         [HttpPost]
         [Route("approve-review/{id}")]
-        public IActionResult ApproveReview(Guid id)
+        public async Task<IActionResult> ApproveReview(Guid id)
         {
-            var review = _context.Reviews.Find(id);
+            var review = await _context.Reviews.FindAsync(id);
             if (review == null)
             {
                 return NotFound();
@@ -172,7 +176,7 @@ namespace AgroMarket.Controllers
             review.Approved = true;  // Assuming an 'Approved' field
 
             _context.Reviews.Update(review);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Dashboard", new { activeTab = "reviews" });
         }
@@ -180,26 +184,26 @@ namespace AgroMarket.Controllers
         // Delete review
         [HttpPost]
         [Route("delete-review/{id}")]
-        public IActionResult DeleteReview(Guid id)
+        public async Task<IActionResult> DeleteReview(Guid id)
         {
-            var review = _context.Reviews.Find(id);
+            var review = await _context.Reviews.FindAsync(id);
             if (review == null)
             {
                 return NotFound();
             }
 
             _context.Reviews.Remove(review);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Dashboard", new { activeTab = "reviews" });
         }
 
-        // Edit User
+        // Edit User (GET)
         [HttpGet]
         [Route("edit-user/{id}")]
-        public IActionResult EditUser(Guid id)
+        public async Task<IActionResult> EditUser(Guid id)
         {
-            var customer = _context.Customers.Find(id);
+            var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
             {
                 return NotFound();
@@ -207,11 +211,12 @@ namespace AgroMarket.Controllers
             return View(customer);
         }
 
+        // Edit User (POST)
         [HttpPost]
         [Route("edit-user/{id}")]
-        public IActionResult EditUser(Guid id, Customer updatedCustomer)
+        public async Task<IActionResult> EditUser(Guid id, Customer updatedCustomer)
         {
-            var customer = _context.Customers.Find(id);
+            var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
             {
                 return NotFound();
@@ -223,7 +228,7 @@ namespace AgroMarket.Controllers
             customer.UpdatedAt = DateTime.Now;
 
             _context.Customers.Update(customer);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Dashboard");
         }
@@ -231,26 +236,26 @@ namespace AgroMarket.Controllers
         // Delete User
         [HttpPost]
         [Route("delete-user/{id}")]
-        public IActionResult DeleteUser(Guid id)
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
-            var customer = _context.Customers.Find(id);
+            var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
             {
                 return NotFound();
             }
 
             _context.Customers.Remove(customer);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Dashboard");
         }
 
-        // Edit Retailer
+        // Edit Retailer (GET)
         [HttpGet]
         [Route("edit-retailer/{id}")]
-        public IActionResult EditRetailer(Guid id)
+        public async Task<IActionResult> EditRetailer(Guid id)
         {
-            var retailer = _context.Retailers.Find(id);
+            var retailer = await _context.Retailers.FindAsync(id);
             if (retailer == null)
             {
                 return NotFound();
@@ -258,11 +263,12 @@ namespace AgroMarket.Controllers
             return View(retailer);
         }
 
+        // Edit Retailer (POST)
         [HttpPost]
         [Route("edit-retailer/{id}")]
-        public IActionResult EditRetailer(Guid id, Retailer updatedRetailer)
+        public async Task<IActionResult> EditRetailer(Guid id, Retailer updatedRetailer)
         {
-            var retailer = _context.Retailers.Find(id);
+            var retailer = await _context.Retailers.FindAsync(id);
             if (retailer == null)
             {
                 return NotFound();
@@ -275,7 +281,7 @@ namespace AgroMarket.Controllers
             retailer.UpdatedAt = DateTime.Now;
 
             _context.Retailers.Update(retailer);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Dashboard", new { activeTab = "retailers" });
         }
@@ -283,16 +289,16 @@ namespace AgroMarket.Controllers
         // Delete Retailer
         [HttpPost]
         [Route("delete-retailer/{id}")]
-        public IActionResult DeleteRetailer(Guid id)
+        public async Task<IActionResult> DeleteRetailer(Guid id)
         {
-            var retailer = _context.Retailers.Find(id);
+            var retailer = await _context.Retailers.FindAsync(id);
             if (retailer == null)
             {
                 return NotFound();
             }
 
             _context.Retailers.Remove(retailer);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Dashboard", new { activeTab = "retailers" });
         }
@@ -309,13 +315,13 @@ namespace AgroMarket.Controllers
         // Create new category (POST)
         [HttpPost]
         [Route("create-category")]
-        public IActionResult CreateCategory(Category category)
+        public async Task<IActionResult> CreateCategory(Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Categories.Add(category);
-                _context.SaveChanges();
-                return RedirectToAction("Dashboard", new { activeTab = "categories" });  // Redirect to categories tab
+                await _context.Categories.AddAsync(category);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Dashboard", new { activeTab = "categories" });
             }
             return View(category);
         }
@@ -323,9 +329,9 @@ namespace AgroMarket.Controllers
         // Edit category (GET)
         [HttpGet]
         [Route("edit-category/{id}")]
-        public IActionResult EditCategory(Guid id)
+        public async Task<IActionResult> EditCategory(Guid id)
         {
-            var category = _context.Categories.Find(id);
+            var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
@@ -336,9 +342,9 @@ namespace AgroMarket.Controllers
         // Edit category (POST)
         [HttpPost]
         [Route("edit-category/{id}")]
-        public IActionResult EditCategory(Guid id, Category updatedCategory)
+        public async Task<IActionResult> EditCategory(Guid id, Category updatedCategory)
         {
-            var category = _context.Categories.Find(id);
+            var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
@@ -348,7 +354,7 @@ namespace AgroMarket.Controllers
             category.Description = updatedCategory.Description;
 
             _context.Categories.Update(category);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Dashboard", new { activeTab = "categories" });
         }
@@ -356,16 +362,16 @@ namespace AgroMarket.Controllers
         // Delete category
         [HttpPost]
         [Route("delete-category/{id}")]
-        public IActionResult DeleteCategory(Guid id)
+        public async Task<IActionResult> DeleteCategory(Guid id)
         {
-            var category = _context.Categories.Find(id);
+            var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
             }
 
             _context.Categories.Remove(category);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Dashboard", new { activeTab = "categories" });
         }
@@ -373,77 +379,72 @@ namespace AgroMarket.Controllers
         // Order Management: View all order details
         [HttpGet]
         [Route("orders")]
-        public IActionResult ManageOrders()
+        public async Task<IActionResult> ManageOrders()
         {
-            var orders = _context.Orders
-                                 .Include(o => o.Customer)
-                                 .Include(o => o.OrderItem)
-                                     .ThenInclude(oi => oi.Product)
-                                 .ToList();
+            var orders = await _context.Orders
+                                        .Include(o => o.Customer)
+                                        .Include(o => o.OrderItem).ThenInclude(oi => oi.Product)
+                                        .ToListAsync();
 
-            return View(orders);  // Pass the orders data to the view
+            return View(orders); // Pass the orders data to the view
         }
-
 
         // Edit Order (GET)
         [HttpGet]
         [Route("edit-order/{id}")]
-        public IActionResult EditOrder(Guid id)
+        public async Task<IActionResult> EditOrder(Guid id)
         {
-            var order = _context.Orders
-                                .Include(o => o.Customer)
-                                .Include(o => o.OrderItem)
-                                    .ThenInclude(oi => oi.Product)
-                                .FirstOrDefault(o => o.OrderID == id);
+            var order = await _context.Orders
+                                      .Include(o => o.Customer)
+                                      .Include(o => o.OrderItem).ThenInclude(oi => oi.Product)
+                                      .FirstOrDefaultAsync(o => o.OrderID == id);
 
             if (order == null)
             {
-                return NotFound();  // Order not found
+                return NotFound(); // Order not found
             }
 
-            return View(order);  // Pass the order to the view
+            return View(order); // Pass the order to the view
         }
 
         // Edit Order (POST)
         [HttpPost]
         [Route("edit-order/{id}")]
-        public IActionResult EditOrder(Guid id, Order updatedOrder)
+        public async Task<IActionResult> EditOrder(Guid id, Order updatedOrder)
         {
-            var order = _context.Orders.Find(id);
+            var order = await _context.Orders.FindAsync(id);
 
             if (order == null)
             {
-                return NotFound();  // Order not found
+                return NotFound(); // Order not found
             }
 
-            // Update order properties
             order.ShippingAddress = updatedOrder.ShippingAddress;
             order.Status = updatedOrder.Status;
             order.TotalAmount = updatedOrder.TotalAmount;
 
-            _context.Orders.Update(order);  // Update the order in the database
-            _context.SaveChanges();  // Save changes
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
 
-            return RedirectToAction("Dashboard", new { activeTab = "orders" });  // Redirect to the orders management page
+            return RedirectToAction("Dashboard", new { activeTab = "orders" });
         }
 
         // Delete Order
         [HttpPost]
         [Route("delete-order/{id}")]
-        public IActionResult DeleteOrder(Guid id)
+        public async Task<IActionResult> DeleteOrder(Guid id)
         {
-            var order = _context.Orders.Find(id);
+            var order = await _context.Orders.FindAsync(id);
 
             if (order == null)
             {
-                return NotFound();  // Order not found
+                return NotFound(); // Order not found
             }
 
-            _context.Orders.Remove(order);  // Remove the order from the database
-            _context.SaveChanges();  // Save changes
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
 
-            return RedirectToAction("Dashboard", new { activeTab = "orders" });  // Redirect to the orders management page
+            return RedirectToAction("Dashboard", new { activeTab = "orders" });
         }
-
     }
 }

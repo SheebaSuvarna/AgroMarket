@@ -1,0 +1,189 @@
+﻿@model AgroMarket.Models.AdminLoginModel
+
+@{
+    Layout = null; 
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <style media="screen">
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #080710; /* Dark background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Poppins', sans-serif; /* Poppins font */
+        }
+
+        .background {
+            width: 430px;
+            height: 520px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            top: 50%;
+        }
+
+            .background .shape {
+                height: 200px;
+                width: 200px;
+                position: absolute;
+                border-radius: 50%;
+            }
+
+        .shape:first-child {
+            background: linear-gradient(#1845ad, #23a2f6);
+            left: -80px;
+            top: -80px;
+        }
+
+        .shape:last-child {
+            background: linear-gradient(to right, #ff512f, #f09819);
+            right: -30px;
+            bottom: -80px;
+        }
+
+        .login-container {
+            width: 400px;
+            background-color: rgba(255, 255, 255, 0.13);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+            padding: 50px 35px;
+            position: relative; /* Add relative positioning */
+        }
+
+        h2 {
+            text-align: center;
+            color: #ffffff; /* White color for heading */
+            font-size: 32px; /* Font size for heading */
+            font-weight: 500; /* Font weight for heading */
+            line-height: 42px; /* Line height for heading */
+        }
+
+        .form-group {
+            margin-top: 30px; /* Space between form groups */
+        }
+
+        label {
+            display: block; /* Block display for labels */
+            margin-bottom: 0.5rem; /* Space below labels */
+            color: #e5e5e5; /* Light color for labels */
+            font-size: 16px; /* Font size for labels */
+        }
+
+        .form-input {
+            display: block;
+            height: 50px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 300;
+            color: #ffffff; /* White text color for inputs */
+        }
+
+            .form-input::placeholder {
+                color: #e5e5e5; /* Placeholder color */
+            }
+
+            .form-input:focus {
+                border-color: #007bff; /* Change border color on focus */
+                outline: none; /* Remove outline */
+            }
+
+        .error-message {
+            color: #ff0000; /* Red color for error messages */
+            font-size: 0.875rem; /* Smaller font for error messages */
+        }
+
+        .login-button {
+            margin-top: 50px; /* Space above button */
+            width: 100%;
+            background-color: #ffffff; /* White button background */
+            color: #080710; /* Dark text color */
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        }
+
+            .login-button:hover {
+                background-color: #f0f0f0; /* Light gray on hover */
+            }
+
+        .social {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center; /* Center social buttons */
+        }
+
+            .social div {
+                background: rgba(255, 255, 255, 0.27);
+                border-radius: 3px;
+                padding: 5px 10px 10px 5px;
+                color: #eaf0fb; /* Light color for social buttons */
+                text-align: center;
+                margin-left: 10px; /* Space between social buttons */
+                cursor: pointer; /* Pointer cursor on hover */
+            }
+
+                .social div:hover {
+                    background-color: rgba(255, 255, 255, 0.47); /* Change background color on hover */
+                }
+
+            .social i {
+                margin-right: 4px; /* Space between icon and text */
+            }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form asp-action="Login" method="post">
+            <div class="form-group">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="form-input" placeholder="Email or Phone" />
+                <span asp-validation-for="Username" class="error-message"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-input" type="password" placeholder="Password" />
+                <span asp-validation-for="Password" class="error-message"></span>
+            </div>
+            <button type="submit" class="login-button">Login</button>
+        </form>
+
+    </div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
+</html>
