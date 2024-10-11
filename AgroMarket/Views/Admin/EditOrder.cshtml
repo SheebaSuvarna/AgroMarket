@@ -1,53 +1,162 @@
 ﻿@model AgroMarket.Models.Entities.Order
 
-@{
-    ViewBag.Title = "Edit Order";
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Order</title>
 
-<h2>Edit Order</h2>
+    <style>
+        /* General styling for the form container */
+        .order-form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-<form asp-action="EditOrder" asp-route-id="@Model.OrderID" method="post">
-    <div class="form-group">
-        <label asp-for="Customer.FirstName">Customer Name</label>
-        <input type="text" class="form-control" value="@Model.Customer.FirstName @Model.Customer.LastName" readonly />
-    </div>
+        /* Form-specific styles */
+        .order-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
 
-    <div class="form-group">
-        <label asp-for="ShippingAddress">Shipping Address</label>
-        <textarea asp-for="ShippingAddress" class="form-control"></textarea>
-        <span asp-validation-for="ShippingAddress" class="text-danger"></span>
-    </div>
+        /* Input, textarea, and select styling */
+        .form-control {
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #fefefe;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
 
-    <div class="form-group">
-        <label asp-for="Status">Order Status</label>
-        <select asp-for="Status" class="form-control">
-            <option value="Pending" selected="@Model.Status == " Pending"">Pending</option>
-            <option value="Processing" selected="@Model.Status == " Processing"">Processing</option>
-            <option value="Shipped" selected="@Model.Status == " Shipped"">Shipped</option>
-            <option value="Delivered" selected="@Model.Status == " Delivered"">Delivered</option>
-            <option value="Cancelled" selected="@Model.Status == " Cancelled"">Cancelled</option>
-        </select>
-        <span asp-validation-for="Status" class="text-danger"></span>
-    </div>
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
 
-    <div class="form-group">
-        <label asp-for="TotalAmount">Total Amount</label>
-        <input asp-for="TotalAmount" class="form-control" />
-        <span asp-validation-for="TotalAmount" class="text-danger"></span>
-    </div>
+        /* Label styling */
+        label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
 
-    <div class="form-group">
-        <label>Products in Order</label>
-        <ul class="list-group">
-            @foreach (var item in Model.OrderItem)
-            {
-                <li class="list-group-item">
-                    @item.Product.ProductName - Quantity: @item.Quantity
-                </li>
+        /* Button styling */
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 10px 20px;
+            font-size: 16px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 86, 179, 0.2);
+        }
+
+        .btn-secondary {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        /* List group styling */
+        .list-group-item {
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        /* Heading styling */
+        h2 {
+            font-size: 1.75rem;
+            color: #343a40;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Validation message styling */
+        .text-danger {
+            color: #dc3545;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive styling */
+        @@media (max-width: 768px) {
+            .order-form-container {
+                padding: 15px;
             }
-        </ul>
+
+            .order-form {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Edit Order</h2>
+
+    <div class="order-form-container">
+        <form asp-action="EditOrder" asp-route-id="@Model.OrderID" method="post" class="order-form shadow-lg p-4 rounded">
+            <div class="form-group">
+                <label asp-for="Customer.FirstName">Customer Name</label>
+                <input type="text" class="form-control" value="@Model.Customer.FirstName @Model.Customer.LastName" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ShippingAddress">Shipping Address</label>
+                <textarea asp-for="ShippingAddress" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status">Order Status</label>
+                <select asp-for="Status" class="form-control">
+                    <option value="Pending" selected="@Model.Status == " Pending"">Pending</option>
+                    <option value="Processing" selected="@Model.Status == " Processing"">Processing</option>
+                    <option value="Shipped" selected="@Model.Status == " Shipped"">Shipped</option>
+                    <option value="Delivered" selected="@Model.Status == " Delivered"">Delivered</option>
+                    <option value="Cancelled" selected="@Model.Status == " Cancelled"">Cancelled</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TotalAmount">Total Amount</label>
+                <input asp-for="TotalAmount" class="form-control" />
+                <span asp-validation-for="TotalAmount" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Products in Order</label>
+                <ul class="list-group">
+                    @foreach (var item in Model.OrderItem)
+                    {
+                        <li class="list-group-item">
+                            @item.Product.ProductName - Quantity: @item.Quantity
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a asp-action="Dashboard" asp-route-activeTab="orders" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-    <a asp-action="Dashboard" asp-route-activeTab="orders" class="btn btn-secondary">Cancel</a>
-</form>
+</body>
+</html>

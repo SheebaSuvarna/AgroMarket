@@ -1,19 +1,116 @@
 ﻿@model AgroMarket.Models.Entities.Category
 
-<h1 class="mb-4">Create New Category</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Category</title>
 
-<form asp-action="CreateCategory" method="post">
-    <div class="mb-3">
-        <label for="CategoryName" class="form-label">Category Name</label>
-        <input type="text" id="CategoryName" name="CategoryName" class="form-control" value="@Model.CategoryName" required />
+    <style>
+        /* General styling for form container */
+        .category-form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form-specific styles */
+        .category-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Input and textarea styling */
+        .form-control {
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #fefefe;
+            width: 100%;
+        }
+
+        .form-control:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+        }
+
+        /* Button styling */
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+            padding: 10px 20px;
+            font-size: 16px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            box-shadow: 0 4px 8px rgba(33, 136, 56, 0.2);
+        }
+
+        .btn-secondary {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        /* H1 heading styling */
+        h1.text-center {
+            font-size: 2rem;
+            color: #343a40;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Adjust the spacing between form elements */
+        .mb-4 {
+            margin-bottom: 1.5rem;
+        }
+
+        .shadow-lg {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Responsive styling */
+        @@media (max-width: 768px) {
+            .category-form-container {
+                padding: 15px;
+            }
+
+            .category-form {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="mb-4 text-center">Create New Category</h1>
+
+    <div class="category-form-container">
+        <form asp-action="CreateCategory" method="post" class="category-form shadow-lg p-4 rounded">
+            <div class="mb-4">
+                <label for="CategoryName" class="form-label">Category Name</label>
+                <input type="text" id="CategoryName" name="CategoryName" class="form-control" value="@Model.CategoryName" required />
+            </div>
+
+            <div class="mb-4">
+                <label for="Description" class="form-label">Description</label>
+                <textarea id="Description" name="Description" class="form-control" rows="5" placeholder="Enter category description">@Model.Description</textarea>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Create Category</button>
+                <a asp-action="Dashboard" asp-route-activeTab="categories" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
     </div>
 
-    <div class="mb-3">
-        <label for="Description" class="form-label">Description</label>
-        <textarea id="Description" name="Description" class="form-control">@Model.Description</textarea>
-    </div>
-
-    <button type="submit" class="btn btn-success">Create</button>
-</form>
-
-<a asp-action="Dashboard" asp-route-activeTab="categories" class="btn btn-secondary mt-3">Back to List</a>
+</body>
+</html>

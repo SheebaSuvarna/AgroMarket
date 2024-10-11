@@ -72,7 +72,7 @@ h1 {
     }
 
     .table th {
-        background-color: #007bff;
+        background-color: #055160;
         color: white;
     }
 
@@ -85,36 +85,59 @@ h1 {
 }
 
 /* Buttons */
-.btn {
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-size: 0.9rem;
+.button {
+    --color: #00A97F;
+    padding: 0.8em 1.7em;
+    background-color: transparent;
+    border-radius: 0.3em;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.5s;
+    font-weight: 400;
+    font-size: 17px;
+    border: 1px solid;
+    font-family: inherit;
+    text-transform: uppercase;
+    color: var(--color);
+    z-index: 1;
 }
 
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: #fff;
-}
-
-    .btn-primary:hover {
-        background-color: #0056b3;
+    .button::before, .button::after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 50px;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        border-radius: 50%;
+        z-index: -1;
+        background-color: var(--color);
+        transition: 1s ease;
     }
 
-.btn-warning {
-    background-color: #ffc107;
-    color: #212529;
-}
+    .button::before {
+        top: -1em;
+        left: -1em;
+    }
 
-.btn-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
+    .button::after {
+        left: calc(100% + 1em);
+        top: calc(100% + 1em);
+    }
 
-.btn-success {
-    background-color: #28a745;
-    color: #fff;
-}
+    .button:hover::before, .button:hover::after {
+        height: 410px;
+        width: 410px;
+    }
+
+    .button:hover {
+        color: rgb(10, 25, 30);
+    }
+
+    .button:active {
+        filter: brightness(0.8);
+    }
 
 /* Charts */
 canvas {
