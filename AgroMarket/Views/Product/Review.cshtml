@@ -1,0 +1,74 @@
+﻿@model IEnumerable<AgroMarket.Models.Entities.Product>
+
+<div id="product-review-list">
+    @foreach (var product in Model)
+    {
+        
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="card-title">@product.ProductName</h5>
+            </div>
+            <div class="card-body">
+                <img src="@product.ImageUrl" alt="@product.ProductName" class="card-img-top" style="max-width: 200px; max-height: 200px;" />
+                <h6>Reviews:</h6>
+                @if (product.Review.Any())
+                {
+                    var average = product.Review.Average(r => r.Rating);
+                    <h6>Average Rating: @average </h6>
+                    <div class="rating-stars mb-3">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= Math.Floor(@average))
+                            {
+                                <i class="fas fa-star" style="color: #ffc107;"></i> <!-- Full Star -->
+                            }
+                            else if (i == Math.Ceiling(average))
+                            {
+                                <i class="fas fa-star-half-alt" style="color: #ffc107;"></i> <!-- Half Star -->
+                            }
+                            else
+                            {
+                                <i class="far fa-star" style="color: #ffc107;"></i> <!-- Empty Star -->
+                            }
+                        }
+                    </div>
+
+                    <ul class="list-unstyled">
+                        @foreach (var review in product.Review)
+                        {
+                            <li class="border-bottom mb-2">
+                                <strong>@review.Customer?.FirstName </strong> 
+                                <div>Rating: @review.Rating</div>
+                                <div class="rating-stars mb-3">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= review.Rating)
+                                        {
+                                            <i class="fas fa-star" style="color: #ffc107;"></i> <!-- Full Star -->
+                                        }
+                                       
+                                        else
+                                        {
+                                            <i class="far fa-star" style="color: #ffc107;"></i> <!-- Empty Star -->
+                                        }
+                                    }
+                                   
+                                </div>
+                                <p>@review.Comment</p>
+                                <small>@review.CreatedAt.ToShortDateString()</small>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>No reviews available.</p>
+                }
+            </div>
+        </div>
+    }
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Add Font Awesome for star icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />

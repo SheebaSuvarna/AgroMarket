@@ -79,16 +79,3 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-<p>Selected CategoryID: @ViewBag.CategoryID </p>
-@if (ViewBag.CategoryID != null)
-{
-    <p>Categories in ViewBag:</p>
-    foreach (var item in ViewBag.CategoryID)
-    {
-        <p>@item.Value - @item.Text</p>
-    }
-}
-else
-{
-    <p>ViewBag.CategoryID is null</p>
-}

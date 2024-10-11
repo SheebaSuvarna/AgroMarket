@@ -1,4 +1,5 @@
 ﻿using AgroMarket.Data;
+using AgroMarket.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -15,37 +16,53 @@ namespace AgroMarket.Controllers
         {
             _context = context;
         }
-
+        [HttpGet]
         public async Task<IActionResult> ViewOrderItems(string sortOrder, string searchString)
         {
-            // Store the current sort order
             ViewBag.CurrentSort = sortOrder;
-
-            // Store the current filter for the search input
             ViewBag.CurrentFilter = searchString;
 
-            // Retrieve order items with related entities
-            var orderItems = await _context.OrderItems
-                .Include(o => o.Order)
-                .Include(o => o.Product)
-                .ToListAsync();
+            // Get the order items with related Order and Product data
+            var orderItemsQuery = _context.OrderItems
+                .Include(oi => oi.Order)
+                .Include(oi => oi.Product)
+                .AsQueryable();
 
-            // Apply search filtering based on the product name
+            // Apply search filter first
             if (!string.IsNullOrEmpty(searchString))
             {
-                orderItems = orderItems.Where(o => o.Product.ProductName.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                orderItemsQuery = orderItemsQuery
+                    .Where(oi => oi.Product.ProductName.Contains(searchString));
             }
 
-            // Apply sorting logic
-            orderItems = sortOrder switch
+            // Apply sorting after search
+            switch (sortOrder)
             {
-                "date_asc" => orderItems.OrderBy(o => o.Order.OrderDate).ToList(),
-                "date_desc" => orderItems.OrderByDescending(o => o.Order.OrderDate).ToList(),
-                _ => orderItems
-            };
+               
+                case "price_asc":
+                    orderItemsQuery = orderItemsQuery.OrderBy(oi => oi.Price);
+                    break;
 
+                case "price_desc":
+                    orderItemsQuery = orderItemsQuery.OrderByDescending(oi => oi.Price);
+                    break;
+
+                case "newest":
+                    orderItemsQuery = orderItemsQuery.OrderByDescending(oi => oi.Order.OrderDate);
+                    break;
+
+                default:
+                    orderItemsQuery = orderItemsQuery.OrderBy(oi => oi.Order.OrderDate); // Default sort
+                    break;
+            }
+
+            // Execute the query and pass the result to the view
+            var orderItems = await orderItemsQuery.ToListAsync();
             return View(orderItems);
         }
+
+
+
 
 
         [HttpPost]

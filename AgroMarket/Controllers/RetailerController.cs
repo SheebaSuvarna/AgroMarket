@@ -1,5 +1,7 @@
 ﻿using AgroMarket.Data;
+using AgroMarket.Models;
 using AgroMarket.Models.Entities;
+using MailKit.Search;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +34,25 @@ namespace AgroMarket.Controllers
             {
                 return NotFound();
             }
+
+            //return View(retailer);
+            // Retrieve sales data specific to the retailer's products
+            var salesData = await _context.Orders
+                .Where(o => o.OrderItem.Any(oi => oi.Product.RetailerID == retailer.RetailerID)) // Filter by retailer's products
+                .SelectMany(o => o.OrderItem)
+                .GroupBy(oi => new { oi.Product.ProductID, oi.Product.ProductName }) // Group by Product ID and Name
+                .Select(g => new
+                {
+                    ProductID = g.Key.ProductID,
+                    ProductName = g.Key.ProductName,
+                    TotalSales = g.Sum(oi => oi.Quantity * oi.Price) // Calculate total sales
+                })
+                .ToListAsync();
+
+            // Prepare data for the view without creating a new view model
+            ViewBag.SalesLabels = salesData.Select(s => s.ProductName).ToList();
+            ViewBag.MonthlySales = salesData.Select(s => s.TotalSales).ToList();
+            ViewBag.Retailer = retailer; // Pass retailer data if needed
 
             return View(retailer);
         }

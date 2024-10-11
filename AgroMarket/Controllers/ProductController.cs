@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using AgroMarket.Data;
+using AgroMarket.Models;
 using AgroMarket.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +21,12 @@ namespace AgroMarket.Controllers
         // GET: Product/Create
         public IActionResult Create()
         {
-            
+
             ViewBag.Categories = new SelectList(_context.Categories, "CategoryID", "CategoryName"); // Load categories
 
             // Populate the ViewBag with existing products
 
             ViewBag.Products = _context.Products.Select(p => p.ProductName).ToList();
-
-
 
             return View();
         }
@@ -85,193 +84,34 @@ namespace AgroMarket.Controllers
             return View(product);
         }
 
-        [Authorize]
-        // GET: Product/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var retailerId = User.FindFirstValue("RetailerID");
-            if (string.IsNullOrEmpty(retailerId) || !Guid.TryParse(retailerId, out Guid parsedRetailerId))
-            {
-                return Forbid();
-            }
-            var product = await _context.Products
-                 .Include(p => p.ProductCategory) // Include ProductCategory relationship
-                     .ThenInclude(pc => pc.Category) // Include Category relationship
-                 .FirstOrDefaultAsync(m => m.ProductID == id && m.RetailerID == parsedRetailerId);
-            if (product == null)
-        {
-                return NotFound();
-            }
-
-            return View(product);
-        }
-
 
         [Authorize]
-        // POST: Product/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var retailerId = User.FindFirstValue("RetailerID");
-            if (string.IsNullOrEmpty(retailerId) || !Guid.TryParse(retailerId, out Guid parsedRetailerId))
-            {
-                return Forbid();
-            }
-
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.ProductID == id && m.RetailerID == parsedRetailerId);
+            var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            try
-            {
-                if (!string.IsNullOrEmpty(product.ImageUrl))
-                {
-                    // Delete the associated image file
-                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", product.ImageUrl.TrimStart('/'));
-                    if (System.IO.File.Exists(imagePath))
-                    {
-                        System.IO.File.Delete(imagePath);
-                    }
-                }
+            // Get the image path from the product entity
+            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", product.ImageUrl.TrimStart('/'));  // Remove leading slash
+            Console.WriteLine(imagePath);
 
-                _context.Products.Remove(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            catch (DbUpdateException)
-            {
-                ModelState.AddModelError("", "Unable to delete the product. Please try again, and if the problem persists, contact support.");
-                return View(product);
-            }
-        }
 
-        [Authorize]
-        // GET: Product/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
+            // Check if the image exists in the server folder
+            if (System.IO.File.Exists(imagePath))
             {
-                return NotFound();
+                // Delete the image file
+                System.IO.File.Delete(imagePath);
             }
 
-            var retailerId = User.FindFirstValue("RetailerID");
-            if (string.IsNullOrEmpty(retailerId) || !Guid.TryParse(retailerId, out Guid parsedRetailerId))
-            {
-                return Forbid();
-            }
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.ProductID == id && m.RetailerID == parsedRetailerId);
-            if (product == null)
-            {
-                return NotFound();
-            }
+            // Remove the product from the database
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
 
-            return View(product);
-        }
-
-        // POST: Product/Edit/5
-        [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ProductID,ProductName,Description,Price,StockQuantity,ImageFile")] Product product)
-        {
-            if (id != product.ProductID)
-            {
-                return NotFound();
-            }
-
-            var retailerId = User.FindFirstValue("RetailerID");
-            if (string.IsNullOrEmpty(retailerId) || !Guid.TryParse(retailerId, out Guid parsedRetailerId))
-            {
-                return Forbid();
-            }
-            var existingProduct = await _context.Products
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.ProductID == id && m.RetailerID == parsedRetailerId);
-
-            if (existingProduct == null)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    product.RetailerID = parsedRetailerId;
-                    product.UpdatedAt = DateTime.Now;
-
-                    if (product.ImageFile != null)
-                    {
-                        // Delete old image if it exists
-                        if (!string.IsNullOrEmpty(existingProduct.ImageUrl))
-                        {
-                            var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", existingProduct.ImageUrl.TrimStart('/'));
-                            if (System.IO.File.Exists(oldImagePath))
-                            {
-                                System.IO.File.Delete(oldImagePath);
-                            }
-                        }
-                        // Save new image
-                        product.ImageUrl = await SaveImage(product.ImageFile);
-                    }
-                    else
-                    {
-                        // Keep the existing image URL if no new image is uploaded
-                        product.ImageUrl = existingProduct.ImageUrl;
-                    }
-
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.ProductID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(product);
-        }
-
-        private bool ProductExists(Guid id)
-        {
-            return _context.Products.Any(e => e.ProductID == id);
-        }
-
-
-
-
-        // GET: Product
-        [Authorize]
-        public async Task<IActionResult> Index()
-        {
-            var retailerId = User.FindFirstValue("RetailerID");
-            if (string.IsNullOrEmpty(retailerId) || !Guid.TryParse(retailerId, out Guid parsedRetailerId))
-            {
-                return RedirectToAction("Login", "Account"); // Redirect to login if RetailerID is not found
-            }
-
-            var products = await _context.Products
-        .ToListAsync();
-
-                
-            return View(products);
+            return Ok(); // Return success status
         }
 
         [Authorize]
@@ -295,67 +135,96 @@ namespace AgroMarket.Controllers
             return "/images/products/" + uniqueFileName; // This path should be relative to wwwroot
         }
 
+        // GET: Product
         [Authorize]
-        [HttpGet]
-        // GET: Product/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-            {
-            if (id == null)
-                {
-                return NotFound();
-                }
-
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
+        {
+            // Retrieve the retailer's ID from the user claims
             var retailerId = User.FindFirstValue("RetailerID");
             if (string.IsNullOrEmpty(retailerId) || !Guid.TryParse(retailerId, out Guid parsedRetailerId))
             {
-                return Forbid();
+                return RedirectToAction("Login", "Account"); // Redirect to login if RetailerID is not found
             }
-            var product = await _context.Products
-                .Include(p => p.Retailer)
-                .Include(p => p.ProductCategory) // Include the ProductCategory relationship
-                 .ThenInclude(pc => pc.Category)// Include the Retailer information
-                .FirstOrDefaultAsync(m => m.ProductID == id && m.RetailerID == parsedRetailerId);
 
-            if (product == null)
+            // Handle sorting logic
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["SortOrder"] = sortOrder;
+
+            // Retrieve products associated with the retailer
+            var products = _context.Products
+                                   .Where(p => p.RetailerID == parsedRetailerId)
+                                   .Include(p => p.ProductCategory)
+                                       .ThenInclude(pc => pc.Category) // Include Category details
+                                   .AsQueryable(); // Make it IQueryable to apply filtering and sorting
+
+            // Apply search filter if provided
+            if (!String.IsNullOrEmpty(searchString))
             {
-                return NotFound();
+                products = products.Where(p => p.ProductName.Contains(searchString) ||
+                                                p.ProductCategory.Any(c => c.Category.CategoryName.Contains(searchString)));
             }
 
-            return View(product);
+            // Apply sorting based on the selected sortOrder
+            products = sortOrder switch
+            {
+                "price_asc" => products.OrderBy(p => p.Price),                // Price ascending (Low to High)
+                "price_desc" => products.OrderByDescending(p => p.Price),     // Price descending (High to Low)
+                "newest" => products.OrderByDescending(p => p.CreatedAt),
+                _ => products.OrderBy(p => p.ProductName),                    // Default sorting by ProductName ascending
+            };
+            // Fetch the average rating for each product
+            var productRatings = _context.Reviews
+                .GroupBy(r => r.ProductID)
+                .Select(g => new
+                {
+                    ProductID = g.Key,
+                    AverageRating = g.Average(r => r.Rating)
+                })
+                .ToDictionary(r => r.ProductID, r => r.AverageRating);
+
+            // Pass ratings via ViewBag
+            ViewBag.ProductRatings = productRatings;
+
+            var productList = await products.ToListAsync();
+
+            // Return the entire view, AJAX will handle updating only the product list part
+            return View(productList);
         }
 
-
-
-        /*[Authorize]
+        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var retailerId = User.FindFirstValue("RetailerID");
-            if (string.IsNullOrEmpty(retailerId) || !Guid.TryParse(retailerId, out Guid parsedRetailerId))
-            {
-                return Forbid();
-            }
-
+            // Retrieve the product with its related categories
             var product = await _context.Products
-                .Include(p => p.Retailer)
                 .Include(p => p.ProductCategory)
                     .ThenInclude(pc => pc.Category)
-                .FirstOrDefaultAsync(m => m.ProductID == id && m.RetailerID == parsedRetailerId);
+                .FirstOrDefaultAsync(p => p.ProductID == id);
 
             if (product == null)
             {
                 return NotFound();
-    }
+            }
 
-            return PartialView("_ProductDetailsPartial", product); // Return partial view instead
-        }*/
+            // Extracting the category names from ProductCategories
+            var categoryNames = product.ProductCategory
+                .Select(pc => pc.Category.CategoryName)
+                .ToList();
 
+            var categoryName = string.Join(",", categoryNames);
 
+            var productDetails = new
+            {
+                product.ProductName,
+                product.Description,
+                categoryName,
+                product.Price,
+                product.StockQuantity,
+                product.ImageUrl
+            };
+
+            return Json(productDetails);
+        }
         public async Task<IActionResult> ProductDetails(Guid id)
         {
             var product = await _context.Products
@@ -392,6 +261,78 @@ namespace AgroMarket.Controllers
             ViewBag.AverageRating = productRatings;
 
             return View(product);
+        }
+
+        [HttpPatch("{id}")]
+        public IActionResult Edit(Guid id, [FromForm] Product updatedProduct, [FromForm] IFormFile image, [FromForm] string categoryName)
+        {
+            var product = _context.Products.Include(p => p.ProductCategory)
+                                           .FirstOrDefault(p => p.ProductID == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            // Update product fields
+            product.ProductName = updatedProduct.ProductName;
+            product.Description = updatedProduct.Description;
+            product.Price = updatedProduct.Price;
+            product.StockQuantity = updatedProduct.StockQuantity;
+
+            // Handle image upload
+            if (image != null && image.Length > 0)
+            {
+                var filePath = Path.Combine("path_to_images", image.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    image.CopyTo(stream);
+                }
+                product.ImageUrl = filePath; // Assuming ImageUrl is a property in Product model
+            }
+
+            // Find the category based on the passed CategoryName
+            var category = _context.Categories.FirstOrDefault(c => c.CategoryName == categoryName);
+            if (category != null)
+            {
+                var productCategory = product.ProductCategory.FirstOrDefault();
+                if (productCategory != null && productCategory.CategoryId != category.CategoryID)
+                {
+                    productCategory.CategoryId = category.CategoryID; // Update CategoryID from the found category
+                }
+            }
+
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpGet("GetAllCategories")]
+        public IActionResult GetAllCategories()
+        {
+            var categories = _context.Categories
+                .Select(c => new { c.CategoryID, c.CategoryName })
+                .ToList();
+
+            Console.WriteLine($"Categories retrieved: {categories.Count}"); // Log number of categories
+
+            if (categories == null || categories.Count == 0)
+            {
+                return NotFound(); // Return 404 if no categories are found
+            }
+
+            return Ok(categories); // Return 200 OK with the categories data
+        }
+
+        public async Task<IActionResult> Review()
+        {
+            var retailerId = User.FindFirstValue("RetailerID");
+            // Get all products for the specified retailer
+            var products = await _context.Products
+                .Where(p => p.RetailerID == Guid.Parse(retailerId)) // Assuming you have a RetailerID property
+                .Include(p => p.Review.Where(r => r.Approved)) // Include only approved reviews
+                .ToListAsync();
+
+            return View(products);
         }
 
     }
