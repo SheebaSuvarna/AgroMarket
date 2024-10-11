@@ -1,4 +1,4 @@
-﻿@using AgroMarket.ViewModels;
+﻿@* @using AgroMarket.ViewModels;
 @model LoginViewModel;
 
 @{
@@ -42,3 +42,189 @@
         </form>
     </div>
 </div>
+ *@
+
+            @using AgroMarket.ViewModels;
+@model LoginViewModel;
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('/images/newbgg.jpg');
+            font-family: 'Roboto', sans-serif;
+            background-size: cover;
+            opacity: 0.8;
+        }
+
+        .container {
+            background: #4a5d23;
+            border-radius: 20px;
+            padding: 40px;
+            width: 400px; /* Adjust width as needed */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            margin-top:40px;
+            margin-bottom:40px; 
+        }
+
+        h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 36px;
+        }
+
+        .form-label {
+            color: white;
+        }
+
+        .field-container {
+            display: flex;
+            flex-direction: column; /* Stack label and input vertically */
+            margin-bottom: 25px; /* Increased margin for more space between fields */
+            position: relative; /* Added to position error message */
+        }
+
+            .field-container label {
+                color: white;
+                font-weight: bold;
+                margin-left: 0; /* Removed left margin for alignment */
+            }
+
+            .field-container input {
+                padding: 10px; /* Adjusted padding for better spacing */
+                border: none;
+                border-radius: 10px;
+                font-size: 14px; /* Reduced font size */
+                background: white;
+                color: black;
+                min-width: 250px; /* Reduced minimum width for input fields */
+                max-width: 100%; /* Prevent overflow */
+                box-sizing: border-box; /* Include padding in width calculation */
+            }
+
+        .text-danger {
+            color: yellow; /* Ensure error messages are clearly visible */
+            margin-left: 0; /* Align with label */
+            position: absolute; /* Position below the input */
+            top: 100%; /* Position below the input */
+            left: 0; /* Align with input */
+            font-size: 12px; /* Adjust font size */
+            margin-top: 5px; /* Space above error message */
+        }
+
+        .float-end {
+            text-align: right;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: #f5a623;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%; /* Full width for button */
+            margin-top: 20px; /* Space above buttons */
+        }
+
+            .btn:hover {
+                background: #e0941d;
+            }
+
+        p {
+            color: black;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+            a:hover {
+                color: #f5a623; /* Change this to your desired hover color */
+                text-decoration: underline; /* Optional: add an underline on hover */
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="field-container">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="field-container">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="float-end">
+                <a asp-controller="Account" asp-action="VerifyEmail" class="text-decoration-none">
+                    Forgot password?
+                </a>
+            </div>
+
+            <div class="form-check mb-3">
+                <label class="form-check-label">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    @Html.DisplayNameFor(a => a.RememberMe)
+                </label>
+            </div>
+
+            <input type="submit" value="Login" class="btn" />
+            <p class="text-center mt-2">
+                Don't have an account? <a asp-controller="Account" asp-action="Register" class="text-decoration-none">Register</a>
+            </p>
+            <div class="text-center">
+                <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Back</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Initially hide validation messages
+            $("form span.text-danger").hide();
+
+            // Show validation message on blur if input is empty
+            $("form input").on("focus", function () {
+                $(this).siblings("span.text-danger").hide();
+            }).on("blur", function () {
+                if ($(this).val() === "") {
+                    $(this).siblings("span.text-danger").show();
+                }
+            });
+        });
+    </script>
+}
