@@ -1,4 +1,5 @@
-﻿using AgroMarket.Models.Entities;
+﻿using AgroMarket.Models;
+using AgroMarket.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AgroMarket.Data
@@ -18,6 +19,7 @@ namespace AgroMarket.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<AdminLoginModel> AdminUsers { get; set; }
 
 
         // OnModelCreating method to configure relationships
@@ -95,6 +97,10 @@ namespace AgroMarket.Data
             .WithMany(c=>c.Cart) // Assuming a product can be in many carts
             .HasForeignKey(c => c.ProductID)
                 .OnDelete(DeleteBehavior.Cascade); // Optional: Define delete behavior
+
+            modelBuilder.Entity<AdminLoginModel>()
+            .HasIndex(a => a.Username)
+            .IsUnique();
         }
 
     }
