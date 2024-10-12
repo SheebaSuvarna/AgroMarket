@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\AgroMarket.csproj": {}
+    "C:\\Users\\saaba\\OneDrive - EG A S\\Documents\\AgroMarket\\AgroMarket\\AgroMarket.csproj": {}
   },
   "projects": {
-    "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\AgroMarket.csproj": {
+    "C:\\Users\\saaba\\OneDrive - EG A S\\Documents\\AgroMarket\\AgroMarket\\AgroMarket.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\AgroMarket.csproj",
+        "projectUniqueName": "C:\\Users\\saaba\\OneDrive - EG A S\\Documents\\AgroMarket\\AgroMarket\\AgroMarket.csproj",
         "projectName": "AgroMarket",
-        "projectPath": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\AgroMarket.csproj",
-        "packagesPath": "C:\\Users\\shesu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\shesu\\source\\repos\\AgroMarket\\AgroMarket\\obj\\",
+        "projectPath": "C:\\Users\\saaba\\OneDrive - EG A S\\Documents\\AgroMarket\\AgroMarket\\AgroMarket.csproj",
+        "packagesPath": "C:\\Users\\saaba\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\saaba\\OneDrive - EG A S\\Documents\\AgroMarket\\AgroMarket\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\shesu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\saaba\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -46,6 +46,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.8.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.8, )"
@@ -59,6 +63,18 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.8, )"
+            },
+            "MimeKit": {
+              "target": "Package",
+              "version": "[4.8.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "iTextSharp": {
+              "target": "Package",
+              "version": "[5.5.13.4, )"
             }
           },
           "imports": [

@@ -9,47 +9,191 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = AgroMarket
 build_property.RootNamespace = AgroMarket
-build_property.ProjectDir = C:\Users\shesu\source\repos\AgroMarket\AgroMarket\
+build_property.ProjectDir = C:\Users\saaba\OneDrive - EG A S\Documents\AgroMarket\AgroMarket\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\shesu\source\repos\AgroMarket\AgroMarket
+build_property.MSBuildProjectDirectory = C:\Users\saaba\OneDrive - EG A S\Documents\AgroMarket\AgroMarket
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/Home/Index.cshtml]
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Account/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Account/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Account/CustomerDashBoard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDdXN0b21lckRhc2hCb2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Account/RegisterCustomer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3RlckN1c3RvbWVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Account/RegisterRetailor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3RlclJldGFpbG9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Account/RetailorDashBoard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXRhaWxvckRhc2hCb2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Account/SelectRole.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxTZWxlY3RSb2xlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Account/VerifyEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxWZXJpZnlFbWFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/AdminLogin/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Mb2dpblxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Admin/CreateCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlQ2F0ZWdvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Admin/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Admin/EditCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdENhdGVnb3J5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Admin/EditOrder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdE9yZGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Admin/EditProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFByb2R1Y3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Admin/EditRetailer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFJldGFpbGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Admin/EditUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFVzZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Cart/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/CustomerAuth/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJBdXRoXExvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Customer/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Customer/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/Home/Privacy.cshtml]
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/Products/AddProduct.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcQWRkUHJvZHVjdC5jc2h0bWw=
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/OrderView/ViewOrderItems.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJWaWV3XFZpZXdPcmRlckl0ZW1zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/Retailer/AddRetailer.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV0YWlsZXJcQWRkUmV0YWlsZXIuY3NodG1s
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Order/CreateOrder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcQ3JlYXRlT3JkZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/Shared/Error.cshtml]
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Order/Order.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcT3JkZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Order/OrderConfirmed.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcT3JkZXJDb25maXJtZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Order/Payment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcUGF5bWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Product/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Product/EditP.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxFZGl0UC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Product/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Product/ProductDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxQcm9kdWN0RGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Product/Review.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxSZXZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/RetailerAuth/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV0YWlsZXJBdXRoXExvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Retailer/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV0YWlsZXJcRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Retailer/EditProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV0YWlsZXJcRWRpdFByb2ZpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Retailer/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV0YWlsZXJcUHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Shared/_AccountLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BY2NvdW50TGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Shared/_QuantityControlAndAddToCart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9RdWFudGl0eUNvbnRyb2xBbmRBZGRUb0NhcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/_ViewImports.cshtml]
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/_ViewStart.cshtml]
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shesu/source/repos/AgroMarket/AgroMarket/Views/Shared/_Layout.cshtml]
+[C:/Users/saaba/OneDrive - EG A S/Documents/AgroMarket/AgroMarket/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-nwgagp6z3a
