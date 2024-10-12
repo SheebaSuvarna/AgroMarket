@@ -1,0 +1,24 @@
+﻿@{
+    var message = TempData["AccessDeniedMessage"] as string;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Denied</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var message = '@message';
+            if (message) {
+                alert(message);
+                window.location.href = '/Account/Login'; // Redirect to login page after alert
+            }
+        });
+    </script>
+</body>
+</html>
