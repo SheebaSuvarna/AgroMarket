@@ -34,7 +34,7 @@ namespace AgroMarket
             })
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
             {
-                options.LoginPath = "/CustomerAuth/Login"; // Path to login page
+                options.LoginPath = "/Account/Login"; // Path to login page
                 options.AccessDeniedPath = "/Account/AccessDenied"; // Path to access denied page
             });
 
@@ -59,7 +59,7 @@ namespace AgroMarket
             // Map routes
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Customer}/{action=Index}/{id?}");
 
             app.Run();
         }

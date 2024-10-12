@@ -114,12 +114,18 @@ namespace AgroMarket.Controllers
         [Authorize]
         public async Task<IActionResult> Dashboard()
         {
-            var customerId = Guid.Parse(User.FindFirst("CustomerId")?.Value);
-            var orders = await _context.Orders
+            var customerId = User.FindFirst("CustomerId")?.Value;
+            if (customerId == null)
+            {
+                // Use TempData to store the warning message
+                TempData["AccessDeniedMessage"] = "Access Denied. Please log in as a customer.";
+                return RedirectToAction("AccessDenied", "Account");
+            }
+            var orders = await _context.Orders 
                              .Include(o => o.OrderItem)
                                  .ThenInclude(oi => oi.Product)
                                      .ThenInclude(p => p.Retailer)
-                             .Where(o => o.CustomerID == customerId)
+                             .Where(o => o.CustomerID == Guid.Parse(customerId))
                              .ToListAsync();
             var products = await _context.Products.ToListAsync();
 

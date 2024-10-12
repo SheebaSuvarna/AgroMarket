@@ -15,10 +15,9 @@
             margin: 0;
             padding: 0;
             height: 100vh;
-            overflow: hidden; /* Prevent the whole page from scrolling */
+            overflow: hidden;
         }
 
-        /* Fix the header (navbar) at the top */
         .navbar {
             background-color: #4a5d23;
             padding: 15px 30px;
@@ -47,15 +46,13 @@
                 font-weight: bold;
             }
 
-        /* Main content wrapper */
         .content-wrapper {
             display: flex;
             flex-direction: column;
             height: 100vh;
-            padding-top: 10px; /* To prevent overlap with the navbar */
+            padding-top: 10px;
         }
 
-        /* Main content area and footer should scroll */
         .scrollable-content {
             flex-grow: 1;
             overflow-y: auto;
@@ -65,13 +62,11 @@
             padding: 30px;
         }
 
-        /* Footer styles */
         .footer {
-            
+            padding-bottom: 50px;
             background-color: #f5f0e6;
             text-align: center;
             border-top: 1px solid #ccc;
-            padding-bottom: 40px;
         }
     </style>
 </head>
@@ -81,13 +76,34 @@
     <div class="navbar">
         <div class="logo">AgroMarket</div>
 
-        <!-- Login/Register Button and Cart Icon -->
+        <!-- Conditional Buttons Based on Authentication -->
         <div style="display: flex; align-items: center; margin-left: 20px;">
-            <a class="cta" asp-controller="Account" asp-action="Login">Login/Register</a>
-            <a class="nav-link text-dark" asp-area="" asp-controller="CustomerAuth" asp-action="Logout">LogOut</a>
-            <a class="text-white" style="margin-left: 20px;" asp-controller="Cart" asp-action="Index">
-                <i class="fas fa-shopping-cart" style="font-size: 24px;"></i>
+            
+            
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (User.FindFirst("name")?.Value != "")
+                {
+                    var name = User.FindFirst("name")?.Value;
+
+                    <p class="text-white">
+                        Hi, @name
+                    </p>
+                }
+                <!-- Display Logout button when authenticated -->
+                <a class="cta" asp-controller="Account" asp-action="Logout">Logout</a>
+            }
+            else
+            {
+                <!-- Display Login/Register button when not authenticated -->
+                <a class="cta" asp-controller="Account" asp-action="Login">Login/Register</a>
+            }
+            @if (User.FindFirst("Role")?.Value == "customer")
+            {
+                <a class="text-white" style="margin-left: 20px;" asp-controller="Cart" asp-action="Index">
+                    <i class="fas fa-shopping-cart" style="font-size: 24px;"></i>
             </a>
+            }
         </div>
     </div>
 

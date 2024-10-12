@@ -23,7 +23,9 @@ namespace AgroMarket.Controllers
             var retailerId = User.FindFirst("RetailerID")?.Value;
             if (retailerId == null)
             {
-                return RedirectToAction("Login", "RetailerAuth");
+                // Use TempData to store the warning message
+                TempData["AccessDeniedMessage"] = "Access Denied. Please log in as a retailer.";
+                return RedirectToAction("AccessDenied", "Account");
             }
 
             var retailer = await _context.Retailers

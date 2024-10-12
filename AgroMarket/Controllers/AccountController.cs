@@ -51,8 +51,9 @@ namespace AgroMarket.Controllers
                     var claims = new List<Claim>
                     {
                         new Claim("RetailerID", retailer.RetailerID.ToString()),
-                        new Claim("CustomerId", customer.CustomerID.ToString())
-
+                        new Claim("CustomerId", customer.CustomerID.ToString()),
+                        new Claim("Role","customer"),
+                        new Claim("name", customer.FirstName),
                     };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -73,7 +74,11 @@ namespace AgroMarket.Controllers
                     // Create claims for the authenticated user
                     var claims = new List<Claim>
                     {
-                        new Claim("CustomerId", customer.CustomerID.ToString())
+                        new Claim("CustomerId", customer.CustomerID.ToString()),
+                        new Claim("Role","customer"),
+                        new Claim("name", customer.FirstName),
+
+
                     };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -84,7 +89,7 @@ namespace AgroMarket.Controllers
                     };
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-                    return RedirectToAction("Dashboard","Customer");
+                    return RedirectToAction("Index","Customer");
                 }
 
 
@@ -93,7 +98,7 @@ namespace AgroMarket.Controllers
                     // Create claims for the authenticated retailer
                     var claims = new List<Claim>
                     {
-                        new Claim("RetailerID", retailer.RetailerID.ToString())
+                        new Claim("RetailerID", retailer.RetailerID.ToString()),new Claim("Role","retailer"),new Claim("name",retailer.FirstName),
                     };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -113,47 +118,7 @@ namespace AgroMarket.Controllers
 
             return View(model); // Return the view with validation errors
         }
-        /*
-             public async Task<IActionResult> Login(LoginViewModel model)
-              {
-                  var hashedPassword = PasswordHelper.HashPassword(model.Password);
-                  if (ModelState.IsValid)
-                  {
-                      // Check if the email exists in the Customers table
-                      var customer = await _context.Customers
-                          .FirstOrDefaultAsync(c => c.Email == model.Email && c.Password == hashedPassword); // Ensure to hash the password
-
-
-
-                      // Check if the email exists in the Retailers table
-                      var retailer = await _context.Retailers
-                          .FirstOrDefaultAsync(r => r.Email == model.Email && r.Password == hashedPassword); // Ensure to hash the password
-                        if (customer != null && retailer != null)
-                        {
-                            // Redirect to a selection page for customer or retailer
-                            return RedirectToAction("SelectRole"); // Create a SelectRole action in your controller
-                        }
-                        if (customer != null)
-                        {
-                            // Set up authentication (optional)
-                            // You can implement authentication logic here using cookies or tokens
-
-                            return RedirectToAction("CustomerDashBoard");
-                        }
-                        if (retailer != null)
-                      {
-                          // Set up authentication (optional)
-                          // You can implement authentication logic here using cookies or tokens
-
-                          return RedirectToAction("RetailorDashBoard");
-                      }
-
-                      // If no match is found, add an error
-                      ModelState.AddModelError("", "Invalid login attempt. Please check your email and password.");
-                  }
-
-                  return View(model); // Return the view with validation errors
-              }*/
+       
         [HttpPost]
         public async Task<IActionResult> RoleSelected( string role)
         {
@@ -161,7 +126,7 @@ namespace AgroMarket.Controllers
             if (role == "Customer")
             {
                 // Authenticate as customer
-                return RedirectToAction("Dashboard","Customer");
+                return RedirectToAction("Index","Customer");
             }
             else if (role == "Retailer")
             {
@@ -285,10 +250,10 @@ namespace AgroMarket.Controllers
                 // Send confirmation email
                 string subject = "Registration Successful";
                 string message = $"Dear {model.FirstName},<br/>Thank you for registering with AgroMarket.";
-                await _emailService.SendEmailAsync(model.Email, subject, message);
+                //await _emailService.SendEmailAsync(model.Email, subject, message);
 
                 // Redirect to login or another page
-                return RedirectToAction("Login");
+                return RedirectToAction("Login","Account");
             }
 
             return View(model); // Return the view with validation errors
@@ -386,8 +351,14 @@ namespace AgroMarket.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login");
+            return RedirectToAction("Index","Customer");
         }
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+
 
     }
 }
