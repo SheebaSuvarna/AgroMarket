@@ -37,7 +37,12 @@ namespace AgroMarket
                 options.LoginPath = "/Account/Login"; // Path to login page
                 options.AccessDeniedPath = "/Account/AccessDenied"; // Path to access denied page
             });
-
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout as needed
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true; // Required for GDPR compliance
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -49,6 +54,7 @@ namespace AgroMarket
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession(); //session middleware
 
             // Enable authentication middleware
             app.UseAuthentication();
