@@ -1,6 +1,4 @@
 ﻿@model AgroMarket.Models.Entities.Retailer
-@* @model AgroMarket.Models.RetailerDashboardViewModel *@
-
 @{
     ViewData["Title"] = "Retailer Dashboard";
 }
@@ -26,7 +24,6 @@
             <li class="nav-item mb-2">
                 <a asp-controller="Product" asp-action="Review" class="nav-link text-white">View Reviews</a>
             </li>
-
         </ul>
     </div>
 
@@ -67,8 +64,34 @@
                             <a asp-controller="Product" asp-action="Create" class="btn btn-success btn-block">Add New Product</a>
                             <a asp-controller="Product" asp-action="Index" class="btn btn-primary btn-block">View Products</a>
                             <a asp-controller="OrderView" asp-action="ViewOrderItems" class="btn btn-warning btn-block">View Orders</a>
-
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Count of Products and Orders -->
+        <div class="row mt-4">
+            <!-- Products Count Card -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="card-title mb-0">Total Products</h4>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="text-center">@Model.Product.Count</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Count Card -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-warning text-white">
+                        <h4 class="card-title mb-0">Total Orders</h4>
+                    </div>
+                    <div class="card-body">
+                        @* <h2 class="text-center">@Model.OrderItem.Count</h2> *@
                     </div>
                 </div>
             </div>
@@ -83,7 +106,6 @@
                     </div>
                     <div>
                         <div class="container">
-
                             <!-- Sales Analysis Chart -->
                             <canvas id="salesChart" width="400" height="200"></canvas>
 

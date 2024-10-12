@@ -1,4 +1,5 @@
-﻿using AgroMarket.Data;
+﻿using System.Security.Claims;
+using AgroMarket.Data;
 using AgroMarket.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,17 +17,32 @@ namespace AgroMarket.Controllers
         {
             _context = context;
         }
+
         [HttpGet]
         public async Task<IActionResult> ViewOrderItems(string sortOrder, string searchString)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.CurrentFilter = searchString;
 
-            // Get the order items with related Order and Product data
+            // Get the retailer ID from the logged-in user's claims
+            var retailerId = User.FindFirstValue("RetailerID");
+            if (string.IsNullOrEmpty(retailerId) || !Guid.TryParse(retailerId, out Guid parsedRetailerId))
+            {
+                return RedirectToAction("Login", "Account"); // Redirect to login if RetailerID is not found
+            }
+
+            // Convert the retailer ID to a Guid
+            var retailerID = Guid.Parse(retailerId);
+
+
+            // Fetch the order items that belong to the logged-in retailer
             var orderItemsQuery = _context.OrderItems
                 .Include(oi => oi.Order)
                 .Include(oi => oi.Product)
+                    .ThenInclude(p => p.Retailer)  // Include the retailer via Product
+                .Where(oi => oi.Product.Retailer.RetailerID == retailerID)  // Filter by RetailerID (Guid comparison)
                 .AsQueryable();
+
 
             // Apply search filter first
             if (!string.IsNullOrEmpty(searchString))
@@ -38,7 +54,7 @@ namespace AgroMarket.Controllers
             // Apply sorting after search
             switch (sortOrder)
             {
-               
+
                 case "price_asc":
                     orderItemsQuery = orderItemsQuery.OrderBy(oi => oi.Price);
                     break;
@@ -66,22 +82,40 @@ namespace AgroMarket.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> UpdateOrderStatus(Guid orderId, string newStatus)
+        public async Task<IActionResult> UpdateOrderStatus(Guid orderItemId, string newStatus)
         {
-            var order = await _context.Orders.FindAsync(orderId);
-            if (order == null)
+            // Get the retailer ID from the logged-in user's claims
+            var retailerId = User.FindFirstValue("RetailerID");
+            if (string.IsNullOrEmpty(retailerId) || !Guid.TryParse(retailerId, out Guid parsedRetailerId))
+            {
+                return RedirectToAction("Login", "Account"); // Redirect to login if RetailerID is not found
+            }
+
+            // Convert the retailer ID to a Guid
+            var retailerID = Guid.Parse(retailerId);
+
+            // Find the specific OrderItem and check if it belongs to the logged-in retailer through the Product
+            var orderItem = await _context.OrderItems
+                .Include(oi => oi.Product)
+                .ThenInclude(p => p.Retailer)
+                .Where(oi => oi.OrderItemID == orderItemId && oi.Product.Retailer.RetailerID == retailerID)  // Ensure this order item belongs to the retailer
+                .FirstOrDefaultAsync();
+
+            if (orderItem == null)
             {
                 return NotFound();
             }
 
-            if (order.Status == "Completed")
+            // Update the status if it's a valid status (e.g., "Out for Delivery" or "Rejected")
+            if (newStatus == "Out for Delivery" || newStatus == "Order Cancelled") // Changed to reflect your button values
             {
-                order.Status = newStatus;
+                orderItem.Status = newStatus;
                 await _context.SaveChangesAsync();
             }
-
-            return RedirectToAction(nameof(ViewOrderItems));
+            TempData["Message"] = $"Order item status updated to '{newStatus}'.";
+            return RedirectToAction("ViewOrderItems");
         }
+
 
     }
 }

@@ -283,9 +283,28 @@ namespace AgroMarket.Controllers
             byte[] pdfBytes = ms.ToArray();
             return File(pdfBytes, "application/pdf", "Invoice.pdf");
         }
-    }
 
-}
+    }
+        public async Task<IActionResult> Profile()
+        {
+            var customerId = User.FindFirst("CustomerID")?.Value;
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "RetailerAuth");
+            }
+
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(r => r.CustomerID.ToString() == customerId);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return View(customer);
+        }
+
+    }
 }
 
 
