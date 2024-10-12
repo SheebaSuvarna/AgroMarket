@@ -44,7 +44,7 @@ namespace AgroMarket.Controllers
 
             // Prepare monthly sales data asynchronously
             var salesData = orders
-                .GroupBy(o => o.OrderDate.Date)  // Group by day instead of month
+                .GroupBy(o => o.OrderDate.Date)  // Group by day 
                 .Select(g => new
                 {
                     Date = g.Key,
@@ -77,28 +77,13 @@ namespace AgroMarket.Controllers
             model.SalesLabels = salesLabels;
             model.DailySales = dailySales;
 
+            // Add total counts to the model
+            model.TotalRetailers = await _context.Retailers.CountAsync();
+            model.TotalCustomers = await _context.Customers.CountAsync();
+            model.TotalProducts = await _context.Products.CountAsync();
+
             return View(model);  // Pass the model to the view
         }
-/*
-        // User Management: Monitor and manage actions taken by Customers and Retailers
-        [HttpGet]
-        [Route("users")]
-        public async Task<IActionResult> ManageUsers()
-        {
-            var customers = await _context.Customers.ToListAsync();
-            var retailers = await _context.Retailers.ToListAsync();
-
-            return View(new { Customers = customers, Retailers = retailers });
-        }*/
-
-        // Produce Management: View all produce listings
-/*        [HttpGet]
-        [Route("products")]
-        public async Task<IActionResult> ManageProduce()
-        {
-            var products = await _context.Products.Include(p => p.Retailer).ToListAsync();
-            return View(products);
-        }*/
 
         // Edit product (GET)
         [HttpGet]

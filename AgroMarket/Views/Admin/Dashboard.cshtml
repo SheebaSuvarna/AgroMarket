@@ -139,7 +139,7 @@
                                     <img src="@product.ImageUrl" alt="Product Image" style="width: 50px; height: 50px; margin-right: 10px;" />
                                     @product.ProductName
                                 </td>
-                                <td>@product.Price</td>
+                                <td>₹ @product.Price.ToString("0.00")</td> <!-- Added rupee sign and formatted price -->
                                 <td>@product.StockQuantity</td>
                                 <td>
                                     <a asp-controller="Admin" asp-action="EditProduct" asp-route-id="@product.ProductID" class="btn btn-warning">Edit</a>
@@ -153,7 +153,6 @@
                 </table>
             </div>
         </div>
-
 
     <!-- Categories Section -->
     <div class="tab-pane fade @(activeTab == "categories" ? "show active" : "")" id="categories" role="tabpanel" aria-labelledby="categories-tab">
@@ -281,6 +280,33 @@
     <!-- Analytics Section -->
     <div class="tab-pane fade @(activeTab == "analytics" ? "show active" : "")" id="analytics" role="tabpanel" aria-labelledby="analytics-tab">
         <h2>Analytics</h2>
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Retailers</h5>
+                            <p class="card-text">@Model.TotalRetailers</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Customers</h5>
+                            <p class="card-text">@Model.TotalCustomers</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Products</h5>
+                            <p class="card-text">@Model.TotalProducts</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <div class="chart-container">
             <!-- Responsive container for charts -->
             <canvas id="productChart"></canvas>
