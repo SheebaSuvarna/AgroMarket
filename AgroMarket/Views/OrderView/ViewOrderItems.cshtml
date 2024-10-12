@@ -4,69 +4,262 @@
     ViewData["Title"] = "View Orders";
     string currentSort = ViewBag.CurrentSort as string;
 }
-
-<h2>Order Items</h2>
-
-<!-- Search Bar -->
-<form method="get" asp-action="ViewOrderItems" class="form-inline mb-3">
-    <div class="form-group">
-        <input type="text" name="searchString" class="form-control" placeholder="Search by Product Name" value="@ViewBag.CurrentFilter" />
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Message"]
     </div>
-    <button type="submit" class="btn btn-primary ml-2">Search</button>
-</form>
+}
 
-<!-- Custom Sort Options -->
-<div class="d-flex align-items-center mb-3">
-    <span class="mr-2">Sort By:</span>
-    <div class="btn-group" role="group" aria-label="Sort options">
-        @* <a asp-action="ViewOrderItems" asp-route-sortOrder="popularity" class="btn btn-outline-secondary @(currentSort == "popularity" ? "active" : "")">Popularity</a> *@
-        <a asp-action="ViewOrderItems" asp-route-sortOrder="price_asc" class="btn btn-outline-secondary @(currentSort == "price_asc" ? "active" : "")">Price -- Low to High</a>
-        <a asp-action="ViewOrderItems" asp-route-sortOrder="price_desc" class="btn btn-outline-secondary @(currentSort == "price_desc" ? "active" : "")">Price -- High to Low</a>
-        <a asp-action="ViewOrderItems" asp-route-sortOrder="newest" class="btn btn-outline-secondary @(currentSort == "newest" ? "active" : "")">Newest First</a>
-    </div>
-</div>
-
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Order Date</th>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Order Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Order?.OrderID</td>
-                <td>@item.Order?.OrderDate.ToShortDateString()</td>
-                <td>@item.Product?.ProductName</td>
-                <td>@item.Quantity</td>
-                <td>@item.Price.ToString("C")</td>
-                <td>@item.Order?.Status </td>
-                <td>
-                    @if (item.Order?.Status == "Completed")
-                    {
-                        <form asp-action="UpdateOrderStatus" method="post">
-                            <input type="hidden" name="orderId" value="@item.Order?.OrderID" />
-                            <button type="submit" name="newStatus" value="Out for Delivery" class="btn btn-success">Accept</button>
-                            <button type="submit" name="newStatus" value="Order Cancelled" class="btn btn-danger">Cancel Order</button>
-                        </form>
-                    }
-                    else if (item.Order?.Status == "Pending")
-                    {
-                        <span>Payment Pending</span>
-                    }
-                    else
-                    {
-                        <span>@item.Order?.Status ?? "N/A"</span>
-                    }
-                </td>
-            </tr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - AgroMarket</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f4f8;
         }
-    </tbody>
-</table>
+
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+            .card:hover {
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+                transform: translateY(-5px);
+            }
+
+        .card-header {
+            background-color: #4a6fdc;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-group .btn {
+            transition: all 0.3s ease;
+        }
+
+            .btn-group .btn:hover {
+                transform: translateY(-2px);
+            }
+
+            .btn-group .btn.active {
+                background-color: #4a6fdc;
+                color: white;
+            }
+
+        .search-form {
+            background-color: white;
+            border-radius: 30px;
+            padding: 5px 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+            .search-form input {
+                border: none;
+                box-shadow: none;
+            }
+
+            .search-form .btn {
+                border-radius: 50%;
+                width: 38px;
+                height: 38px;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-delivery {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .order-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+            .order-detail i {
+                width: 20px;
+                margin-right: 10px;
+                color: #4a6fdc;
+            }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4"><i class="fas fa-clipboard-list me-2"></i>Order Items</h2>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="get" asp-action="ViewOrderItems" class="search-form d-flex">
+                    <input type="text" name="searchString" class="form-control me-2" placeholder="Search by Product Name" value="@ViewBag.CurrentFilter" />
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3"><i class="fas fa-sort me-2"></i>Sort By:</h5>
+                <div class="btn-group" role="group" aria-label="Sort options">
+                    <a asp-action="ViewOrderItems" asp-route-sortOrder="price_asc" class="btn btn-outline-primary @(currentSort == "price_asc" ? "active" : "")">
+                        <i class="fas fa-sort-amount-down-alt me-1"></i>Price: Low to High
+                    </a>
+                    <a asp-action="ViewOrderItems" asp-route-sortOrder="price_desc" class="btn btn-outline-primary @(currentSort == "price_desc" ? "active" : "")">
+                        <i class="fas fa-sort-amount-down me-1"></i>Price: High to Low
+                    </a>
+                    <a asp-action="ViewOrderItems" asp-route-sortOrder="newest" class="btn btn-outline-primary @(currentSort == "newest" ? "active" : "")">
+                        <i class="fas fa-calendar-alt me-1"></i>Newest First
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span><i class="fas fa-shopping-cart me-2"></i>Order #@item.Order?.OrderID</span>
+                            @{
+                                var statusClass = item.Order?.Status switch
+                                {
+                                    "OrderConfirmed" => "status-completed",
+                                    "Pending" => "status-pending",
+                                    "Out for Delivery" => "status-delivery",
+                                    "Order Cancelled" => "status-cancelled",
+                                    _ => ""
+                                };
+                            }
+                            <span class="status-badge @statusClass">@item.Order?.Status</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="order-detail">
+                                <i class="fas fa-box"></i>
+                                <strong>@item.Product?.ProductName</strong>
+                            </div>
+                            <div class="order-detail">
+                                <i class="fas fa-calendar-day"></i>
+                                <span>@item.Order?.OrderDate.ToShortDateString()</span>
+                            </div>
+                            <div class="order-detail">
+                                <i class="fas fa-cubes"></i>
+                                <span>Quantity: @item.Quantity</span>
+                            </div>
+                            <div class="order-detail">
+                                <i class="fas fa-tag"></i>
+                                <span>Price: @item.Price.ToString("C")</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0">
+                            @if (item.Status == "OrderConfirmed")
+                            {
+                                <div class="d-grid gap-2">
+                                    <button type="button" class="btn btn-success"
+                                            onclick="updateOrderItemStatus('@item.OrderItemID', 'Out for Delivery');">
+                                        <i class="fas fa-check me-1"></i>Accept
+                                    </button>
+                                    <button type="button" class="btn btn-danger"
+                                            onclick="updateOrderItemStatus('@item.OrderItemID', 'Order Cancelled');">
+                                        <i class="fas fa-times me-1"></i>Cancel
+                                    </button>
+                                </div>
+                            }
+                            else if (item.Order?.Status == "Out for Delivery")
+                            {
+                                <div class="text-center text-success">
+                                    <i class="fas fa-check me-1"></i>Order item status: Out for Delivery
+                                </div>
+                            }
+                            else if (item.Order?.Status == "Order Cancelled")
+                            {
+                                <div class="text-center text-danger">
+                                    <i class="fas fa-times me-1"></i>Order item status: Order Cancelled
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateOrderItemStatus(orderItemId, newStatus) {
+            // Hide buttons
+            const buttons = document.querySelectorAll('.d-grid button');
+            buttons.forEach(button => button.style.display = 'none');
+
+            // Create and show the status message
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'text-center text-info';
+            messageDiv.innerHTML = `<i class="fas fa-info-circle me-1"></i>Order item status: ${newStatus}`;
+
+            // Insert the message after the buttons
+            const footer = document.querySelector('.card-footer');
+            footer.appendChild(messageDiv);
+
+            // Prepare and send the fetch request to update the order item status
+            const updateUrl = '@Url.Action("UpdateOrderStatus", "YourController")'; // Update to your controller name
+
+            fetch(updateUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '@Html.AntiForgeryToken()' // Include this if you're using anti-forgery tokens
+                },
+                body: JSON.stringify({
+                    orderItemId: orderItemId,
+                    newStatus: newStatus
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Order item status updated successfully');
+                    } else {
+                        console.error('Error updating order item status');
+                        // Optionally, you can handle errors here
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+</html>

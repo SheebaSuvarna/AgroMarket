@@ -17,161 +17,205 @@
     {
         profileImageUrl = Url.Content("~/images/profile_pictures/default.jpg");
     }
-    
+
 }
 
-<h2>@Model.FirstName's Profile</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retailer Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
 
-<div>
-    <h4>Details</h4>
-    <hr />
-    <dl class="row">
-        <dd class="col-sm-10">
-            <!-- Display the profile image -->
-            <img src="@profileImageUrl" alt="Profile Image" style="width:150px; height:auto;" />
+        .profile-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-top: 50px;
+        }
 
-            <!-- Form to upload a new profile picture -->
-            <form method="post" enctype="multipart/form-data" asp-action="UploadProfilePicture">
-                <div class="form-group">
-                    <label for="profilePicture">Change Profile Picture:</label>
-                    <input type="file" name="profilePicture" id="profilePicture" class="form-control-file" />
-                </div>
-                <button type="submit" class="btn btn-primary">Upload New Image</button>
-            </form>
-        </dd>
+        .profile-header {
+            background-color: #e9ecef;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
 
-        <dd class="col-sm-10"> Name: 
-            @Html.DisplayFor(model => model.FirstName)
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid #ffffff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
 
-        <dd class="col-sm-10"> Farm Name: 
-            @Html.DisplayFor(model => model.FarmName)
-        </dd>
+        .profile-info p {
+            margin-bottom: 0.7rem;
+            font-size: 1.1rem;
+        }
 
-        <dd class="col-sm-10"> Email Address:
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+        .btn-change-photo {
+            position: relative;
+            overflow: hidden;
+            margin-top: 15px;
+        }
 
-        <dd class="col-sm-10">Phone No:
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
+            .btn-change-photo input[type=file] {
+                position: absolute;
+                top: 0;
+                right: 0;
+                min-width: 100%;
+                min-height: 100%;
+                font-size: 100px;
+                text-align: right;
+                filter: alpha(opacity=0);
+                opacity: 0;
+                outline: none;
+                cursor: pointer;
+                display: block;
+            }
 
-        <dd class="col-sm-10">Farm Address:
-            @Html.DisplayFor(model => model.FarmAddress)
-        </dd>
+        .action-buttons {
+            margin-top: 30px;
+        }
 
-        <dd class="col-sm-10">PinCode: 
-            @Html.DisplayFor(model => model.PinCode)
-            
-        </dd>
-    </dl>
-</div>
-
-<div>
-    <button class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit</button>
-    <a asp-action="Dashboard"  class="btn btn-secondary">Back to Dashboard</a>
-</div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
-
-
-<!-- Modal Form for Editing Retailer Profile -->
-<div class="modal" id="editProfileModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="editProfileForm">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Profile</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="name">First Name</label>
-                        <input type="text" class="form-control" id="FirstName" value="@Model.FirstName">
-                    </div>
-                    <div class="form-group">
-                        <label for="address">LastName</label>
-                        <input type="text" class="form-control" id="LastName" value="@Model.LastName">
-                    </div>
-                    <div class="form-group">
-                        <label for="contact">Email</label>
-                        <input type="text" class="form-control" id="Email" value="@Model.Email">
-                    </div>
-                   
-                    <div class="form-group">
-                        <label for="contact">Phone No</label>
-                        <input type="text" class="form-control" id="PhoneNumber" value="@Model.PhoneNumber">
-                    </div>
-                    <div class="form-group">
-                        <label for="contact">FarmName</label>
-                        <input type="text" class="form-control" id="FarmName" value="@Model.FarmName">
-                    </div>
-                     <div class="form-group">
-                        <label for="contact">Farm Address</label>
-                        <input type="text" class="form-control" id="FarmAddress" value="@Model.FarmAddress">
-                    </div>
-                    <div class="form-group">
-                        <label for="contact">PinCode</label>
-                        <input type="text" class="form-control" id="PinCode" value="@Model.PinCode">
+            .action-buttons .btn {
+                padding: 10px 20px;
+                font-size: 1.1rem;
+                margin-right: 10px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container profile-container">
+        <div class="profile-header">
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center">
+                    <img src="@profileImageUrl" alt="Profile Picture" class="profile-image mb-3">
+                    <div>
+                        <form method="post" enctype="multipart/form-data" asp-action="UploadProfilePicture">
+                            <div class="form-group">
+                                <label for="profilePicture" class="btn btn-outline-primary btn-change-photo">
+                                    <i class="fas fa-camera mr-2"></i> Change Photo
+                                    <input type="file" name="profilePicture" id="profilePicture" class="form-control-file" hidden />
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Upload</button>
+                        </form>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="updateRetailerProfile()">Save</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <div class="col-md-8 profile-info">
+                    <h2 class="mb-3">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h2>
+                    <p><i class="fas fa-tractor mr-2"></i> <strong>Farm Name:</strong> @Html.DisplayFor(model => model.FarmName)</p>
+                    <p><i class="fas fa-envelope mr-2"></i> <strong>Email:</strong> @Html.DisplayFor(model => model.Email)</p>
+                    <p><i class="fas fa-phone mr-2"></i> <strong>Phone No:</strong> @Html.DisplayFor(model => model.PhoneNumber)</p>
+                    <p><i class="fas fa-map-marker-alt mr-2"></i> <strong>Farm Address:</strong> @Html.DisplayFor(model => model.FarmAddress)</p>
+                    <p><i class="fas fa-thumbtack mr-2"></i> <strong>Pin Code:</strong> @Html.DisplayFor(model => model.PinCode)</p>
                 </div>
-            </form>
+            </div>
+        </div>
+
+        <div class="action-buttons text-center">
+            <a asp-action="Dashboard" class="btn btn-secondary">
+                <i class="fas fa-tachometer-alt mr-2"></i> Back to Dashboard
+            </a>
+
+            <button class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">
+                <i class="fas fa-user-edit mr-2"></i> Edit Profile
+            </button>
         </div>
     </div>
-</div>
 
+    <!-- Modal Form for Editing Retailer Profile -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editProfileForm">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Profile</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">First Name</label>
+                            <input type="text" class="form-control" id="FirstName" value="@Model.FirstName">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">LastName</label>
+                            <input type="text" class="form-control" id="LastName" value="@Model.LastName">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact">Email</label>
+                            <input type="text" class="form-control" id="Email" value="@Model.Email" disabled>
+                        </div>
 
+                        <div class="form-group">
+                            <label for="contact">Phone No</label>
+                            <input type="text" class="form-control" id="PhoneNumber" value="@Model.PhoneNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact">FarmName</label>
+                            <input type="text" class="form-control" id="FarmName" value="@Model.FarmName">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact">Farm Address</label>
+                            <input type="text" class="form-control" id="FarmAddress" value="@Model.FarmAddress">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact">PinCode</label>
+                            <input type="text" class="form-control" id="PinCode" value="@Model.PinCode">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="updateRetailerProfile()">Save</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    function updateRetailerProfile()
-    {
-        let FirstName = document.getElementById("FirstName").value;
-        let LastName = document.getElementById("LastName").value;
-        let Email = document.getElementById("Email").value;
-        let PhoneNumber = document.getElementById("PhoneNumber").value;
-        let FarmName = document.getElementById("FarmName").value;
-        let FarmAddress = document.getElementById("FarmAddress").value;
-        let PinCode = document.getElementById("PinCode").value;
-       // let Password = document.getElementById("Password").value;
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateRetailerProfile() {
+            let data = {
+                FirstName: document.getElementById("FirstName").value,
+                LastName: document.getElementById("LastName").value,
+                Email: document.getElementById("Email").value,
+                PhoneNumber: document.getElementById("PhoneNumber").value,
+                FarmName: document.getElementById("FarmName").value,
+                FarmAddress: document.getElementById("FarmAddress").value,
+                PinCode: document.getElementById("PinCode").value
+            };
 
-        let data = {
-            FirstName: FirstName,
-            LastName: LastName,
-            Email: Email,
-            PhoneNumber:PhoneNumber,
-            FarmName: FarmName,
-            FarmAddress: FarmAddress,
-            PinCode : PinCode
-        };
-        
-        fetch('/Retailer/UpdateRetailer', {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => {
-            if (response.ok) {
-                alert("Profile updated successfully.");
-                location.reload();  // Reload page to reflect changes
-            } else {
-                alert("Error updating profile.");
-            }
-        })
-        .catch(error => console.error("Error:", error));
-}
-
-    
-</script>
+            fetch('/Retailer/UpdateRetailer', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Profile updated successfully.");
+                        location.reload();
+                    } else {
+                        alert("Error updating profile.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>

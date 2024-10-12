@@ -77,7 +77,8 @@ namespace AgroMarket.Controllers
                 {
                     ProductID = c.ProductID,
                     Quantity = c.Quantity,
-                    Price = c.Product.Price
+                    Price = c.Product.Price,
+                    Status = "Pending"
                 }).ToList();
 
                 _context.Orders.Add(order);
