@@ -73,11 +73,12 @@ namespace AgroMarket.Controllers
                     CategoryId = category.CategoryID
                 };
                 _context.ProductCategories.Add(productCategory);
+                TempData["ProductSuccess"] = "Product Added Sucessfully!";
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","Product");
             }
-
+            TempData["ProductFail"] = "Fill All required fields";
             ViewBag.Products = _context.Products.Select(p => p.ProductName).ToList();
             ViewBag.Categories = new SelectList(_context.Categories, "CategoryID", "CategoryName", CategoryID);
 

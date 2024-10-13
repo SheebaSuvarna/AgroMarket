@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace AgroMarket.Controllers
 {
+
     [Route("admin")]
     public class AdminController : Controller
     {
@@ -17,14 +18,18 @@ namespace AgroMarket.Controllers
         {
             _context = context;
         }
-
+      
         // Admin Dashboard (async)
         [HttpGet]
         [Route("dashboard")]
         public async Task<IActionResult> Dashboard(string activeTab = "customers")  // default tab is "customers"
         {
-            // Fetch customers, retailers, products, categories, reviews, and orders asynchronously
-            var customers = await _context.Customers.ToListAsync();
+            if (User.FindFirst("Role")?.Value != "admin")
+            {
+                return RedirectToAction("Login", "AdminLogin");
+            }
+                // Fetch customers, retailers, products, categories, reviews, and orders asynchronously
+                var customers = await _context.Customers.ToListAsync();
             var retailers = await _context.Retailers.ToListAsync();
             var products = await _context.Products.ToListAsync();
             var categories = await _context.Categories.ToListAsync();

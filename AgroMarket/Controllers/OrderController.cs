@@ -119,28 +119,35 @@ namespace AgroMarket.Controllers
 
 			return View(order); // Pass the order to the view for display
 		}
+        [HttpPost]
+        public IActionResult ConfirmPayment(Guid orderId)
+        {
+            // Retrieve the order from the database
+            var order = _context.Orders
+                .Include(o => o.OrderItem) // Ensure you include OrderItems in the query
+                .FirstOrDefault(o => o.OrderID == orderId);
 
-		[HttpPost]
-		public IActionResult ConfirmPayment(Guid orderId)
-		{
-			// Retrieve the order from the database
-			var order = _context.Orders.FirstOrDefault(o => o.OrderID == orderId);
+            if (order == null)
+            {
+                return NotFound();
+            }
 
-			if (order == null)
-			{
-				return NotFound();
-			}
+            // Update the order status to "OrderConfirmed"
+            order.Status = "OrderConfirmed";
 
-			// Update the order status to "OrderConfirmed"
-			order.Status = "OrderConfirmed";
-			_context.SaveChanges();
+            // Update all order items to "OrderConfirmed"
+            foreach (var orderItem in order.OrderItem)
+            {
+                orderItem.Status = "OrderConfirmed"; // Update each order item's status
+            }
 
-			// Redirect to the Order Confirmation view
-			return RedirectToAction("OrderConfirmed", new { orderId = orderId });
-		}
+            _context.SaveChanges(); // Save all changes in one transaction
 
+            // Redirect to the Order Confirmation view
+            return RedirectToAction("OrderConfirmed", new { orderId = orderId });
+        }
 
-	}
+    }
 
 }
 

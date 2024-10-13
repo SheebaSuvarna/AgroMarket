@@ -1,0 +1,144 @@
+﻿@model AgroMarket.Models.Entities.Customer
+
+@{
+
+    ViewData["Title"] = "Customer Profile";
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.FirstName's Profile - AgroMarket</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f4f8;
+        }
+
+        .profile-card {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+            .profile-card:hover {
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+                transform: translateY(-5px);
+            }
+
+        .profile-header {
+            background-color: #4a6fdc;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #ffffff;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .profile-body {
+            padding: 30px;
+        }
+
+        .profile-info {
+            margin-bottom: 20px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #4a6fdc;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 16px;
+        }
+
+        .btn-edit {
+            background-color: #4a6fdc;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+            .btn-edit:hover {
+                background-color: #3655b3;
+                transform: translateY(-2px);
+            }
+
+        .btn-back {
+            transition: all 0.3s ease;
+        }
+
+            .btn-back:hover {
+                transform: translateY(-2px);
+            }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <h2 class="profile-name">@Model.FirstName @Model.LastName</h2>
+                        <p class="profile-email">@Model.Email</p>
+                    </div>
+                    <div class="profile-body">
+                        <div class="row">
+                            <div class="col-md-6 profile-info">
+                                <p class="info-label"><i class="fas fa-envelope me-2"></i>Email Address</p>
+                                <p class="info-value">@Model.Email</p>
+                            </div>
+                            <div class="col-md-6 profile-info">
+                                <p class="info-label"><i class="fas fa-phone me-2"></i>Phone Number</p>
+                                <p class="info-value">@Model.PhoneNumber</p>
+                            </div>
+                            <div class="col-md-6 profile-info">
+                                <p class="info-label"><i class="fas fa-map-pin me-2"></i>Address</p>
+                                <p class="info-value">@Model.Address</p>
+                            </div>
+                            <div class="col-md-6 profile-info">
+                                <p class="info-label"><i class="fas fa-map-pin me-2"></i>Pin Code</p>
+                                <p class="info-value">@Model.PinCode</p>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="EditProfile" asp-route-id="@Model.CustomerID" class="btn btn-primary btn-edit">
+                                <i class="fas fa-edit me-2"></i>Edit Profile
+                            </a>
+                            <a asp-action="Dashboard" class="btn btn-secondary btn-back">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
