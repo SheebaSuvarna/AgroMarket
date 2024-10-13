@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AgroMarket.Controllers
 {
- 
+
     public class CustomerController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -25,17 +25,20 @@ namespace AgroMarket.Controllers
         {
             _context = context;
         }
-
-
-        public async Task<IActionResult> Index(string searchTerm, string sortOrder, string categoryID)
+        [HttpGet]
+        public async Task<IActionResult> Index(string searchTerm, string sortOrder, string categoryName)
         {
+
+            // Fetch products including related reviews and categories
             var products = await _context.Products
                 .Include(p => p.Review)
                 .Include(p => p.ProductCategory) // Include related product categories
                 .ThenInclude(pc => pc.Category) // Include categories of the product
                 .ToListAsync();
 
-            // If there's a search term, filter products by product name
+
+
+            // Filter products by search term if provided
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 products = products
@@ -43,21 +46,6 @@ namespace AgroMarket.Controllers
                     .ToList();
             }
 
-            string categoryName = null; // Initialize categoryName to null
-
-            // If a category ID is provided, retrieve the corresponding category name
-            /*if (categoryID.HasValue)
-            {
-                var category = await _context.Categories
-                    .FirstOrDefaultAsync(c => c.CategoryID == categoryID.Value);
-
-                if (category != null)
-                {
-                    categoryName = category.CategoryName; // Get the category name
-                }
-            }*/
-            Console.WriteLine(categoryID + "......................");
-            // If a category name is found, filter by category name
             if (!string.IsNullOrEmpty(categoryName))
             {
                 products = products
@@ -102,14 +90,13 @@ namespace AgroMarket.Controllers
             ViewBag.AverageRating = productRatings;
             ViewBag.SearchTerm = searchTerm;
             ViewBag.SortOrder = sortOrder;
-            ViewBag.CategoryName = categoryName; // Pass the selected category name
+            ViewBag.SelectedCategory = categoryName;
 
             return View(new CustomerDashboardViewModel
             {
                 Products = products
             });
         }
-
 
         [Authorize]
         public async Task<IActionResult> Dashboard()
@@ -121,7 +108,7 @@ namespace AgroMarket.Controllers
                 TempData["AccessDeniedMessage"] = "Access Denied. Please log in as a customer.";
                 return RedirectToAction("AccessDenied", "Account");
             }
-            var orders = await _context.Orders 
+            var orders = await _context.Orders
                              .Include(o => o.OrderItem)
                                  .ThenInclude(oi => oi.Product)
                                      .ThenInclude(p => p.Retailer)
@@ -238,54 +225,100 @@ namespace AgroMarket.Controllers
             return RedirectToAction("Dashboard"); // Redirect back to the dashboard
         }
 
-
-
         [Authorize]
         public IActionResult GenerateInvoicePdf(Guid orderId)
-    {
-        // Fetch the order details
-        var order = _context.Orders
-            .Include(o => o.OrderItem)
-            .ThenInclude(oi => oi.Product)
-            .FirstOrDefault(o => o.OrderID == orderId);
-
-        if (order == null)
         {
-            return NotFound();
-        }
+            // Fetch the order details
+            var order = _context.Orders
+                .Include(o => o.OrderItem)
+                .ThenInclude(oi => oi.Product)
+                .FirstOrDefault(o => o.OrderID == orderId);
 
-        // Create a memory stream for the PDF
-        using (MemoryStream ms = new MemoryStream())
-        {
-                // Create a PDF document
-            iTextSharp.text.Document document = new iTextSharp.text.Document();
-            PdfWriter.GetInstance(document, ms);
-
-            // Open the PDF document
-            document.Open();
-
-            // Add content to the PDF
-            document.Add(new Paragraph("Invoice"));
-            document.Add(new Paragraph($"Order ID: {order.OrderID}"));
-            document.Add(new Paragraph($"Order Date: {order.OrderDate.ToShortDateString()}"));
-            document.Add(new Paragraph($"Total Amount: {order.TotalAmount:C}"));
-
-            document.Add(new Paragraph("\nItems:"));
-            foreach (var item in order.OrderItem)
+            if (order == null)
             {
-                document.Add(new Paragraph($"{item.Product.ProductName} - {item.Quantity} x {item.Price:C}"));
+                return NotFound();
             }
 
-            // Close the PDF document
-            document.Close();
+            // Create a memory stream for the PDF
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Create a PDF document
+                iTextSharp.text.Document document = new iTextSharp.text.Document();
+                PdfWriter.GetInstance(document, ms);
 
-            // Convert the memory stream to a byte array and return as PDF file
-            byte[] pdfBytes = ms.ToArray();
-            return File(pdfBytes, "application/pdf", "Invoice.pdf");
-        }
+                // Open the PDF document
+                document.Open();
+
+                // Add content to the PDF
+                document.Add(new Paragraph("Invoice"));
+                document.Add(new Paragraph($"Order ID: {order.OrderID}"));
+                document.Add(new Paragraph($"Order Date: {order.OrderDate.ToShortDateString()}"));
+                document.Add(new Paragraph($"Total Amount: {order.TotalAmount:C}"));
+
+                document.Add(new Paragraph("\nItems:"));
+                foreach (var item in order.OrderItem)
+                {
+                    document.Add(new Paragraph($"{item.Product.ProductName} - {item.Quantity} x {item.Price:C}"));
+                }
+
+                // Close the PDF document
+                document.Close();
+
+                // Convert the memory stream to a byte array and return as PDF file
+                byte[] pdfBytes = ms.ToArray();
+                return File(pdfBytes, "application/pdf", "Invoice.pdf");
+            }
+
     }
+        public async Task<IActionResult> Profile()
+        {
+            var customerId = User.FindFirst("CustomerID")?.Value;
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "RetailerAuth");
+            }
 
-}
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(r => r.CustomerID.ToString() == customerId);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return View(customer);
+        }
+
+        public IActionResult EditProfile(Guid id)
+        {
+            var customer = _context.Customers.Find(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return View(customer);
+        }
+        [HttpPost]
+        public IActionResult EditProfile(Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                // Update customer in the database
+                _context.Customers.Update(customer);
+                _context.SaveChanges();
+
+                // Redirect back to the profile page
+                return RedirectToAction("sadaf", new { id = customer.CustomerID });
+            }
+
+            // If validation fails, return the same view with the current data
+            return View(customer);
+        }
+
+
+
+    }
 }
 
 

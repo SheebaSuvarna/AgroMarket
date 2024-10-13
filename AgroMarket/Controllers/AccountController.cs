@@ -263,31 +263,95 @@ namespace AgroMarket.Controllers
         {
             return View();
         }
+      
+
         [HttpPost]
         public async Task<IActionResult> VerifyEmail(VerifyEmail model)
         {
             if (ModelState.IsValid)
             {
-                // Check if the email exists in the Customers table
-                var existingCustomer = await _context.Customers
-                    .FirstOrDefaultAsync(c => c.Email == model.Email);
-
-                // Check if the email exists in the Retailers table
-                var existingRetailer = await _context.Retailers
-                    .FirstOrDefaultAsync(r => r.Email == model.Email);
+                var existingCustomer = await _context.Customers.FirstOrDefaultAsync(c => c.Email == model.Email);
+                var existingRetailer = await _context.Retailers.FirstOrDefaultAsync(r => r.Email == model.Email);
 
                 if (existingCustomer != null || existingRetailer != null)
                 {
-                    // Email exists in one of the tables, redirect to Change Password
-                    return RedirectToAction("ChangePassword", new { email = model.Email });
+                    // Generate OTP
+                    var otp = new Random().Next(100000, 999999);
+
+                    // Store OTP in session or database as needed
+                    HttpContext.Session.SetInt32("OTP", otp);
+                    HttpContext.Session.SetString("OTPEmail", model.Email);
+
+                    // Send OTP via email
+                    await _emailService.SendEmailAsync(model.Email, "Your OTP Code", $"Your OTP code is: {otp}");
+
+
+                    /*  TempData["SuccessMessage"] = "An OTP has been sent to your email.";
+                      ViewBag.SuccessMessage = TempData["SuccessMessage"];
+  */
+
+                    return RedirectToAction("EnterOTP", new { email = model.Email });
                 }
 
-                // If no match is found, add an error
                 ModelState.AddModelError("", "Email not found. Please enter a registered email.");
             }
 
-            return View(model); // Return the view with validation errors
+            return View(model);
         }
+
+
+
+
+
+        public IActionResult EnterOTP(string email)
+        {
+            var model = new EnterOTP { Email = email };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EnterOTP(EnterOTP model)
+        {
+            if (ModelState.IsValid)
+            {
+                var savedOTP = HttpContext.Session.GetInt32("OTP");
+                var savedEmail = HttpContext.Session.GetString("OTPEmail");
+
+                if (savedOTP == model.OTP && savedEmail == model.Email)
+                {
+                    // Clear OTP from session after successful validation
+                    HttpContext.Session.Remove("OTP");
+                    HttpContext.Session.Remove("OTPEmail");
+
+                    // Redirect to ChangePassword action
+                    return RedirectToAction("ChangePassword", new { email = model.Email });
+                }
+
+                ModelState.AddModelError("", "Incorrect OTP. Please try again or request a new OTP.");
+            }
+            return View(model);
+        }
+
+
+        [HttpGet] // Allows this method to respond to GET requests
+        public async Task<IActionResult> ResendOTP(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                TempData["ErrorMessage"] = "Email is required.";
+                return RedirectToAction("EnterOTP"); // Adjust redirection as needed
+            }
+
+            var otp = new Random().Next(100000, 999999);
+            HttpContext.Session.SetInt32("OTP", otp);
+            HttpContext.Session.SetString("OTPEmail", email);
+
+            await _emailService.SendEmailAsync(email, "Your OTP Code", $"Your new OTP code is: {otp}");
+            TempData["SuccessMessage"] = "A new OTP has been sent to your email.";
+
+            return RedirectToAction("EnterOTP", new { email });
+        }
+
         public IActionResult ChangePassword()
         {
             return View();
