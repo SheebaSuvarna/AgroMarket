@@ -95,24 +95,27 @@ namespace AgroMarket.Controllers
             {
                 return NotFound();
             }
-
-            // Get the image path from the product entity
-            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", product.ImageUrl.TrimStart('/'));  // Remove leading slash
-            Console.WriteLine(imagePath);
-
-
-            // Check if the image exists in the server folder
-            if (System.IO.File.Exists(imagePath))
+            if (product.ImageUrl != null)
             {
-                // Delete the image file
-                System.IO.File.Delete(imagePath);
-            }
+                // Get the image path from the product entity
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", product.ImageUrl.TrimStart('/'));  // Remove leading slash
+                Console.WriteLine(imagePath);
 
+
+                // Check if the image exists in the server folder
+                if (System.IO.File.Exists(imagePath))
+                {
+                    // Delete the image file
+                    System.IO.File.Delete(imagePath);
+                }
+            }
             // Remove the product from the database
             _context.Products.Remove(product);
+            
             await _context.SaveChangesAsync();
+            TempData["DeleteSuccess"] = "Product Deleted Sucessfully";
 
-            return Ok(); // Return success status
+            return Ok();
         }
 
         [Authorize]

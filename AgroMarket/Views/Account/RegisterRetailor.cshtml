@@ -1,5 +1,5 @@
 ﻿@using AgroMarket.ViewModels;
-@model RegisterRetailor;
+@model RegisterRetailorViewModel;
 
 @{
     ViewData["Title"] = "Register";
@@ -25,6 +25,12 @@
             opacity: 0.8;
         }
 
+        .custom-warning {
+            color: yellow;
+            font-weight: bold;
+            font-size: 12px; /* Adjust font size */
+        }
+
         .login-container {
             background: #4a5d23;
             border-radius: 20px;
@@ -33,7 +39,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            height: calc(110vh - 70px);
+            height: calc(110vh - 20px);
         }
 
             .login-container h1 {
@@ -215,8 +221,10 @@
                 <div class="column">
                     <div class="field-container">
                         <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
-                        <input asp-for="PhoneNumber" class="form-control" type="tel" required />
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber"
+                               pattern="\d{10}" maxlength="10" minlength="10" required
+                               title="Phone number must be exactly 10 digits." />
+                        <span class="text-danger">@ViewData["PhoneNumberError"]</span>
                     </div>
                 </div>
             </div>
@@ -251,17 +259,27 @@
                 <div class="column">
                     <div class="field-container">
                         <label asp-for="Password" class="form-label">Password</label>
-                        <input asp-for="Password" type="password" class="form-control" required />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <input type="password" class="form-control" id="Password" name="Password"
+                               pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,20}"
+                               minlength="8" maxlength="20" required
+                               title="Password must be 8-20 characters long, with at least one uppercase letter, one lowercase letter, and one number." />
+                        <span class="text-danger">@ViewData["PasswordError"]</span>
                     </div>
                 </div>
                 <div class="column">
                     <div class="field-container">
                         <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
-                        <input asp-for="ConfirmPassword" type="password" class="form-control" required />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword"
+                               required title="Please confirm your password." />
+                        <span class="text-danger">@ViewData["ConfirmPasswordError"]</span>
                     </div>
                 </div>
+            </div>
+            <div class="custom-warning">
+                <ul>
+                    <li>Password must be at least 8 characters long</li>
+                    <li>Password must have at least one uppercase letter, one lowercase letter, and one number.</li>
+                </ul>
             </div>
 
             <!-- Register Button -->

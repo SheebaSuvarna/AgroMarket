@@ -42,6 +42,11 @@
                 font-size: 36px;
             }
 
+        .custom-warning {
+            color: yellow;
+            font-weight: bold;
+            font-size: 12px; /* Adjust font size */
+        }
         .form-label {
             color: white;
         }
@@ -124,13 +129,11 @@
                 text-decoration: underline; /* Optional: add an underline on hover */
             }
         .text-danger {
-            color: yellow; /* Ensure error messages are clearly visible */
+            
             margin-left: 0; /* Align with label */
-            position: absolute; /* Position it to avoid shifting */
             top: 100%; /* Position below the input */
             left: 0; /* Align with input */
             font-size: 12px; /* Adjust font size */
-            margin-top: 5px; /* Space above error message */
         } 
         /* Media Queries for Responsiveness */
         @@media (max-width: 768px) {
@@ -171,9 +174,7 @@
     </style>
 </head>
 <body>
-    <div id="successMessage" style="display:none; position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); background: green; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
-        @ViewBag.SuccessMessage
-    </div>
+   
     <div class="login-container">
         <h1>Register</h1>
         <form asp-action="RegisterCustomer" method="post">
@@ -197,8 +198,11 @@
                     </div>
                     <div class="field-container">
                         <label asp-for="Password" class="form-label">Password</label>
-                        <input asp-for="Password" type="password" class="form-control" required />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <input type="password" class="form-control" id="Password" name="Password"
+                               pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,20}"
+                               minlength="8" maxlength="20" required
+                               title="Password must be 8-20 characters long, with at least one uppercase letter, one lowercase letter, and one number." />
+                        <span class="text-danger">@ViewData["PasswordError"]</span>
                     </div>
                    
                 </div>
@@ -211,8 +215,10 @@
 
                     <div class="field-container">
                         <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
-                        <input asp-for="PhoneNumber" class="form-control" type="tel" required />
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber"
+                               pattern="\d{10}" maxlength="10" minlength="10" required
+                               title="Phone number must be exactly 10 digits." />
+                        <span class="text-danger">@ViewData["PhoneNumberError"]</span>
                     </div>
                     
                     <div class="field-container">
@@ -223,11 +229,21 @@
                    
                     <div class="field-container">
                         <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
-                        <input asp-for="ConfirmPassword" type="password" class="form-control" required />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword"
+                               required title="Please confirm your password." />
+                        <span class="text-danger">@ViewData["ConfirmPasswordError"]</span>
                     </div>
                 </div>
+                
             </div>
+
+            <div class="custom-warning" >
+                    <ul>
+                    <li>Password must be at least 8 characters long</li>
+                    <li>Password must have at least one uppercase letter, one lowercase letter, and one number.</li>
+                </ul>
+            </div>
+         
 
             <!-- Register Button -->
             <div class="register-buttons">
@@ -241,38 +257,5 @@
     </div>
 </body>
 </html>
-
-
-
-    @section Scripts {
-    <script>
-        $(document).ready(function () {
-            // Initially hide validation messages
-            $("form span.text-danger").hide();
-
-            // Show validation message on blur if input is empty
-            $("form input").on("focus", function () {
-                $(this).siblings("span.text-danger").hide();
-            }).on("blur", function () {
-                if ($(this).val() === "") {
-                    $(this).siblings("span.text-danger").show();
-                }
-            });
-
-            // Show success message if it exists
-            var successMessage = '@ViewBag.SuccessMessage';
-            if (successMessage) {
-                $("#successMessage").show(); // Show the message
-                setTimeout(function() {
-                    $("#successMessage").fadeOut(); // Hide the message after 5 seconds
-                    // Redirect to the login page after fading out
-                    setTimeout(function() {
-                        window.location.href = '@Url.Action("Login", "Account")'; // Adjust according to your Login action
-                    }, 500); // Wait for the fade out animation to complete
-                }, 5000);
-            }
-        });
-    </script>
-}
 
 }

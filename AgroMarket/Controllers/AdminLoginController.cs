@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using AgroMarket.Models.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace AgroMarket.Controllers
 {
@@ -41,7 +42,8 @@ namespace AgroMarket.Controllers
                     };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity));
                     // Authentication successful, redirect to the admin dashboard
                     return RedirectToAction("Dashboard", "Admin");
                 }
