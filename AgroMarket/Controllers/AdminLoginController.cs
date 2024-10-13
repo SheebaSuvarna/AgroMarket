@@ -3,6 +3,9 @@ using AgroMarket.Models;
 using AgroMarket.Data; 
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using AgroMarket.Models.Entities;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace AgroMarket.Controllers
 {
@@ -32,6 +35,13 @@ namespace AgroMarket.Controllers
 
                 if (adminUser != null)
                 {
+                    var claims = new List<Claim>
+                    {
+                        new Claim("Role","admin"),                     
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
                     // Authentication successful, redirect to the admin dashboard
                     return RedirectToAction("Dashboard", "Admin");
                 }

@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
     var activeTab = Context.Request.Query["activeTab"].FirstOrDefault() ?? "customers";
 }
 

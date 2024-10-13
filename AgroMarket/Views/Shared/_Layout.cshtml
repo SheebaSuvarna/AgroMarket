@@ -18,6 +18,7 @@
             overflow: hidden;
         }
 
+        /* Ensure navbar stays on top */
         .navbar {
             background-color: #4a5d23;
             padding: 15px 30px;
@@ -28,47 +29,120 @@
             position: fixed;
             top: 0;
             width: 100%;
+            z-index: 100; /* Keep navbar on top */
+            height: 70px; /* Set height of the navbar */
+        }
+
+        /* Content Wrapper Below Navbar */
+        .content-wrapper {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+            padding-top: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .navbar .logo {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar .cta {
+            background-color: #f5a623;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .navbar .greeting {
+            margin-left: 50px;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            background-color: #343a40;
+            color: #fff;
+            width: 60px;
+            min-height: 100%;
+            overflow-y: auto;
+            padding: 20px 0;
+            transition: width 0.3s ease-in-out;
+            position: relative;
             z-index: 1000;
         }
 
-            .navbar .logo {
-                color: #fff;
-                font-size: 24px;
-                font-weight: bold;
+            .sidebar:hover {
+                width: 250px; /* Expand on hover */
             }
 
-            .navbar .cta {
-                background-color: #f5a623;
-                color: #fff;
-                padding: 10px 20px;
-                border-radius: 20px;
-                text-decoration: none;
-                font-weight: bold;
+            .sidebar h4 {
+                text-align: center;
+                margin-bottom: 20px;
+                opacity: 0; /* Hidden initially */
+                transition: opacity 0.3s ease-in-out;
             }
 
-        .content-wrapper {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            padding-top: 10px;
-        }
+            .sidebar:hover h4 {
+                opacity: 1; /* Show title on hover */
+            }
 
+            .sidebar ul {
+                padding-left: 0;
+            }
+
+            .sidebar .nav-link {
+                color: #fff;
+                display: flex;
+                align-items: center;
+                padding: 10px 15px;
+                white-space: nowrap;
+            }
+
+                .sidebar .nav-link .icon {
+                    margin-right: 10px;
+                    font-size: 20px;
+                }
+
+                .sidebar .nav-link span {
+                    opacity: 0; /* Hidden initially */
+                    transition: opacity 0.3s ease-in-out;
+                }
+
+            .sidebar:hover .nav-link span {
+                opacity: 1; /* Show text on hover */
+            }
+
+            .sidebar .nav-item {
+                margin-bottom: 10px;
+            }
+
+        /* Scrollable content */
         .scrollable-content {
             flex-grow: 1;
             overflow-y: auto;
-        }
-
-        .container {
             padding: 30px;
         }
 
-        .footer {
-            padding-bottom: 50px;
-            background-color: #f5f0e6;
-            text-align: center;
-            border-top: 1px solid #ccc;
+            /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+            .scrollable-content::-webkit-scrollbar {
+                display: none;
+            }
+
+        /* Hide scrollbar for Firefox */
+        .scrollable-content {
+            scrollbar-width: none;
         }
+
     </style>
+
 </head>
 
 <body>
@@ -77,38 +151,74 @@
         <div class="logo">AgroMarket</div>
 
         <!-- Conditional Buttons Based on Authentication -->
-        <div style="display: flex; align-items: center; margin-left: 20px;">
-            
-            
+        <div style="display: flex; align-items: center;">
             @if (User.Identity.IsAuthenticated)
             {
                 @if (User.FindFirst("name")?.Value != "")
                 {
                     var name = User.FindFirst("name")?.Value;
 
-                    <p class="text-white">
-                        Hi, @name
-                    </p>
+                    <div class="greeting">Hi, @name</div>
                 }
-                <!-- Display Logout button when authenticated -->
                 <a class="cta" asp-controller="Account" asp-action="Logout">Logout</a>
             }
             else
             {
-                <!-- Display Login/Register button when not authenticated -->
                 <a class="cta" asp-controller="Account" asp-action="Login">Login/Register</a>
             }
             @if (User.FindFirst("Role")?.Value == "customer")
             {
                 <a class="text-white" style="margin-left: 20px;" asp-controller="Cart" asp-action="Index">
                     <i class="fas fa-shopping-cart" style="font-size: 24px;"></i>
-            </a>
+                </a>
+                <a class="text-white" style="margin-left: 20px;" asp-controller="Customer" asp-action="Profile">
+                    <i class="fas fa-user" style="font-size: 24px;"></i>
+                </a>
             }
         </div>
     </div>
 
-    <!-- Main content and footer wrapped for scrolling -->
+    <!-- Main content and sidebar -->
     <div class="content-wrapper">
+        @if (User.FindFirst("Role")?.Value == "retailer")
+        {
+            <div class="sidebar">
+                <!-- Sidebar content for retailers -->
+                <h4>Dashboard</h4>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a asp-controller="Retailer" asp-action="Profile" class="nav-link">
+                            <i class="fas fa-user icon"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Product" asp-action="Create" class="nav-link">
+                            <i class="fas fa-plus icon"></i>
+                            <span>Add Product</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Product" asp-action="Index" class="nav-link">
+                            <i class="fas fa-box icon"></i>
+                            <span>View Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="OrderView" asp-action="ViewOrderItems" class="nav-link">
+                            <i class="fas fa-shopping-cart icon"></i>
+                            <span>View Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Product" asp-action="Review" class="nav-link">
+                            <i class="fas fa-star icon"></i>
+                            <span>View Reviews</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        }
         <div class="scrollable-content">
             <!-- Main content section -->
             <div class="container">
@@ -116,13 +226,6 @@
                     @RenderBody()
                 </main>
             </div>
-
-            <!-- Footer section -->
-            <footer class="footer">
-                <div class="container">
-                    &copy; 2024 - AgroMarket - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </div>
-            </footer>
         </div>
     </div>
 
