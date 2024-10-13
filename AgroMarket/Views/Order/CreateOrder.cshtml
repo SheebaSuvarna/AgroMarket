@@ -1,39 +1,107 @@
 ﻿@model OrderViewModel
-
-<h2>Review Your Order</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.CartItems)
-        {
-            var tot = item.Product.Price * item.Quantity;
-            <tr>
-                <td>@item.Product.ProductName</td>
-                <td>@item.Quantity</td>
-                <td>@item.Product.Price.ToString("C")</td>
-                <td>@tot.ToString("C")</td>
-            </tr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Your Order</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
         }
-    </tbody>
-</table>
 
-<p><strong>Total: </strong>@Model.TotalAmount.ToString("C")</p>
+        .order-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-top: 50px;
+        }
 
-<form asp-action="SubmitOrder" method="post">
-    <div class="form-group">
-        <label for="ShippingAddress">Shipping Address</label>
-        <textarea class="form-control" id="ShippingAddress" name="ShippingAddress" rows="3" required>@Model.ShippingAddress</textarea>
+        .table th {
+            background-color: #f1f3f5;
+        }
+
+        .total-row {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .shipping-address {
+            background-color: #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="order-container">
+            <h2 class="text-center mb-4"><i class="fas fa-clipboard-check mr-2"></i>Review Your Order</h2>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartItems)
+                        {
+                            var tot = item.Product.Price * item.Quantity;
+                            <tr>
+                                <td>
+                                    <strong>@item.Product.ProductName</strong>
+                                    <small class="d-block text-muted">Product ID: @item.Product.ProductID</small>
+                                </td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Product.Price.ToString("C")</td>
+                                <td>@tot.ToString("C")</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="3" class="text-right">Total:</td>
+                            <td>@Model.TotalAmount.ToString("C")</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <form asp-action="SubmitOrder" method="post">
+                <div class="shipping-address">
+                    <h4><i class="fas fa-shipping-fast mr-2"></i>Shipping Information</h4>
+                    <div class="form-group">
+                        <label for="ShippingAddress">Shipping Address</label>
+                        <textarea class="form-control" id="ShippingAddress" name="ShippingAddress" rows="3" required placeholder="Enter your full shipping address">@Model.ShippingAddress</textarea>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="@Url.Action("Index", "Cart")" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Cart
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        Go to Payment <i class="fas fa-credit-card ml-2"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary">Go to Payment</button>
-    <a href="@Url.Action("Index", "Cart")" class="btn btn-secondary">Cancel</a>
-</form>
 
-
+    <!-- Bootstrap JS and its dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
