@@ -1,87 +1,112 @@
 ﻿@model AgroMarket.Models.Entities.Order
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
 
-<div class="payment-container">
-    <div class="payment-box">
-        <h2 class="text-center">Payment</h2>
+        .payment-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #7fc8f8, #89d0be);
+        }
 
-        <p><strong>Order ID:</strong> @Model.OrderID</p>
-        <p><strong>Total Amount:</strong> @Model.TotalAmount.ToString("C")</p>
+        .payment-box {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+        }
 
-        <form id="confirmPaymentForm" method="post" asp-action="ConfirmPayment" asp-route-orderId="@Model.OrderID">
-            <button type="submit" class="btn btn-success btn-block" id="confirmPaymentBtn">Confirm Payment</button>
-        </form>
+        .payment-title {
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
 
-        <!-- Spinner Loader -->
-        <div id="loadingMessage" style="display:none;">
-            <div class="spinner"></div>
-            <p class="mt-2">Please wait, confirming your order...</p>
+        .order-details {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-confirm {
+            background-color: #28a745;
+            border: none;
+            padding: 0.75rem;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+            .btn-confirm:hover {
+                background-color: #218838;
+                transform: translateY(-2px);
+            }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+        #loadingMessage {
+            background-color: rgba(255, 255, 255, 0.9);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-box position-relative">
+            <h2 class="text-center payment-title">Payment Confirmation</h2>
+            <div class="order-details mb-4">
+                <p class="mb-2"><strong>Order ID:</strong> <span class="float-end">@Model.OrderID</span></p>
+                <p class="mb-0"><strong>Total Amount:</strong> <span class="float-end">@Model.TotalAmount.ToString("C")</span></p>
+            </div>
+            <form id="confirmPaymentForm" method="post" asp-action="ConfirmPayment" asp-route-orderId="@Model.OrderID">
+                <button type="submit" class="btn btn-confirm btn-block w-100" id="confirmPaymentBtn">
+                    Confirm Payment
+                </button>
+            </form>
+            <div id="loadingMessage" style="display:none;">
+                <div class="spinner-border text-success mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mb-0">Please wait, confirming your order...</p>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- CSS for Central Rectangle and Blur Effect -->
-<style>
-    /* Full-page blur effect */
-    .payment-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: rgba(173, 216, 230, 0.5); /* Light pastel blue with 50% transparency */
-        backdrop-filter: blur(10px); /* Blur effect */
-    }
-
-    /* Centered yellow box */
-    .payment-box {
-        background-color: #fff3cd; /* Light yellow color */
-        padding: 40px;
-        border-radius: 8px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Shadow for depth */
-        max-width: 400px;
-        text-align: center;
-    }
-
-    /* Spinner styles */
-    .spinner {
-        border: 8px solid #f3f3f3; /* Light gray */
-        border-top: 8px solid #28a745; /* Green */
-        border-radius: 50%;
-        width: 80px;
-        height: 80px;
-        animation: spin 2s linear infinite;
-        margin: 0 auto;
-    }
-
-    @@keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-    /* Center the loader */
-    #loadingMessage {
-        text-align: center;
-        font-size: 1.2rem;
-        color: #28a745;
-    }
-</style>
-
-<!-- JavaScript for Button and Spinner -->
-<script>
-    document.getElementById("confirmPaymentForm").addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent default form submission
-
-        // Show the loading message (spinner) and hide the form button
-        document.getElementById("loadingMessage").style.display = "block";
-        document.getElementById("confirmPaymentBtn").style.display = "none";
-
-        // Simulate a delay (e.g., 3 seconds) before proceeding
-        setTimeout(function () {
-            // Submit the form after the delay
-            document.getElementById("confirmPaymentForm").submit();
-        }, 3000); // 3000 milliseconds = 3 seconds delay
-    });
-</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById("confirmPaymentForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            document.getElementById("loadingMessage").style.display = "flex";
+            document.getElementById("confirmPaymentBtn").style.display = "none";
+            setTimeout(function () {
+                document.getElementById("confirmPaymentForm").submit();
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
