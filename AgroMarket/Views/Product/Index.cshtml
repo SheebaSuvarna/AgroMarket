@@ -145,7 +145,41 @@
 <body>
     <div class="container">
         <h1 class="my-4">Products</h1>
+        @if (TempData["ProductSuccess"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["ProductSuccess"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        @if (TempData["DeleteSuccess"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["DeleteSuccess"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Select the alert element
+                var alert = document.querySelector('.alert');
 
+                if (alert) {
+                    // Set a timeout to remove the alert after 4 seconds (4000ms)
+                    setTimeout(function () {
+                        // Use Bootstrap's built-in alert 'close' functionality
+                        var closeButton = alert.querySelector('.close');
+                        if (closeButton) {
+                            closeButton.click();  // Simulate clicking the close button
+                        }
+                    }, 4000);  // 4 seconds delay
+                }
+            });
+            </script>
         <div class="search-sort-container">
             <form id="search-form">
                 <div class="input-group">
@@ -292,10 +326,10 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                    @*  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href='/Product/Index';"></button> *@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete <strong><span id="deleteProductName"></span></strong>?</p>
+
                     <p class="text-danger"><i class="fas fa-exclamation-triangle"></i> This action cannot be undone.</p>
                 </div>
                 <div class="modal-footer">
@@ -424,11 +458,7 @@
             $.ajax({
                 url: '/Product/Delete/' + deleteProductId,
                 type: 'DELETE',
-                success: function (result) {
-                    var modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmationModal'));
-                    modal.hide();
-                    $('#product-' + deleteProductId).remove();
-                },
+                
                 error: function () {
                     alert('Error deleting product.');
                 },
@@ -441,7 +471,8 @@
 
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 </body>
 </html>

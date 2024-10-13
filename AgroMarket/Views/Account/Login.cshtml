@@ -128,7 +128,17 @@
     </style>
 </head>
 <body>
+    
     <div class="container">
+        @if (TempData["ProductSuccess"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["ProductSuccess"]
+                <button type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
         <h2>Login</h2>
         <form asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -163,7 +173,7 @@
                 Don't have an account? <a asp-controller="Account" asp-action="Register" class="text-decoration-none">Register</a>
             </p>
             <div class="text-center">
-                <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Back</a>
+                <a asp-controller="Customer" asp-action="Index" class="text-decoration-none mt-3">Back</a>
             </div>
         </form>
     </div>

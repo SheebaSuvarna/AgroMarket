@@ -18,77 +18,80 @@ namespace AgroMarket.Controllers
         {
             _context = context;
         }
-      
+
         // Admin Dashboard (async)
         [HttpGet]
         [Route("dashboard")]
         public async Task<IActionResult> Dashboard(string activeTab = "customers")  // default tab is "customers"
         {
-            if (User.FindFirst("Role")?.Value != "admin")
+            var user = User.FindFirst("Role")?.Value;
+            if ( user== "admin")
             {
-                return RedirectToAction("Login", "AdminLogin");
-            }
+
                 // Fetch customers, retailers, products, categories, reviews, and orders asynchronously
                 var customers = await _context.Customers.ToListAsync();
-            var retailers = await _context.Retailers.ToListAsync();
-            var products = await _context.Products.ToListAsync();
-            var categories = await _context.Categories.ToListAsync();
-            var reviews = await _context.Reviews
-                                        .Include(r => r.Product)
-                                        .Include(r => r.Customer)
-                                        .ToListAsync();
-            var orders = await _context.Orders
-                                        .Include(o => o.Customer)        // Include Customer related to the order
-                                        .Include(o => o.OrderItem)       // Include Order Items
-                                            .ThenInclude(oi => oi.Product) // Include Product within Order Items
-                                        .ToListAsync();  // Fetch Orders with Order Items and Product info
+                var retailers = await _context.Retailers.ToListAsync();
+                var products = await _context.Products.ToListAsync();
+                var categories = await _context.Categories.ToListAsync();
+                var reviews = await _context.Reviews
+                                            .Include(r => r.Product)
+                                            .Include(r => r.Customer)
+                                            .ToListAsync();
+                var orders = await _context.Orders
+                                            .Include(o => o.Customer)        // Include Customer related to the order
+                                            .Include(o => o.OrderItem)       // Include Order Items
+                                                .ThenInclude(oi => oi.Product) // Include Product within Order Items
+                                            .ToListAsync();  // Fetch Orders with Order Items and Product info
 
-            // Prepare data for analytics
-            var productLabels = products.Select(p => p.ProductName).ToList();
-            var productQuantities = products.Select(p => p.StockQuantity).ToList();
+                // Prepare data for analytics
+                var productLabels = products.Select(p => p.ProductName).ToList();
+                var productQuantities = products.Select(p => p.StockQuantity).ToList();
 
-            // Prepare monthly sales data asynchronously
-            var salesData = orders
-                .GroupBy(o => o.OrderDate.Date)  // Group by day 
-                .Select(g => new
-                {
-                    Date = g.Key,
-                    TotalSales = g.Sum(o => o.TotalAmount)
-                })
-                .OrderBy(s => s.Date) // Correctly order by Date
-                .Select(s => new
-                {
-                    Date = s.Date.ToString("dd MMM yyyy"),  // Format as "Day Month Year"
-                    TotalSales = s.TotalSales
-                })
-                .ToList();
+                // Prepare monthly sales data asynchronously
+                var salesData = orders
+                    .GroupBy(o => o.OrderDate.Date)  // Group by day 
+                    .Select(g => new
+                    {
+                        Date = g.Key,
+                        TotalSales = g.Sum(o => o.TotalAmount)
+                    })
+                    .OrderBy(s => s.Date) // Correctly order by Date
+                    .Select(s => new
+                    {
+                        Date = s.Date.ToString("dd MMM yyyy"),  // Format as "Day Month Year"
+                        TotalSales = s.TotalSales
+                    })
+                    .ToList();
 
-            var salesLabels = salesData.Select(s => s.Date).ToList();
-            var dailySales = salesData.Select(s => s.TotalSales).ToList();
+                var salesLabels = salesData.Select(s => s.Date).ToList();
+                var dailySales = salesData.Select(s => s.TotalSales).ToList();
 
-            // Create a dynamic object to pass to the view
-            dynamic model = new ExpandoObject();
-            model.Customers = customers;
-            model.Retailers = retailers;
-            model.Products = products;
-            model.Categories = categories;
-            model.Reviews = reviews;
-            model.Orders = orders;
-            model.ActiveTab = activeTab;  // Pass active tab to keep UI state
+                // Create a dynamic object to pass to the view
+                dynamic model = new ExpandoObject();
+                model.Customers = customers;
+                model.Retailers = retailers;
+                model.Products = products;
+                model.Categories = categories;
+                model.Reviews = reviews;
+                model.Orders = orders;
+                model.ActiveTab = activeTab;  // Pass active tab to keep UI state
 
-            // Add analytics data to the model
-            model.ProductLabels = productLabels;
-            model.ProductQuantities = productQuantities;
-            model.SalesLabels = salesLabels;
-            model.DailySales = dailySales;
+                // Add analytics data to the model
+                model.ProductLabels = productLabels;
+                model.ProductQuantities = productQuantities;
+                model.SalesLabels = salesLabels;
+                model.DailySales = dailySales;
 
-            // Add total counts to the model
-            model.TotalRetailers = await _context.Retailers.CountAsync();
-            model.TotalCustomers = await _context.Customers.CountAsync();
-            model.TotalProducts = await _context.Products.CountAsync();
+                // Add total counts to the model
+                model.TotalRetailers = await _context.Retailers.CountAsync();
+                model.TotalCustomers = await _context.Customers.CountAsync();
+                model.TotalProducts = await _context.Products.CountAsync();
 
-            return View(model);  // Pass the model to the view
-        }
+                return View(model);  // Pass the model to the view
+            }
+            return RedirectToAction("Login", "AdminLogin");
+        
+    }
 
         // Edit product (GET)
         [HttpGet]
