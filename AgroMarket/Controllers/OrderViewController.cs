@@ -80,11 +80,30 @@ namespace AgroMarket.Controllers
         public IActionResult UpdateOrderItemStatus(Guid orderItemId, string status)
         {
             // Find the OrderItem by ID
-            var orderItem = _context.OrderItems.FirstOrDefault(o => o.OrderItemID == orderItemId);
+            var orderItem = _context.OrderItems.Include(o => o.Product).FirstOrDefault(o => o.OrderItemID == orderItemId);
 
             if (orderItem == null)
             {
                 return Json(new { success = false, message = "Order item not found." });
+            }
+
+            // If the status is "Out for Delivery", decrease the product's stock quantity
+            if (status == "Out for Delivery")
+            {
+                var product = orderItem.Product;
+
+                if (product != null)
+                {
+                    // Check if enough stock is available before reducing
+                    if (product.StockQuantity >= orderItem.Quantity)
+                    {
+                        product.StockQuantity -= orderItem.Quantity;  // Decrease stock by the order quantity
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = "Not enough stock to fulfill this order." });
+                    }
+                }
             }
 
             // Update the status of the order item

@@ -56,8 +56,8 @@
             <div class="card order-card shadow-sm mb-4">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0"><i class="far fa-calendar-alt mr-2"></i>Order Date: @order.OrderDate.ToShortDateString()</h5>
-                    <span class="status-badge badge badge-light">@order.Status</span>
-                </div>
+@*                     <span class="status-badge badge badge-light">@order.Status</span>
+ *@                </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
@@ -79,6 +79,9 @@
                                     <div class="col-md-6 mb-3">
                                         <div class="product-card p-3 border">
                                             <h6 class="card-title"><i class="fas fa-tag mr-2"></i>@item.Product?.ProductName</h6>
+                                            <h6 class="card-title"><i class="fas fa-box-open mr-2"></i>@item.Status</h6>
+                                            <h6 class="card-title"><i class="fas fa-money-bill-wave mr-2"></i>@item.Price</h6>
+                                            <h6 class="card-title"><i class="fas fa-shopping-bag mr-2"></i>@item.Quantity</h6>
                                             <p><i class="fas fa-store mr-2"></i>Retailer: @item.Product?.Retailer?.FirstName @item.Product?.Retailer?.LastName</p>
                                             <button class="btn btn-sm btn-info btn-block mt-2" onclick="openFeedbackModal('@item.ProductID', '@item.Product?.ProductName', '@order.OrderID')">
                                                 <i class="far fa-comment mr-2"></i>Leave Feedback

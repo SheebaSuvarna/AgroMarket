@@ -34,9 +34,7 @@
             height: auto;
         }
 
-        .quantity-control {
-            width: 120px;
-        }
+       
 
         .summary-card {
             background-color: #f1f3f5;
@@ -76,15 +74,13 @@
                         <div class="col-md-1 text-center">
                             <span class="badge badge-secondary">@(i + 1)</span>
                         </div>
-                        <div class="col-md-2">
-                            <img src="/api/placeholder/80/80" alt="@item.ProductName" class="product-image">
-                        </div>
+                       
                         <div class="col-md-3">
                             <h5>@item.ProductName</h5>
                             <p class="text-muted">@item.Price.ToString("C")</p>
                             <p class="stock-status">In stock: <span class="stock-quantity">@item.StockQuantity</span></p>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <form class="update-quantity-form" data-product-id="@item.ProductID">
                                 <input type="hidden" name="productId" value="@item.ProductID">
                                 <div class="input-group quantity-control">
@@ -104,7 +100,7 @@
                             </form>
                         </div>
                         <div class="col-md-2 text-right">
-                            <h5 class="item-total">@total.ToString("C")</h5>
+                            <h5 class="item-total" value="@total">@total.ToString("C")</h5>
                         </div>
                         <div class="col-md-2 text-right">
                             <form asp-controller="Cart" asp-action="Delete" method="post">
