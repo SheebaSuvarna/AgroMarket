@@ -333,9 +333,10 @@ namespace AgroMarket.Controllers
             var retailerId = User.FindFirstValue("RetailerID");
             // Get all products for the specified retailer
             var products = await _context.Products
-                .Where(p => p.RetailerID == Guid.Parse(retailerId)) // Assuming you have a RetailerID property
-                .Include(p => p.Review.Where(r => r.Approved)) // Include only approved reviews
-                .ToListAsync();
+     .Where(p => p.RetailerID == Guid.Parse(retailerId))
+     .Include(p => p.Review) 
+     .ToListAsync();
+
 
             return View(products);
         }

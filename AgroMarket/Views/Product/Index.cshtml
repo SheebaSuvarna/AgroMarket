@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Listing</title>
-   <style>
+    <style>
         body {
             background-color: #f8f9fa;
         }
@@ -179,7 +179,7 @@
                     }, 4000);  // 4 seconds delay
                 }
             });
-            </script>
+        </script>
         <div class="search-sort-container">
             <form id="search-form">
                 <div class="input-group">
@@ -235,41 +235,43 @@
 
 
         <div class="row product-container" id="product-list">
-                @foreach (var item in Model)
-                {
-                    <div class="col-md-4 col-sm-6 mb-4">
-                        <div class="card product-card">
-                            <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "/images/default-product.jpg" : item.ImageUrl)" class="card-img-top product-image" alt="@item.ProductName">
-                            <div class="card-body">
-                                <h5 class="product-title">@item.ProductName</h5>
-                                <p class="product-category">
-                                    @if (item.ProductCategory != null && item.ProductCategory.Any())
-                                    {
-                                        @string.Join(", ", item.ProductCategory.Select(c => c.Category.CategoryName))
-                                    }
-                                </p>
-                                <p class="product-price">$@item.Price.ToString("F2")</p>
-                                <p class="product-stock">Stock: @item.StockQuantity</p>
-                                <p class="product-rating">
-                                    @{
-                                        var averageRating = ViewBag.ProductRatings.ContainsKey(item.ProductID)
-                                        ? ViewBag.ProductRatings[item.ProductID]
-                                        : 0;
-                                    }
-                                    @if (averageRating > 0)
-                                    {
-                                        <i class="fas fa-star"></i> @averageRating.ToString("F1")
-                                    }
-                                    else
-                                    {
-                                        <span>No ratings yet</span>
-                                    }
-                                </p>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="btn btn-sm btn-info" onclick="loadProductDetails('@item.ProductID', this)" data-toggle="modal" data-target="#productDetailsModal">
-                                    <i class="fas fa-eye"></i>
-                                </button>
+            @foreach (var item in Model)
+            {
+                var price = @item.Price;
+
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card product-card">
+                        <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "/images/default-product.jpg" : item.ImageUrl)" class="card-img-top product-image" alt="@item.ProductName">
+                        <div class="card-body">
+                            <h5 class="product-title">@item.ProductName</h5>
+                            <p class="product-category">
+                                @if (item.ProductCategory != null && item.ProductCategory.Any())
+                                {
+                                    @string.Join(", ", item.ProductCategory.Select(c => c.Category.CategoryName))
+                                }
+                            </p>
+                            <p class="product-price">@price.ToString("C")</p>
+                            <p class="product-stock">Stock: @item.StockQuantity</p>
+                            <p class="product-rating">
+                                @{
+                                    var averageRating = ViewBag.ProductRatings.ContainsKey(item.ProductID)
+                                    ? ViewBag.ProductRatings[item.ProductID]
+                                    : 0;
+                                }
+                                @if (averageRating > 0)
+                                {
+                                    <i class="fas fa-star"></i> @averageRating.ToString("F1")
+                                }
+                                else
+                                {
+                                    <span>No ratings yet</span>
+                                }
+                            </p>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-info" onclick="loadProductDetails('@item.ProductID', this)" data-toggle="modal" data-target="#productDetailsModal">
+                                <i class="fas fa-eye"></i>
+                            </button>
 
                             <button class="btn btn-sm btn-warning"
                                     onclick="setEditProduct({
@@ -283,13 +285,13 @@
                                     data-toggle="modal" data-target="#editProductModal">
                                 Edit
                             </button>
-                                <button class="btn btn-sm btn-danger" onclick="setDeleteProduct('@item.ProductName', '@item.ProductID')" data-toggle="modal" data-target="#deleteConfirmationModal">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
+                            <button class="btn btn-sm btn-danger" onclick="setDeleteProduct('@item.ProductName', '@item.ProductID')" data-toggle="modal" data-target="#deleteConfirmationModal">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </div>
                     </div>
-                }
+                </div>
+            }
         </div>
     </div>
 
@@ -310,9 +312,9 @@
                         <div class="col-md-6">
                             <h4 id="modalProductName" class="mb-3"></h4>
                             <p id="modalProductDescription" class="mb-3"></p>
-                            <p><strong>Category:</strong> <span id="modalProductCategory" class="badge bg-info"></span></p>
+                            <p><strong>Category:</strong> <span id="modalProductCategory" class="text-success "></span></p>
                             <p><strong>Price:</strong> <span id="modalProductPrice" class="text-success fw-bold"></span></p>
-                            <p><strong>Stock:</strong> <span id="modalProductStock" class="badge bg-secondary"></span></p>
+                            <p><strong>Stock:</strong> <span id="modalProductStock" class="text-success "></span></p>
                         </div>
                     </div>
                 </div>
@@ -388,7 +390,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" asp-controller="Product" asp-action="Index">Save Changes</button>
+                            <button type="submit" class="btn btn-primary" asp-controller="Product" asp-action="UpdateProduct">Save Changes</button>
                         </div>
                     </form>
                 </div>
@@ -440,33 +442,7 @@
                 }
             });
         }
-        document.getElementById('saveChangesButton').addEventListener('click', function () {
-            const formData = new FormData();
-            const productId = document.getElementById('editProductId').value;
 
-            formData.append('ProductID', productId);
-            formData.append('ProductName', document.getElementById('editProductName').value);
-            formData.append('Description', document.getElementById('editDescription').value);
-            formData.append('Price', document.getElementById('editPrice').value);
-            formData.append('StockQuantity', document.getElementById('editStockQuantity').value);
-            formData.append('CategoryName', document.getElementById('editCategoryName').value);
-
-            // Send AJAX request to update the product
-            fetch(`/${productId}`, {
-                method: 'PATCH',
-                body: formData,
-            })
-                .then(response => {
-                    if (response.ok) {
-                        // Close modal and refresh the product list
-                        $('#editProductModal').modal('hide');
-                        window.location.reload(); // You may want to handle this more efficiently
-                    } else {
-                        console.error('Failed to save changes');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        });
 
         let lastOpenedButton;
         let deleteProductId = null;
@@ -481,7 +457,7 @@
                     $('#modalProductName').text(data.productName);
                     $('#modalProductDescription').text(data.description);
                     $('#modalProductCategory').text(data.categoryName);
-                    $('#modalProductPrice').text('$' + data.price.toFixed(2));
+                    $('#modalProductPrice').text('₹' + data.price.toFixed(2));
                     $('#modalProductStock').text(data.stockQuantity);
                     $('#modalProductImage').attr('src', data.imageUrl || '/api/placeholder/400/300');
 
@@ -524,7 +500,7 @@
             $.ajax({
                 url: '/Product/Delete/' + deleteProductId,
                 type: 'DELETE',
-                
+
                 error: function () {
                     alert('Error deleting product.');
                 },

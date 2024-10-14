@@ -148,7 +148,9 @@
 <body>
     <!-- Header section (navbar) -->
     <div class="navbar">
-        <div class="logo">AgroMarket</div>
+        <a asp-controller="Customer" asp-action="Index" class="logo" style="text-decoration: none; color: white;">
+            AgroMarket
+        </a>
 
         <!-- Conditional Buttons Based on Authentication -->
         <div style="display: flex; align-items: center;">
@@ -184,7 +186,12 @@
         {
             <div class="sidebar">
                 <!-- Sidebar content for retailers -->
-                <h4>Dashboard</h4>
+                <li class="nav-item">
+                    <a asp-controller="Retailer" asp-action="Dashboard" class="nav-link">
+                        <i class="fas fa-tachometer-alt icon"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a asp-controller="Retailer" asp-action="Profile" class="nav-link">
