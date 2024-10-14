@@ -52,13 +52,6 @@ namespace AgroMarket.Data
                 .WithMany(c => c.ProductCategory)
                 .HasForeignKey(pc => pc.CategoryId);
 
-            //Configure relationships for other entities
-
-           //modelBuilder.Entity<Retailer>()
-           //    .HasOne(r => r.Customer)
-           //    .WithOne(u => u.Retailer)
-           //    .HasForeignKey<Retailer>(r => r.CustomerID);
-
            modelBuilder.Entity<Order>()
                 .HasOne(o => o.Customer)
                 .WithMany(u => u.Order)
