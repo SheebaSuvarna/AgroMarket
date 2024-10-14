@@ -91,7 +91,9 @@
                                     <div class="input-group-prepend">
                                         <button type="button" class="btn btn-outline-secondary" onclick="decrementQuantity(this)"><i class="fas fa-minus"></i></button>
                                     </div>
-                                    <input type="number" name="quantity" class="form-control text-center" value="@item.Quantity" min="1" max="@item.StockQuantity" readonly>
+
+                                    <input type="number" name="quantity" class="form-control text-center" value="@item.Quantity" min="1" max="@item.StockQuantity" readonly style="width: 50px; font-size: 1 rem;">
+
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-outline-secondary" onclick="incrementQuantity(this)"><i class="fas fa-plus"></i></button>
                                     </div>
@@ -188,13 +190,11 @@
                 type: 'POST',
                 data: { productId: productId, quantity: quantity },
                 success: function (response) {
-                    if (response.success) {
+                    
                         updateItemTotal(form, response.itemTotal);
                         updateOrderSummary(response.totalItems, response.totalAmount);
                         showUpdateFeedback(form);
-                    } else {
-                        alert('Failed to update cart. Please try again.');
-                    }
+                    
                 },
                 error: function () {
                     alert('An error occurred. Please try again.');
