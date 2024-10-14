@@ -76,44 +76,22 @@ namespace AgroMarket.Controllers
             var orderItems = await orderItemsQuery.ToListAsync();
             return View(orderItems);
         }
-
-
-
-
-
         [HttpPost]
-        public async Task<IActionResult> UpdateOrderStatus(Guid orderItemId, string newStatus)
+        public IActionResult UpdateOrderItemStatus(Guid orderItemId, string status)
         {
-            // Get the retailer ID from the logged-in user's claims
-            var retailerId = User.FindFirstValue("RetailerID");
-            if (string.IsNullOrEmpty(retailerId) || !Guid.TryParse(retailerId, out Guid parsedRetailerId))
-            {
-                return RedirectToAction("Login", "Account"); // Redirect to login if RetailerID is not found
-            }
-
-            // Convert the retailer ID to a Guid
-            var retailerID = Guid.Parse(retailerId);
-
-            // Find the specific OrderItem and check if it belongs to the logged-in retailer through the Product
-            var orderItem = await _context.OrderItems
-                .Include(oi => oi.Product)
-                .ThenInclude(p => p.Retailer)
-                .Where(oi => oi.OrderItemID == orderItemId && oi.Product.Retailer.RetailerID == retailerID)  // Ensure this order item belongs to the retailer
-                .FirstOrDefaultAsync();
+            // Find the OrderItem by ID
+            var orderItem = _context.OrderItems.FirstOrDefault(o => o.OrderItemID == orderItemId);
 
             if (orderItem == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Order item not found." });
             }
 
-            // Update the status if it's a valid status (e.g., "Out for Delivery" or "Rejected")
-            if (newStatus == "Out for Delivery" || newStatus == "Order Cancelled") // Changed to reflect your button values
-            {
-                orderItem.Status = newStatus;
-                await _context.SaveChangesAsync();
-            }
-            TempData["Message"] = $"Order item status updated to '{newStatus}'.";
-            return RedirectToAction("ViewOrderItems");
+            // Update the status of the order item
+            orderItem.Status = status;
+            _context.SaveChanges();
+
+            return Json(new { success = true });
         }
 
 

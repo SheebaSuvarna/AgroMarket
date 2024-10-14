@@ -90,10 +90,13 @@
                 font-size: 1.1rem;
                 margin-right: 10px;
             }
+            .modal{
+            z-index: 1100;
+            }
     </style>
     </head>
     <body>
-    <div class="container profile-container">
+    <div class="container profile-container" >
         <div class="profile-header">
             <div class="row align-items-center">
                 <div class="col-md-4 text-center">
@@ -133,7 +136,7 @@
     </div>
 
     <!-- Modal Form for Editing Retailer Profile -->
-    <div class="modal" id="editProfileModal">
+    <div class="modal" id="editProfileModal" style=" z-index: 1050;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="editProfileForm">

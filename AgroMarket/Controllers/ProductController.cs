@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AgroMarket.Controllers
 {
+    
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -95,24 +96,27 @@ namespace AgroMarket.Controllers
             {
                 return NotFound();
             }
-
-            // Get the image path from the product entity
-            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", product.ImageUrl.TrimStart('/'));  // Remove leading slash
-            Console.WriteLine(imagePath);
-
-
-            // Check if the image exists in the server folder
-            if (System.IO.File.Exists(imagePath))
+            if (product.ImageUrl != null)
             {
-                // Delete the image file
-                System.IO.File.Delete(imagePath);
-            }
+                // Get the image path from the product entity
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", product.ImageUrl.TrimStart('/'));  // Remove leading slash
+                Console.WriteLine(imagePath);
 
+
+                // Check if the image exists in the server folder
+                if (System.IO.File.Exists(imagePath))
+                {
+                    // Delete the image file
+                    System.IO.File.Delete(imagePath);
+                }
+            }
             // Remove the product from the database
             _context.Products.Remove(product);
+            
             await _context.SaveChangesAsync();
+            TempData["DeleteSuccess"] = "Product Deleted Sucessfully";
 
-            return Ok(); // Return success status
+            return Ok();
         }
 
         [Authorize]
@@ -336,5 +340,37 @@ namespace AgroMarket.Controllers
             return View(products);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateProduct(ProductUpdateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var product = await _context.Products.FindAsync(model.ProductID);
+
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                // Update product fields
+                product.ProductName = model.ProductName;
+                product.Description = model.Description;
+                product.Price = model.Price;
+                product.StockQuantity = model.StockQuantity;
+                product.UpdatedAt = DateTime.Now;
+
+                // Optionally update category if needed
+                // product.ProductCategory logic here
+
+                await _context.SaveChangesAsync();
+
+                // Redirect back to the product list or another page after successful update
+                return RedirectToAction("Index");
+            }
+
+            // If the model is invalid, return the view with the same data to show validation errors
+             TempData["AccessDeniedMessage"] = "Access Denied. Please log in as a retailer.";
+            return RedirectToAction("AccessDenied", "Account");
+        }
     }
 }

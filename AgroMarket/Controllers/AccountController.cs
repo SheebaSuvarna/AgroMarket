@@ -9,6 +9,7 @@ using AgroMarket.Controllers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using AgroMarket.Models;
 namespace AgroMarket.Controllers
 {
     public class AccountController : Controller
@@ -151,11 +152,69 @@ namespace AgroMarket.Controllers
         {
             return View();
         }
+        /* public IActionResult RegisterCustomer()
+         {
+             return View();
+         }
+         [HttpPost]
+         public async Task<IActionResult> RegisterCustomer(RegisterCustomerModel model)
+         {
+             if (ModelState.IsValid)
+             {
+                 // Check if the email already exists in the database
+                 var existingCustomer = await _context.Customers
+                     .FirstOrDefaultAsync(c => c.Email == model.Email);
+
+                 if (existingCustomer != null)
+                 {
+                     ModelState.AddModelError("Email", "Email is already registered. Please use a different email.");
+                     return View(model); // Return the view with validation errors
+                 }
+
+                 // Create a new Customer object
+                 var customer = new Customer
+                 {
+                     FirstName = model.FirstName,
+                     LastName = model.LastName,
+                     Email = model.Email,
+
+                     Password = PasswordHelper.HashPassword(model.Password),
+                     PhoneNumber = model.PhoneNumber,
+                     Address = model.Address,
+                     PinCode = model.PinCode,
+                     CreatedAt = DateTime.Now,
+                     UpdatedAt = DateTime.Now
+                 };
+                 // customer.Password = _customerPasswordHasher.HashPassword(customer, model.Password);
+                 // customer.Password = PasswordHelper.HashPassword(model.Password);
+
+                 // Add the customer to the context
+                 _context.Customers.Add(customer);
+                 await _context.SaveChangesAsync(); // Save changes to the database
+
+                 // Send confirmation email
+                 string subject = "Registration Successful";
+                 string message = $"Dear {model.FirstName},<br/>Thank you for registering with AgroMarket.";
+                 await _emailService.SendEmailAsync(model.Email, subject, message);
+
+                 // Redirect to login or another page
+                 ViewBag.SuccessMessage = "Registration successfull! Please check your email for verification.";
+
+                 // Redirect to the Register page or any other page
+                 return View("RegisterCustomer", model);
+             }
+             ViewBag.FailureMessage = "Please Fill neccesary fields";
+             return View(model); // Return the view with validation errors
+         }*/
+        // GET: Register
         public IActionResult RegisterCustomer()
         {
             return View();
         }
+
+        // POST: Register
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterCustomer(RegisterCustomerModel model)
         {
             if (ModelState.IsValid)
@@ -169,41 +228,26 @@ namespace AgroMarket.Controllers
                     ModelState.AddModelError("Email", "Email is already registered. Please use a different email.");
                     return View(model); // Return the view with validation errors
                 }
-
-                // Create a new Customer object
                 var customer = new Customer
                 {
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email,
-
                     Password = PasswordHelper.HashPassword(model.Password),
                     PhoneNumber = model.PhoneNumber,
                     Address = model.Address,
-                    PinCode = model.PinCode,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    PinCode = model.PinCode
                 };
-                // customer.Password = _customerPasswordHasher.HashPassword(customer, model.Password);
-                // customer.Password = PasswordHelper.HashPassword(model.Password);
 
-                // Add the customer to the context
                 _context.Customers.Add(customer);
-                await _context.SaveChangesAsync(); // Save changes to the database
-
-                // Send confirmation email
-                string subject = "Registration Successful";
-                string message = $"Dear {model.FirstName},<br/>Thank you for registering with AgroMarket.";
-                await _emailService.SendEmailAsync(model.Email, subject, message);
-
-                // Redirect to login or another page
-                ViewBag.SuccessMessage = "Registration successful! Please check your email for verification.";
-
-                // Redirect to the Register page or any other page
-                return View("RegisterCustomer", model);
+                await _context.SaveChangesAsync();
+                TempData["ProductSuccess"] = " Registration Sucessfully!";
+                return RedirectToAction("Login", "Account"); // Redirect to home or a confirmation page
             }
-
-            return View(model); // Return the view with validation errors
+            ViewData["PhoneNumberError"] = "Phone number must be exactly 10 digits.";
+            ViewData["PasswordError"] = "Enter Valid Password";
+            ViewData["ConfirmPasswordError"] = "Passwords do not match.";
+            return View(model); // If validation fails, return the same view with the model to display errors
         }
 
         public IActionResult RegisterRetailor()
@@ -211,7 +255,7 @@ namespace AgroMarket.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> RegisterRetailor(RegisterRetailor model)
+        public async Task<IActionResult> RegisterRetailor(RegisterRetailorViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -251,10 +295,14 @@ namespace AgroMarket.Controllers
                 string subject = "Registration Successful";
                 string message = $"Dear {model.FirstName},<br/>Thank you for registering with AgroMarket.";
                 //await _emailService.SendEmailAsync(model.Email, subject, message);
+                TempData["ProductSuccess"] = " Registration Sucessfully!";
 
                 // Redirect to login or another page
                 return RedirectToAction("Login","Account");
             }
+            ViewData["PhoneNumberError"] = "Phone number must be exactly 10 digits.";
+            ViewData["PasswordError"] = "Enter Valid Password";
+            ViewData["ConfirmPasswordError"] = "Passwords do not match.";
 
             return View(model); // Return the view with validation errors
         }
