@@ -1,0 +1,119 @@
+﻿@model AgroMarket.Models.Entities.Retailer
+@{
+    ViewData["Title"] = "Retailer Dashboard";
+}
+
+<!-- Side Navigation Bar -->
+<div class="d-flex">
+    
+
+    <!-- Main Content -->
+    <div class="container-fluid p-4" id="content">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Welcome, @Model.FirstName!</h2>
+            </div>
+        </div>
+
+        <!-- Profile Summary and Quick Actions -->
+        <div class="row mt-4">
+            <!-- Profile Summary Card -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="card-title mb-0">Profile Summary</h4>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Email:</strong> @Model.Email</p>
+                        <p><strong>Total Products:</strong> @Model.Product.Count</p>
+                        <p><strong>Farm Name:</strong> @Model.FarmName</p>
+                        <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+                        <a asp-action="Profile" class="btn btn-outline-primary btn-sm mt-3">View Full Profile</a>
+                    </div>
+                </div>
+            </div>
+
+           
+        
+
+        <!-- Count of Products and Orders -->
+       
+            <!-- Products Count Card -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="card-title mb-0">Total Products</h4>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="text-center">@Model.Product.Count</h2>
+                    </div>
+                </div>
+            </div>
+
+      
+        </div>
+
+        <!-- Recent Activity or Analytics Section -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="card-title mb-0">Recent Activity</h4>
+                    </div>
+                    <div>
+                        <div class="container">
+                            <!-- Sales Analysis Chart -->
+                            <canvas id="salesChart" width="400" height="200"></canvas>
+
+                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                            <script>
+                                const salesData = {
+                                    labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.SalesLabels)),
+                                    datasets: [{
+                                        label: 'Total Sales per Product',
+                                        data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.MonthlySales)),
+                                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Changed color
+                                        borderColor: 'rgba(75, 192, 192, 1)', // Changed color
+                                        borderWidth: 1
+                                    }]
+                                };
+
+                                const salesConfig = {
+                                    type: 'bar', // Change to 'bar' for better visualization of product sales
+                                    data: salesData,
+                                    options: {
+                                        responsive: true,
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true,
+                                                title: {
+                                                    display: true,
+                                                    text: 'Sales ($)' // Y-axis label
+                                                }
+                                            },
+                                            x: {
+                                                title: {
+                                                    display: true,
+                                                    text: 'Products' // X-axis label
+                                                }
+                                            }
+                                        }
+                                    }
+                                };
+
+                                new Chart(document.getElementById('salesChart'), salesConfig);
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap 4.5 JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"></script>

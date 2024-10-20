@@ -1,0 +1,158 @@
+﻿
+
+
+ @using AgroMarket.ViewModels;
+@model EnterOTP;
+
+@{
+    ViewData["Title"] = "Enter OTP";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter OTP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('/images/newbgg.jpg'); /* Same background as register */
+            font-family: 'Roboto', sans-serif;
+            background-size: cover;
+            opacity: 0.8;
+        }
+
+        .container {
+            background: #4a5d23; /* Matches your existing background */
+            border-radius: 20px;
+            padding: 40px;
+            width: 400px; /* Adjust width as needed */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            margin-top: 40px; /* Space from the top of the body */
+            margin-bottom: 40px; /* Space from the bottom of the body */
+        }
+
+        h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 36px;
+        }
+
+        .form-label {
+            color: white;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: #f5a623; /* Button background color */
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%; /* Full width for button */
+            margin-top: 20px; /* Space above buttons */
+        }
+        
+        .btn:hover {
+            background: #e0941d; /* Darker hover color */
+        }
+
+        .text-danger {
+            color: yellow; /* Ensure error messages are clearly visible */
+            margin-left: 0; /* Align with label */
+            /* Position below the input */
+            top: 100%; /* Position below the input */
+            left: 0; /* Align with input */
+            font-size: 17px; /* Adjust font size */
+            margin-top: 5px; /* Space above error message */
+        }
+
+        .text-decoration-none 
+        {
+            
+            color: white; /* Ensures the link is readable */
+        }
+
+        .text-decoration-none:hover {
+            color: #f5a623; /* Change this to your desired hover color */
+            text-decoration: underline; /* Optional: add an underline on hover */
+        }
+
+        /* Media Queries for Responsiveness */
+        @@media (max-width: 768px) {
+            h2 {
+                font-size: 28px; /* Smaller font size for tablets */
+            }
+
+            .container {
+                padding: 20px; /* Reduce padding on smaller screens */
+            }
+        }
+
+        @@media (max-width: 480px) {
+            h2 {
+                font-size: 24px; /* Smaller font size for mobile */
+            }
+
+            .btn {
+                font-size: 14px; /* Smaller button text */
+            }
+
+            .container {
+                width: 95%; /* Slightly wider on very small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center mb-4">OTP Verification</h2>
+
+        <form asp-action="EnterOTP" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Email" value="@Model.Email" />
+
+            <label class="form-label">Enter OTP</label>
+            <input asp-for="OTP" class="form-control " value=""  />
+            <span asp-validation-for="OTP" class="text-danger"></span>
+
+            <button type="submit" class="btn">Verify OTP</button>
+            <button type="button" class="btn" onclick="location.href='@Url.Action("ResendOTP", new { email = Model.Email })'">Resend OTP</button>
+        </form>
+        
+        <div class="text-center">
+            <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Back</a>
+        </div>
+    </div>
+</body>
+</html>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Initially hide validation messages
+            $("form span.text-danger").hide();
+
+            // Show validation message on blur if input is empty
+            $("form input").on("focus", function () {
+                $(this).siblings("span.text-danger").hide();
+            }).on("blur", function () {
+                if ($(this).val() === "") {
+                    $(this).siblings("span.text-danger").show();
+                }
+            });
+
+    </script>
+}

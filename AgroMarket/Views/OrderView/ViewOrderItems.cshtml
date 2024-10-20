@@ -1,0 +1,249 @@
+﻿@model IEnumerable<AgroMarket.Models.Entities.OrderItem>
+
+@{
+    ViewData["Title"] = "View Orders";
+    string currentSort = ViewBag.CurrentSort as string;
+}
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Message"]
+    </div>
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - AgroMarket</title>
+     <style>
+        body {
+            background-color: #f0f4f8;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+            .card:hover {
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+                transform: translateY(-5px);
+            }
+
+        .card-header {
+            background-color: #4a6fdc;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-group .btn {
+            transition: all 0.3s ease;
+        }
+
+            .btn-group .btn:hover {
+                transform: translateY(-2px);
+            }
+
+            .btn-group .btn.active {
+                background-color: #4a6fdc;
+                color: white;
+            }
+
+        .search-form {
+            background-color: white;
+            border-radius: 30px;
+            padding: 5px 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+            .search-form input {
+                border: none;
+                box-shadow: none;
+            }
+
+            .search-form .btn {
+                border-radius: 50%;
+                width: 38px;
+                height: 38px;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-delivery {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .order-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+            .order-detail i {
+                width: 20px;
+                margin-right: 10px;
+                color: #4a6fdc;
+            }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4"><i class="fas fa-clipboard-list me-2"></i>Order Items</h2>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="get" asp-action="ViewOrderItems" class="search-form d-flex">
+                    <input type="text" name="searchString" class="form-control me-2" placeholder="Search by Product Name" value="@ViewBag.CurrentFilter" />
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3"><i class="fas fa-sort me-2"></i>Sort By:</h5>
+                <div class="btn-group" role="group" aria-label="Sort options">
+                    <a asp-action="ViewOrderItems" asp-route-sortOrder="price_asc" class="btn btn-outline-primary @(currentSort == "price_asc" ? "active" : "")">
+                        <i class="fas fa-sort-amount-down-alt me-1"></i>Price: Low to High
+                    </a>
+                    <a asp-action="ViewOrderItems" asp-route-sortOrder="price_desc" class="btn btn-outline-primary @(currentSort == "price_desc" ? "active" : "")">
+                        <i class="fas fa-sort-amount-down me-1"></i>Price: High to Low
+                    </a>
+                    <a asp-action="ViewOrderItems" asp-route-sortOrder="newest" class="btn btn-outline-primary @(currentSort == "newest" ? "active" : "")">
+                        <i class="fas fa-calendar-alt me-1"></i>Newest First
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span><i class="fas fa-shopping-cart me-2"></i>Order #@item.OrderItemID</span>
+                            @{
+                                var statusClass = item.Status switch
+                                {
+                                    "OrderConfirmed" => "status-completed",
+                                    "Pending" => "status-pending",
+                                    "Out for Delivery" => "status-delivery",
+                                    "Order Cancelled" => "status-cancelled",
+                                    _ => ""
+                                };
+                            }
+                            <span class="status-badge @statusClass">@item.Status</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="order-detail">
+                                <i class="fas fa-box"></i>
+                                <strong>@item.Product?.ProductName</strong>
+                            </div>
+                            <div class="order-detail">
+                                <i class="fas fa-calendar-day"></i>
+                                <span>@item.Order?.OrderDate.ToShortDateString()</span>
+                            </div>
+                            <div class="order-detail">
+                                <i class="fas fa-cubes"></i>
+                                <span>Quantity: @item.Quantity</span>
+                            </div>
+                            <div class="order-detail">
+                                <i class="fas fa-tag"></i>
+                                <span>Price: @item.Price.ToString("C")</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0">
+                            @if (item.Status == "OrderConfirmed")
+                            {
+                                <div class="d-grid gap-2">
+                                    <button type="button" class="btn btn-success"
+                                            onclick="updateOrderItemStatus('@item.OrderItemID', 'Out for Delivery');">
+                                        <i class="fas fa-check me-1"></i>Accept
+                                    </button>
+                                    <button type="button" class="btn btn-danger"
+                                            onclick="updateOrderItemStatus('@item.OrderItemID', 'Order Cancelled');">
+                                        <i class="fas fa-times me-1"></i>Cancel
+                                    </button>
+                                </div>
+                            }
+                            else if (item.Status == "Out for Delivery")
+                            {
+                                <div class="text-center text-success">
+                                    <i class="fas fa-check me-1"></i>Order item status: Out for Delivery
+                                </div>
+                            }
+                            else if (item.Status == "Order Cancelled")
+                            {
+                                <div class="text-center text-danger">
+                                    <i class="fas fa-times me-1"></i>Order item status: Order Cancelled
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateOrderItemStatus(orderItemId, newStatus) {
+            // Confirm before updating the status
+            if (confirm("Are you sure you want to update the status to " + newStatus + "?")) {
+                // Send an AJAX POST request to update the status
+                $.ajax({
+                    url: '@Url.Action("UpdateOrderItemStatus", "OrderView")', // The server-side action to handle the update
+                    type: 'POST',
+                    data: {
+                        orderItemId: orderItemId,
+                        status: newStatus
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            // Reload the page or update the UI
+                            location.reload(); // You can also update specific elements instead of reloading the page
+                        } else {
+                            alert("Error: " + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("An error occurred: " + xhr.responseText);
+                    }
+                });
+            }
+        }
+    </script>
+
+</body>
+</html>

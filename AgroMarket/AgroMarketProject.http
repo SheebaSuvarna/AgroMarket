@@ -1,0 +1,5 @@
+@BanquetHalAPlProject_HostAddress = http://localhost:5171
+GET {{BanquetHalAPlProject_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

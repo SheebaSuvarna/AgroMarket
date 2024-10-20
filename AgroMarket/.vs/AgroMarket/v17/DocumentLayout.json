@@ -1,0 +1,177 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|c:\\users\\saaba\\source\\repos\\banquethalaplproject - copy\\agromarket\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|solutionrelative:controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|c:\\users\\saaba\\source\\repos\\banquethalaplproject - copy\\agromarket\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|solutionrelative:controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|c:\\users\\saaba\\source\\repos\\banquethalaplproject - copy\\agromarket\\controllers\\retailercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|solutionrelative:controllers\\retailercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|c:\\users\\saaba\\source\\repos\\banquethalaplproject - copy\\agromarket\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|solutionrelative:controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|c:\\users\\saaba\\source\\repos\\banquethalaplproject - copy\\agromarket\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|solutionrelative:controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|c:\\users\\saaba\\source\\repos\\banquethalaplproject - copy\\agromarket\\controllers\\passwordhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|solutionrelative:controllers\\passwordhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|c:\\users\\saaba\\source\\repos\\banquethalaplproject - copy\\agromarket\\controllers\\orderviewcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|solutionrelative:controllers\\orderviewcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|c:\\users\\saaba\\source\\repos\\banquethalaplproject - copy\\agromarket\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|solutionrelative:controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|c:\\users\\saaba\\source\\repos\\banquethalaplproject - copy\\agromarket\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5698B69E-FFD0-4A7E-A6F6-CD5A03150E83}|AgroMarket.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CartController.cs",
+              "DocumentMoniker": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CartController.cs",
+              "ToolTip": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\CartController.cs",
+              "RelativeToolTip": "Controllers\\CartController.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABMAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T15:44:14.342Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RetailerController.cs",
+              "DocumentMoniker": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\RetailerController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RetailerController.cs",
+              "ToolTip": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\RetailerController.cs",
+              "RelativeToolTip": "Controllers\\RetailerController.cs",
+              "ViewState": "AQIAAFgAAAAAAAAAAAAgwJIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T15:39:14.758Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "Controllers\\ProductController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T15:33:22.99Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PasswordHelper.cs",
+              "DocumentMoniker": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\PasswordHelper.cs",
+              "RelativeDocumentMoniker": "Controllers\\PasswordHelper.cs",
+              "ToolTip": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\PasswordHelper.cs",
+              "RelativeToolTip": "Controllers\\PasswordHelper.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T15:30:30.012Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "OrderViewController.cs",
+              "DocumentMoniker": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\OrderViewController.cs",
+              "RelativeDocumentMoniker": "Controllers\\OrderViewController.cs",
+              "ToolTip": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\OrderViewController.cs",
+              "RelativeToolTip": "Controllers\\OrderViewController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T15:29:28.645Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CustomerController.cs",
+              "DocumentMoniker": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\CustomerController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CustomerController.cs",
+              "ToolTip": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\CustomerController.cs",
+              "RelativeToolTip": "Controllers\\CustomerController.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAAA0AAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T15:26:15.115Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PaymentController.cs",
+              "DocumentMoniker": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\PaymentController.cs",
+              "RelativeDocumentMoniker": "Controllers\\PaymentController.cs",
+              "ToolTip": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\PaymentController.cs",
+              "RelativeToolTip": "Controllers\\PaymentController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T15:30:36.698Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "Controllers\\OrderController.cs",
+              "ToolTip": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "Controllers\\OrderController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAJgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T15:27:52.543Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\saaba\\source\\repos\\BanquetHalAPlProject - Copy\\AgroMarket\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AQIAABcAAAAAAAAAAAAgwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T15:27:46.755Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

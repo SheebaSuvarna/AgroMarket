@@ -1,0 +1,11 @@
+﻿﻿@using AgroMarket.ViewModels;
+@model RetailorDashBoardModel;
+
+@{
+    ViewData["Title"] = " DashBoard";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+<h2>Retailor DashBoard</h2>
+<form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+    <button type="submit" class="btn btn-danger">Logout</button>
+</form>

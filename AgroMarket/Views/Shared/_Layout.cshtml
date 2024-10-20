@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f0e6;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Ensure navbar stays on top */
+        .navbar {
+            background-color: #4a5d23;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 20px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 500; /* Keep navbar on top */
+            height: 70px; /* Set height of the navbar */
+        }
+
+        /* Content Wrapper Below Navbar */
+        .content-wrapper {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+            padding-top: 50px;
+            position: relative;
+          
+        }
+
+        .navbar .logo {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar .cta {
+            background-color: #f5a623;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .navbar .greeting {
+            margin-left: 50px;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            background-color: #343a40;
+            color: #fff;
+            width: 60px;
+            min-height: 100%;
+            overflow-y: auto;
+            padding: 20px 0;
+            transition: width 0.3s ease-in-out;
+            position: relative;
+            z-index:400;
+        }
+
+            .sidebar:hover {
+                width: 250px; /* Expand on hover */
+            }
+
+            .sidebar h4 {
+                text-align: center;
+                margin-bottom: 20px;
+                opacity: 0; /* Hidden initially */
+                transition: opacity 0.3s ease-in-out;
+            }
+
+            .sidebar:hover h4 {
+                opacity: 1; /* Show title on hover */
+            }
+
+            .sidebar ul {
+                padding-left: 0;
+            }
+
+            .sidebar .nav-link {
+                color: #fff;
+                display: flex;
+                align-items: center;
+                padding: 10px 15px;
+                white-space: nowrap;
+            }
+
+                .sidebar .nav-link .icon {
+                    margin-right: 10px;
+                    font-size: 20px;
+                }
+
+                .sidebar .nav-link span {
+                    opacity: 0; /* Hidden initially */
+                    transition: opacity 0.3s ease-in-out;
+                }
+
+            .sidebar:hover .nav-link span {
+                opacity: 1; /* Show text on hover */
+            }
+
+            .sidebar .nav-item {
+                margin-bottom: 10px;
+            }
+
+        /* Scrollable content */
+        .scrollable-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+            /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+            .scrollable-content::-webkit-scrollbar {
+                display: none;
+            }
+
+        /* Hide scrollbar for Firefox */
+        .scrollable-content {
+            scrollbar-width: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <!-- Header section (navbar) -->
+    <div class="navbar">
+        <a asp-controller="Customer" asp-action="Index" class="logo" style="text-decoration: none; color: white;">
+            AgroMarket
+        </a>
+
+        <!-- Conditional Buttons Based on Authentication -->
+        <div style="display: flex; align-items: center;">
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (User.FindFirst("name")?.Value != "")
+                {
+                    var name = User.FindFirst("name")?.Value;
+
+                    <div class="greeting">Hi, @name</div>
+                }
+                <a class="cta" asp-controller="Account" asp-action="Logout">Logout</a>
+            }
+            else
+            {
+                <a class="cta" asp-controller="Account" asp-action="Login">Login/Register</a>
+            }
+            @if (User.FindFirst("Role")?.Value == "customer")
+            {
+                <a class="text-white" style="margin-left: 20px;" asp-controller="Cart" asp-action="Index">
+                    <i class="fas fa-shopping-cart" style="font-size: 24px;"></i>
+                </a>
+                <a class="text-white" style="margin-left: 20px;" asp-controller="Customer" asp-action="Profile">
+                    <i class="fas fa-user" style="font-size: 24px;"></i>
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- Main content and sidebar -->
+    <div class="content-wrapper">
+        @if (User.FindFirst("Role")?.Value == "retailer")
+        {
+            <div class="sidebar">
+                <!-- Sidebar content for retailers -->
+                <li class="nav-item">
+                    <a asp-controller="Retailer" asp-action="Dashboard" class="nav-link">
+                        <i class="fas fa-tachometer-alt icon"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a asp-controller="Retailer" asp-action="Profile" class="nav-link">
+                            <i class="fas fa-user icon"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Product" asp-action="Create" class="nav-link">
+                            <i class="fas fa-plus icon"></i>
+                            <span>Add Product</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Product" asp-action="Index" class="nav-link">
+                            <i class="fas fa-box icon"></i>
+                            <span>View Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="OrderView" asp-action="ViewOrderItems" class="nav-link">
+                            <i class="fas fa-shopping-cart icon"></i>
+                            <span>View Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Product" asp-action="Review" class="nav-link">
+                            <i class="fas fa-star icon"></i>
+                            <span>View Reviews</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        }
+        <div class="scrollable-content">
+            <!-- Main content section -->
+            <div class="container">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.11/dist/jquery.validate.unobtrusive.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("Styles", required: false)
+</body>
+
+</html>

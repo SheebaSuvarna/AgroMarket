@@ -1,0 +1,64 @@
+﻿@model AgroMarket.Models.Entities.Order
+
+<div class="order-confirmation-container d-flex justify-content-center align-items-center vh-100 position-relative">
+    <!-- Blurred Background Effect -->
+    <div class="blur-background position-absolute w-100 h-100" style="backdrop-filter: blur(15px);"></div>
+    
+    <!-- Confirmation Card -->
+    <div class="confirmation-card bg-white p-5 rounded shadow-lg text-center position-relative" style="max-width: 600px; z-index: 1;">
+        <!-- Success Icon -->
+        <div class="success-icon text-center mb-4" style="font-size: 60px; color: #28a745;">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        
+        <!-- Confirmation Message -->
+        <h2 class="text-success mb-4">Order Confirmed!</h2>
+        <p class="mb-3">Your order with Order ID <strong>@Model.OrderID</strong> has been successfully confirmed.</p>
+        <p class="mb-4">Thank you for shopping with us!</p>
+
+        <!-- Buttons -->
+        <div class="button-group d-flex justify-content-center">
+            <a href="@Url.Action("Index", "Customer")" class="btn btn-primary mr-2">Go to Dashboard</a>
+            <a href="@Url.Action("Dashboard", "Customer")" class="btn btn-outline-secondary ml-2">My Orders</a>
+        </div>
+    </div>
+</div>
+
+<!-- FontAwesome for checkmark icon -->
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+}
+
+<!-- CSS Styles -->
+<style>
+    .order-confirmation-container {
+        position: relative;
+    }
+
+    /* Blurred Background */
+    .blur-background {
+        background-color: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(15px);
+    }
+
+    /* Confirmation Card */
+    .confirmation-card {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Success Icon */
+    .success-icon i {
+        font-size: 60px;
+    }
+
+    /* Buttons */
+    .button-group a {
+        min-width: 150px;
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+    }
+  
+    }
+</style>
+
